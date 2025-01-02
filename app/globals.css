@@ -3,25 +3,74 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --chromia-dark: #1F1A23;
+  --red: #FF405E;
+  --red-dark: #D41A45;
+  --orange: #FF702B;
+  --orange-dark: #EB4521;
+  --steel-blue: #4D617D;
+  --steel-blue-dark: #2F4968;
+  --purple: #CC91F0;
+  --purple-dark: #9E5ECF;
+  --soft-pink: #FFB02C;
+  --soft-pink-dark: #FF87A6;
+  --yellow: #FFB500;
+  --yellow-dark: #FF9100;
+  --off-white: #FFF8F8;
+  --off-white-dark: #F5EEEE;
+  --border-radius: 12px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  .glossy {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  .glossy-hover {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .glossy-hover:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.5);
+  }
+
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--chromia-dark);
+  color: var(--off-white);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+* {
+  @apply transition-colors duration-200;
 }
+
+.button {
+  @apply rounded-full;
+}
+
+.modern-shadow {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.modern-card {
+  @apply rounded-xl bg-white p-6 modern-shadow transition-all duration-300 hover:shadow-lg;
+}
+
