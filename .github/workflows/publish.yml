@@ -1,10 +1,12 @@
 # File: .github/workflows/publish.yml
 name: publish-to-github-pages
+description: "Publish to GitHub Pages"
+
 on:
   push:
     branches:
       - main
-
+ 
 permissions:
   contents: read
   pages: write
