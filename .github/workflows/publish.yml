@@ -35,6 +35,13 @@ jobs:
       - name: Build with Next.js 🏗️
         run: npx next build
 
+      - name: Check output directory
+        run: |
+          if [ ! -d "./out" ]; then
+            echo "Output directory './out' does not exist!"
+            exit 1
+          fi
+
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
         with:
