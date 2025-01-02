@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: "/eva-ui",
+    // basePath: "/eva-ui",
     output: "export",
     reactStrictMode: true,
 };
