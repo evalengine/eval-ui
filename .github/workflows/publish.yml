@@ -34,11 +34,13 @@ jobs:
 
       - name: Build with Next.js 🏗️
         run: npm run build
+        env:
+          NEXT_OUTPUT_EXPORT: true
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./dist
 
   deploy:
     environment:
