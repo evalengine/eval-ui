@@ -2,8 +2,10 @@
 const nextConfig = {
     // basePath: "/eva-ui",
     output: "export",
-    reactStrictMode: true,
-    distDir: "dist",
+    // reactStrictMode: true,
+    images: {
+        unoptimized: true,
+      },
 };
 
 export default nextConfig;
