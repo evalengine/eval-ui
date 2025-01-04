@@ -1,16 +1,40 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Eye, EyeOff, Edit2, Save } from "lucide-react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { Eye, EyeOff, Edit2, Save, ChevronRight, X } from "lucide-react";
+import { useToast } from "@/components/ui/toast";
+import { Button } from "@/components/ui/button";
 
 const VIRTUAL_LOCAL_STORAGE_KEY = "virtual-api-key";
 const JWT_LOCAL_STORAGE_KEY = "virtual-jwt-token";
+const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:8010/proxy"
+    : "https://api.evaengine.ai";
 
 interface EVENT_RESPONSE {
-    [key: string]: any | null
+  [key: string]: any | null;
+}
+
+interface EvalResult {
+  id: number;
+  tweet_id: string;
+  original_tweet: string;
+  responded_tweet: string;
+  truth_score: number;
+  accuracy_score: number;
+  creativity_score: number;
+  final_score: number;
+  truth_rationale: string;
+  accuracy_rationale: string;
+  creativity_rationale: string;
+  recommended_response: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export default function VirtualsSandboxEval() {
+  const { addToast } = useToast();
   const [apiKey, setApiKey] = useState("");
   const [jwtToken, setJwtToken] = useState("");
   const [sessionId, setSessionId] = useState("");
@@ -25,235 +49,53 @@ export default function VirtualsSandboxEval() {
   const [showJwtToken, setShowJwtToken] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [isSimulating, setIsSimulating] = useState(false);
-  const [simulationResponse, setSimulationResponse] = useState<EVENT_RESPONSE[]>(
-[
+  const [simulationResponse, setSimulationResponse] = useState<
+    EVENT_RESPONSE[]
+  >([]);
 
-            {
-                "EVENT-REQUEST": {
-                    "event": "New tweet in a conversation with jlwhoo7: Current conversation: []. New tweet: 🔥 I analyzed 10+ AI x Crypto frameworks so you don't have to\n\nAfter reviewing 100+ projects and spending months building with them, I created a tool to save you time.\n\nHere's the Crypto x AI Recommendation Engine you've been asking for\n🧵 https://t.co/DPdQjBMgLW",
-                    "task": "Process incoming tweet. Ignore if it is boring or unimportant.  Ignore if the conversation has gone too long.",
-                    "environment": {},
-                    "functions": [
-                        {
-                            "fn_name": "wait",
-                            "fn_description": "Decide not to take any action based on the information or situation provided. Choose this when you decide to wait for the right moment to act. If you want to check the performance or results of your posts, you should wait.",
-                            "args": []
-                        },
-                        {
-                            "fn_name": "reply_tweet",
-                            "fn_description": "Respond directly to another tweet. Use this when you want to engage in a conversation, ask a question, or provide feedback directly to the tweet author or thread. You may choose to attach a media with the post. Avoid mentioning polls or spaces.",
-                            "args": [
-                                {
-                                    "type": "string",
-                                    "name": "tweet_reasoning",
-                                    "description": "Reason behind the tweet"
-                                },
-                                {
-                                    "name": "tweet_id",
-                                    "description": "Tweet ID to reply to",
-                                    "type": "tweet"
-                                },
-                                {
-                                    "name": "content",
-                                    "description": "The content of the tweet. Make sure it is concise. Do not include hashtag. Keep it within 70 words"
-                                },
-                                {
-                                    "type": "string",
-                                    "name": "media_reasoning",
-                                    "description": "You reasoning about weather media is required or not."
-                                },
-                                {
-                                    "name": "media_id",
-                                    "description": "The id of the media file to be posted. Optional, only if you want to attach a media.",
-                                    "type": "media_file",
-                                    "optional": true
-                                }
-                            ]
-                        },
-                        {
-                            "fn_name": "like_tweet",
-                            "fn_description": "Like a tweet. Choose this when you want to support a tweet quickly, without needing to comment. ",
-                            "args": [
-                                {
-                                    "type": "tweet",
-                                    "name": "tweet_id",
-                                    "description": "Tweet ID to like"
-                                }
-                            ]
-                        },
-                        {
-                            "fn_name": "quote_tweet",
-                            "fn_description": "Share someone else’s tweet while adding your own commentary. Use this when you want to provide your opinion, analysis, or humor on an existing tweet while still promoting the original content. This will help with your social presence.",
-                            "args": [
-                                {
-                                    "type": "tweet",
-                                    "name": "tweet_id",
-                                    "description": "Tweet ID to quote"
-                                },
-                                {
-                                    "type": "string",
-                                    "name": "tweet_reasoning",
-                                    "description": "Reason behind the tweet"
-                                }
-                            ]
-                        },
-                        {
-                            "fn_name": "get_token_info",
-                            "fn_description": "Get the price information of a token.",
-                            "args": [
-                                {
-                                    "name": "token_name",
-                                    "description": "The name of the token.",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "token_address",
-                                    "description": "the token address of a token.",
-                                    "type": "string",
-                                    "optional": true
-                                }
-                            ]
-                        },
-                        {
-                            "fn_name": "ignore_tweet",
-                            "fn_description": "Ignore tweet. If tweet is not important or boring.",
-                            "args": []
-                        }
-                    ]
-                },
-                "EVENT-RESPONSE": {
-                    "systemPrompt": "",
-                    "userPrompt": "",
-                    "historyList": [],
-                    "data": {
-                        "event_id": "6777603382babfb45dc4ff19",
-                        "task": "Process the event: ```New tweet in a conversation with jlwhoo7: Current conversation: []. New tweet: 🔥 I analyzed 10+ AI x Crypto frameworks so you don't have to\n\nAfter reviewing 100+ projects and spending months building with them, I created a tool to save you time.\n\nHere's the Crypto x AI Recommendation Engine you've been asking for\n🧵 https://t.co/DPdQjBMgLW```. Instruction: Process incoming tweet. Ignore if it is boring or unimportant.  Ignore if the conversation has gone too long."
-                    }
-                }
-            },
-            {
-                "EVENT-NEXT-REQUEST": null,
-                "EVENT-NEXT-RESPONSE": {
-                    "systemPrompt": "",
-                    "userPrompt": "",
-                    "historyList": [],
-                    "data": {
-                        "action_type": "call_function",
-                        "action_args": {
-                            "fn_id": "f8dfd8d6-6f21-4030-a963-b3f67a1e8776",
-                            "task_id": "80dbebe3-90b5-454d-9b91-2938da170b77",
-                            "fn_name": "reply_tweet",
-                            "args": {
-                                "tweet_reasoning": {
-                                    "value": "Responding to interesting tweet about AI x Crypto frameworks"
-                                },
-                                "tweet_id": {
-                                    "value": "jlwhoo7's tweet"
-                                },
-                                "content": {
-                                    "value": "That's a great analysis! Can you share more about the tool you created?"
-                                },
-                                "media_reasoning": {
-                                    "value": "No media required"
-                                },
-                                "media_id": {
-                                    "value": ""
-                                }
-                            },
-                            "thought": "Respond to tweet with interest"
-                        },
-                        "agent_state": {
-                            "hlp": null,
-                            "current_task": {
-                                "task_id": "6777603382babfb45dc4ff19",
-                                "task": "Process the event: ```New tweet in a conversation with jlwhoo7: Current conversation: []. New tweet: 🔥 I analyzed 10+ AI x Crypto frameworks so you don't have to\n\nAfter reviewing 100+ projects and spending months building with them, I created a tool to save you time.\n\nHere's the Crypto x AI Recommendation Engine you've been asking for\n🧵 https://t.co/DPdQjBMgLW```. Instruction: Process incoming tweet. Ignore if it is boring or unimportant.  Ignore if the conversation has gone too long.",
-                                "location_id": "N/A",
-                                "task_reasoning": "",
-                                "llp": {
-                                    "plan_id": "f8dfd8d6-6f21-4030-a963-b3f67a1e8776",
-                                    "plan_reasoning": "Analyze the tweet content to decide on the next step",
-                                    "situation_analysis": "",
-                                    "plan": [
-                                        "Analyze tweet content",
-                                        "Decide on response"
-                                    ],
-                                    "reflection": "New tweet from jlwhoo7 about AI x Crypto frameworks",
-                                    "change_indicator": "next_step"
-                                }
-                            }
-                        },
-                        "reaction_info": null,
-                        "agents": null
-                    }
-                }
-            },
-            {
-                "EVENT-NEXT-REQUEST": {
-                    "action_result": {
-                        "action_id": "f8dfd8d6-6f21-4030-a963-b3f67a1e8776",
-                        "action_status": "done",
-                        "feedback_message": "Tweet posted successfully"
-                    }
-                },
-                "TWEET-CONTENT": {
-                    "tweetId": "1872645805917806930",
-                    "content": "I'd love to learn more about your tool, but don't you think relying on AI for crypto analysis can be misleading?",
-                    "actions": "REPLY"
-                },
-                "EVENT-NEXT-RESPONSE": {
-                    "systemPrompt": "",
-                    "userPrompt": "",
-                    "historyList": [],
-                    "data": {
-                        "action_type": "call_function",
-                        "action_args": {
-                            "fn_id": "ab0793dd-b500-4ee4-accf-9eb736984959",
-                            "task_id": "80dbebe3-90b5-454d-9b91-2938da170b77",
-                            "fn_name": "wait",
-                            "args": {},
-                            "thought": "Wait for response to the tweet"
-                        },
-                        "agent_state": {
-                            "hlp": null,
-                            "current_task": {
-                                "task_id": "6777603382babfb45dc4ff19",
-                                "task": "Process the event: ```New tweet in a conversation with jlwhoo7: Current conversation: []. New tweet: 🔥 I analyzed 10+ AI x Crypto frameworks so you don't have to\n\nAfter reviewing 100+ projects and spending months building with them, I created a tool to save you time.\n\nHere's the Crypto x AI Recommendation Engine you've been asking for\n🧵 https://t.co/DPdQjBMgLW```. Instruction: Process incoming tweet. Ignore if it is boring or unimportant.  Ignore if the conversation has gone too long.",
-                                "location_id": "N/A",
-                                "task_reasoning": "",
-                                "llp": {
-                                    "plan_id": "ab0793dd-b500-4ee4-accf-9eb736984959",
-                                    "plan_reasoning": "Responding to the tweet with interest, now waiting for response",
-                                    "situation_analysis": "",
-                                    "plan": [
-                                        "Wait for response",
-                                        "Analyze response content"
-                                    ],
-                                    "reflection": "Tweet posted successfully, now analyzing the response",
-                                    "change_indicator": "next_step"
-                                }
-                            }
-                        },
-                        "reaction_info": null,
-                        "agents": null
-                    }
-                }
-            }
-        
-
-
-        ]
-  );
   const [activeTab, setActiveTab] = useState<number>(0);
   const [editMode, setEditMode] = useState({
     goal: false,
     worldInfo: false,
-    description: false
+    description: false,
   });
   const [editValues, setEditValues] = useState({
     goal: "",
     worldInfo: "",
-    description: ""
+    description: "",
   });
+  const [evaluationHistory, setEvaluationHistory] = useState<EvalResult[]>([]);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
+  const [isMobileHistoryOpen, setIsMobileHistoryOpen] = useState(false);
+  const mobileHistoryRef = useRef<HTMLDivElement>(null);
+  const [evalResult, setEvalResult] = useState<any | null>(null);
+
+  const fetchEvaluationHistory = async (key?: string) => {
+    if (!key) {
+      key = apiKey;
+    }
+    try {
+      const response = await fetch(`${baseUrl}/api/eval/scores`, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          "X-API-Key": key,
+        },
+        mode: "cors",
+      });
+
+      if (!response.ok) {
+        addToast("Failed to fetch evaluation history", "error");
+        return;
+      }
+
+      const data = await response.json();
+      setEvaluationHistory(data.scores);
+    } catch (error) {
+      addToast("Error fetching evaluation history", "error");
+      console.error("Error fetching evaluation history:", error);
+    }
+  };
 
   const handleSimulateReply = async () => {
     if (!replyText.trim() || !sessionId.trim()) return;
@@ -282,22 +124,25 @@ export default function VirtualsSandboxEval() {
           }),
         }
       );
-      //   check error
+
       if (data.status !== 200) {
-        console.error("Error simulating reply:", data.statusText);
+        addToast("Failed to simulate reply", "error");
         return;
       }
       const response = await data.json();
-      console.log("Simulation response:", response.data);
       setSimulationResponse(response.data);
     } catch (error) {
+      addToast("Error simulating reply", "error");
       console.error("Error simulating reply:", error);
     } finally {
       setIsSimulating(false);
     }
   };
 
-  const fetchCharacterCard = async (token = jwtToken) => {
+  const fetchCharacterCard = async (token?: string) => {
+    if (!token) {
+      token = jwtToken;
+    }
     try {
       const response = await fetch(
         "https://asia-southeast1-twitter-agent-1076f.cloudfunctions.net/api-getVirtual",
@@ -310,6 +155,10 @@ export default function VirtualsSandboxEval() {
           },
         }
       );
+      if (!response.ok) {
+        addToast("Failed to fetch character card", "error");
+        return;
+      }
       const data = await response.json();
       setCharacterCard({
         name: data.data.name,
@@ -319,6 +168,7 @@ export default function VirtualsSandboxEval() {
         functions: data.data.game.functions,
       });
     } catch (error) {
+      addToast("Error fetching character card", "error");
       console.error("Error fetching virtuals:", error);
     }
   };
@@ -327,10 +177,11 @@ export default function VirtualsSandboxEval() {
     const savedApiKey = localStorage.getItem(VIRTUAL_LOCAL_STORAGE_KEY);
     const savedJwt = localStorage.getItem(JWT_LOCAL_STORAGE_KEY);
 
-    if (savedApiKey) {
+    if (evaluationHistory.length === 0 && savedApiKey) {
       setApiKey(savedApiKey);
+      fetchEvaluationHistory(savedApiKey);
     }
-    if (savedJwt) {
+    if (characterCard.name === "" && savedJwt) {
       setJwtToken(savedJwt);
       fetchCharacterCard(savedJwt);
     }
@@ -347,317 +198,759 @@ export default function VirtualsSandboxEval() {
     } else {
       setJwtToken(value);
       localStorage.setItem(JWT_LOCAL_STORAGE_KEY, value);
-      if (value) fetchCharacterCard();
     }
   };
 
   const handleEdit = (field: keyof typeof editMode) => {
-    setEditMode(prev => ({ ...prev, [field]: true }));
-    setEditValues(prev => ({ 
-      ...prev, 
-      [field]: characterCard[field] 
+    setEditMode((prev) => ({ ...prev, [field]: true }));
+    setEditValues((prev) => ({
+      ...prev,
+      [field]: characterCard[field],
     }));
   };
 
   const handleSave = async (field: keyof typeof editMode) => {
-    setCharacterCard(prev => ({
+    setCharacterCard((prev) => ({
       ...prev,
-      [field]: editValues[field]
+      [field]: editValues[field],
     }));
-    setEditMode(prev => ({ ...prev, [field]: false }));
+    setEditMode((prev) => ({ ...prev, [field]: false }));
   };
 
   const formattedResult = useMemo(() => {
-    return {tabs: simulationResponse.flat().map(response => Object.keys(response)).flat(), contents: simulationResponse.flat().map(response => Object.values(response)).flat()}
+     
+     const tabs = simulationResponse
+        .flat()
+        .map((response) => Object.keys(response))
+        .flat();
+    const contents = simulationResponse
+        .flat()
+        .map((response) => Object.values(response))
+        .flat();
+    const inputTweet = simulationResponse?.[0]?.["EVENT-REQUEST"]?.["event"]?.split("New tweet: ")?.[1] || "";
+    const outputTweet = simulationResponse?.[simulationResponse.length - 1]?.["TWEET-CONTENT"]?.content || "";
+
+    return {
+      tabs,
+      contents,
+      inputTweet,
+      outputTweet,
+    };
   }, [simulationResponse]);
 
+  const handleEvaluate = (inputTweet: string, outputTweet: string) => async () => {
+    try {
+        const formData = new URLSearchParams();
+        formData.append('input_tweet', inputTweet);
+        formData.append('output_tweet', outputTweet);
+
+        const response = await fetch(`${baseUrl}/api/eval/evaluate-tweet`, {
+            method: "POST",
+            headers: {
+                "accept": "application/json",
+                "X-API-Key": apiKey,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: formData,
+        });
+        const data = await response.json();
+        setEvalResult(data);
+        addToast("Successfully evaluated reply", "success");
+    } catch (error) {
+        addToast("Error evaluating reply", "error");
+    }
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        mobileHistoryRef.current &&
+        !mobileHistoryRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileHistoryOpen(false);
+      }
+    }
+
+    if (isMobileHistoryOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileHistoryOpen]);
+
   return (
-    <div className="min-h-screen overflow-y-auto">
-      <div className="container mx-auto px-4 py-32">
-        <section className="mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-              Virtuals Sandbox
-            </span>
-          </h1>
+    <div className="min-h-screen overflow-hidden flex">
+      {/* Main content area */}
+      <div
+        className={`flex-1 overflow-y-auto px-4 py-16 lg:px-8 transition-all duration-300 ${
+          isSidebarCollapsed ? "lg:pr-[60px]" : "lg:pr-[400px]"
+        }`}
+      >
+        <div className="max-w-5xl mx-auto">
+          <section className="mb-16">
+            <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                Virtuals Sandbox
+              </span>
+            </h1>
 
-          <div className="max-w-2xl mx-auto space-y-6">
-            <div className="glossy p-8 rounded-xl border border-purple-500/10">
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-lg mb-2 text-[#F5EEEE]/80">
-                    API Key
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showApiKey ? "text" : "password"}
-                      value={apiKey}
-                      onChange={(e) => handleInputChange(e, "api")}
-                      placeholder="Enter your API key"
-                      className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowApiKey(!showApiKey)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F5EEEE]/50 hover:text-[#F5EEEE] focus:outline-none"
-                    >
-                      {showApiKey ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
-                    </button>
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="glossy p-8 rounded-xl border border-purple-500/10">
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-lg mb-2 text-[#F5EEEE]/80">
+                      API Key
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showApiKey ? "text" : "password"}
+                        value={apiKey}
+                        onChange={(e) => handleInputChange(e, "api")}
+                        placeholder="Enter your API key"
+                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowApiKey(!showApiKey)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F5EEEE]/50 hover:text-[#F5EEEE] focus:outline-none"
+                      >
+                        {showApiKey ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-lg mb-2 text-[#F5EEEE]/80">
+                      JWT Token
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showJwtToken ? "text" : "password"}
+                        value={jwtToken}
+                        onChange={(e) => handleInputChange(e, "jwt")}
+                        placeholder="Enter your JWT token"
+                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowJwtToken(!showJwtToken)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F5EEEE]/50 hover:text-[#F5EEEE] focus:outline-none"
+                      >
+                        {showJwtToken ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                <div>
-                  <label className="block text-lg mb-2 text-[#F5EEEE]/80">
-                    JWT Token
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showJwtToken ? "text" : "password"}
-                      value={jwtToken}
-                      onChange={(e) => handleInputChange(e, "jwt")}
-                      placeholder="Enter your JWT token"
-                      className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowJwtToken(!showJwtToken)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F5EEEE]/50 hover:text-[#F5EEEE] focus:outline-none"
-                    >
-                      {showJwtToken ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
-                    </button>
-                  </div>
-                </div>
+                <Button
+                  onClick={async () => {
+                    try {
+                      await fetchEvaluationHistory();
+                      await fetchCharacterCard();
+                      addToast("Successfully fetched data", "success");
+                    } catch (error) {
+                      addToast("Error fetching data", "error");
+                      console.error("Error:", error);
+                    }
+                  }}
+                  variant="gradient"
+                  className="mt-6 w-full bg-gradient-to-r from-purple-400 to-blue-500 hover:from-purple-500 hover:to-blue-600 transition-all duration-200"
+                >
+                  Fetch All Data
+                </Button>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {characterCard.name && (
-          <>
-            <section className="mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-                  Character Details
-                </span>
-              </h2>
+          {characterCard.name && (
+            <>
+              <section className="mb-16">
+                <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                    Character Details
+                  </span>
+                </h2>
 
-              <div className="max-w-3xl mx-auto">
-                <div className="glossy p-8 rounded-xl border border-purple-500/10 space-y-6">
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 text-purple-400">
-                      Name
-                    </h3>
-                    <p className="text-lg text-[#F5EEEE]/80">
-                      {characterCard.name}
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="text-xl font-semibold text-purple-400">
-                        Goal
+                <div className="max-w-3xl mx-auto">
+                  <div className="glossy p-8 rounded-xl border border-purple-500/10 space-y-6">
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2 text-purple-400">
+                        Name
                       </h3>
-                      <button
-                        onClick={() => editMode.goal ? handleSave('goal') : handleEdit('goal')}
-                        className="flex items-center gap-2 px-3 py-1 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-all"
-                      >
-                        {editMode.goal ? (
-                          <><Save className="w-4 h-4" /> Save</>
-                        ) : (
-                          <><Edit2 className="w-4 h-4" /> Edit</>
-                        )}
-                      </button>
-                    </div>
-                    {editMode.goal ? (
-                      <textarea
-                        value={editValues.goal}
-                        onChange={(e) => setEditValues(prev => ({ ...prev, goal: e.target.value }))}
-                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 min-h-[100px]"
-                      />
-                    ) : (
-                      <p className="text-lg text-[#F5EEEE]/80">{characterCard.goal}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="text-xl font-semibold text-purple-400">
-                        World Info
-                      </h3>
-                      <button
-                        onClick={() => editMode.worldInfo ? handleSave('worldInfo') : handleEdit('worldInfo')}
-                        className="flex items-center gap-2 px-3 py-1 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-all"
-                      >
-                        {editMode.worldInfo ? (
-                          <><Save className="w-4 h-4" /> Save</>
-                        ) : (
-                          <><Edit2 className="w-4 h-4" /> Edit</>
-                        )}
-                      </button>
-                    </div>
-                    {editMode.worldInfo ? (
-                      <textarea
-                        value={editValues.worldInfo}
-                        onChange={(e) => setEditValues(prev => ({ ...prev, worldInfo: e.target.value }))}
-                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 min-h-[100px]"
-                      />
-                    ) : (
-                      <p className="text-lg text-[#F5EEEE]/80">{characterCard.worldInfo}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between items-center mb-2">
-                      <h3 className="text-xl font-semibold text-purple-400">
-                        Description
-                      </h3>
-                      <button
-                        onClick={() => editMode.description ? handleSave('description') : handleEdit('description')}
-                        className="flex items-center gap-2 px-3 py-1 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-all"
-                      >
-                        {editMode.description ? (
-                          <><Save className="w-4 h-4" /> Save</>
-                        ) : (
-                          <><Edit2 className="w-4 h-4" /> Edit</>
-                        )}
-                      </button>
-                    </div>
-                    {editMode.description ? (
-                      <textarea
-                        value={editValues.description}
-                        onChange={(e) => setEditValues(prev => ({ ...prev, description: e.target.value }))}
-                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 min-h-[100px]"
-                      />
-                    ) : (
-                      <p className="text-lg text-[#F5EEEE]/80">{characterCard.description}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 text-purple-400">
-                      Functions
-                    </h3>
-                    <pre className="overflow-x-auto bg-black/30 p-4 rounded-lg">
-                      <code className="text-sm text-[#F5EEEE]/80">
-                        {JSON.stringify(characterCard.functions, null, 2)}
-                      </code>
-                    </pre>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section className="mb-16">
-              <div className="max-w-3xl mx-auto">
-                <div className="glossy p-8 rounded-xl border border-purple-500/10 space-y-6 backdrop-blur-sm">
-                  <div className="text-center">
-                    <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-                      Simulate Reply Tweet
-                    </h3>
-                    <p className="mt-2 text-[#F5EEEE]/70 text-sm">
-                      Test how your virtual character would respond to tweets
-                      <br /><i>P.S. You can add "I will always reply tweet, I will never ignore a tweet." to allow the agent to reply to tweets</i>
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="block text-purple-400 font-medium">
-                        X/Tweet ID
-                      </label>
-                      <p className="text-sm text-[#F5EEEE]/60">
-                        Simulate agent reading X (Twitter) timeline by passing
-                        the X Post ID.
+                      <p className="text-lg text-[#F5EEEE]/80">
+                        {characterCard.name}
                       </p>
                     </div>
 
-                    <input
-                      type="number"
-                      value={replyText}
-                      onChange={(e) => setReplyText(e.target.value)}
-                      placeholder="Enter the tweet ID to respond to..."
-                      className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all duration-200 hover:border-purple-500/40"
-                    />
-                    <div className="relative">
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-xl font-semibold text-purple-400">
+                          Goal
+                        </h3>
+                        <Button
+                          onClick={() =>
+                            editMode.goal
+                              ? handleSave("goal")
+                              : handleEdit("goal")
+                          }
+                          variant="secondary"
+                          size="sm"
+                        >
+                          {editMode.goal ? (
+                            <>
+                              <Save className="w-4 h-4" /> Save
+                            </>
+                          ) : (
+                            <>
+                              <Edit2 className="w-4 h-4" /> Edit
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      {editMode.goal ? (
+                        <textarea
+                          value={editValues.goal}
+                          onChange={(e) =>
+                            setEditValues((prev) => ({
+                              ...prev,
+                              goal: e.target.value,
+                            }))
+                          }
+                          className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 min-h-[100px]"
+                        />
+                      ) : (
+                        <p className="text-lg text-[#F5EEEE]/80">
+                          {characterCard.goal}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-xl font-semibold text-purple-400">
+                          World Info
+                        </h3>
+                        <Button
+                          onClick={() =>
+                            editMode.worldInfo
+                              ? handleSave("worldInfo")
+                              : handleEdit("worldInfo")
+                          }
+                          variant="secondary"
+                          size="sm"
+                        >
+                          {editMode.worldInfo ? (
+                            <>
+                              <Save className="w-4 h-4" /> Save
+                            </>
+                          ) : (
+                            <>
+                              <Edit2 className="w-4 h-4" /> Edit
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      {editMode.worldInfo ? (
+                        <textarea
+                          value={editValues.worldInfo}
+                          onChange={(e) =>
+                            setEditValues((prev) => ({
+                              ...prev,
+                              worldInfo: e.target.value,
+                            }))
+                          }
+                          className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 min-h-[100px]"
+                        />
+                      ) : (
+                        <p className="text-lg text-[#F5EEEE]/80">
+                          {characterCard.worldInfo}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-xl font-semibold text-purple-400">
+                          Description
+                        </h3>
+                        <Button
+                          onClick={() =>
+                            editMode.description
+                              ? handleSave("description")
+                              : handleEdit("description")
+                          }
+                          variant="secondary"
+                          size="sm"
+                        >
+                          {editMode.description ? (
+                            <>
+                              <Save className="w-4 h-4" /> Save
+                            </>
+                          ) : (
+                            <>
+                              <Edit2 className="w-4 h-4" /> Edit
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      {editMode.description ? (
+                        <textarea
+                          value={editValues.description}
+                          onChange={(e) =>
+                            setEditValues((prev) => ({
+                              ...prev,
+                              description: e.target.value,
+                            }))
+                          }
+                          className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 min-h-[100px]"
+                        />
+                      ) : (
+                        <p className="text-lg text-[#F5EEEE]/80">
+                          {characterCard.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2 text-purple-400">
+                        Functions
+                      </h3>
+                      <pre className="overflow-x-auto bg-black/30 p-4 rounded-lg">
+                        <code className="text-sm text-[#F5EEEE]/80">
+                          {JSON.stringify(characterCard.functions, null, 2)}
+                        </code>
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section className="mb-16">
+                <div className="max-w-3xl mx-auto">
+                  <div className="glossy p-8 rounded-xl border border-purple-500/10 space-y-6 backdrop-blur-sm">
+                    <div className="text-center">
+                      <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                        Simulate Reply Tweet
+                      </h3>
+                      <p className="mt-2 text-[#F5EEEE]/70 text-sm">
+                        Test how your virtual character would respond to tweets
+                        <br />
+                        <i>
+                          P.S. You can add &quot;I will always reply tweet, I will
+                          never ignore a tweet.&quot; to allow the agent to reply to
+                          tweets
+                        </i>
+                      </p>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="block text-purple-400 font-medium">
+                          X/Tweet ID
+                        </label>
+                        <p className="text-sm text-[#F5EEEE]/60">
+                          Simulate agent reading X (Twitter) timeline by passing
+                          the X Post ID.
+                        </p>
+                      </div>
+
                       <input
-                        type="text"
-                        value={sessionId}
-                        onChange={(e) => setSessionId(e.target.value)}
-                        placeholder="Enter session ID..."
+                        type="number"
+                        value={replyText}
+                        onChange={(e) => setReplyText(e.target.value)}
+                        placeholder="Enter the tweet ID to respond to..."
                         className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all duration-200 hover:border-purple-500/40"
                       />
-                      <button
-                        onClick={() => setSessionId(Math.floor(100000000 + Math.random() * 900000000).toString())}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 rounded-md bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-all text-sm"
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={sessionId}
+                          onChange={(e) => setSessionId(e.target.value)}
+                          placeholder="Enter session ID..."
+                          className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all duration-200 hover:border-purple-500/40"
+                        />
+                        <Button
+                          onClick={() =>
+                            setSessionId(
+                              Math.floor(
+                                100000000 + Math.random() * 900000000
+                              ).toString()
+                            )
+                          }
+                          variant="secondary"
+                          size="sm"
+                          className="absolute right-2 top-1/2 -translate-y-1/2"
+                        >
+                          Generate
+                        </Button>
+                      </div>
+
+                      <Button
+                        onClick={handleSimulateReply}
+                        disabled={isSimulating || !replyText.trim()}
+                        variant="gradient"
+                        size="lg"
+                        className="w-full"
                       >
-                        Generate
-                      </button>
+                        {isSimulating ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <span className="animate-pulse">Simulating...</span>
+                          </span>
+                        ) : (
+                          "Simulate Reply"
+                        )}
+                      </Button>
                     </div>
 
-                    <button
-                      onClick={handleSimulateReply}
-                      disabled={isSimulating || !replyText.trim()}
-                      className="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-200 shadow-lg shadow-purple-500/20"
-                    >
-                      {isSimulating ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <span className="animate-pulse">Simulating...</span>
-                        </span>
-                      ) : (
-                        "Simulate Reply"
-                      )}
-                    </button>
-                  </div>
-
-                  {simulationResponse.length > 0 && (
-                    <div className="mt-8 p-6 rounded-lg bg-black/50 border border-purple-500/20">
-                      <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-                        Response
-                      </h3>
-                      <div className="mt-4">
-                        <div className="flex border-b border-purple-500/20">
-                          {formattedResult.tabs.map((tab, index) => (
-                            <button
-                              key={index}
-                              onClick={() => setActiveTab(index)}
-                              className={`px-4 py-2 text-sm rounded-t-lg ${
-                                activeTab === index
-                                  ? 'bg-purple-500/20 text-purple-400'
-                                  : 'text-[#F5EEEE]/60 hover:text-[#F5EEEE]/90'
-                              }`}
-                            >
-                              {tab}
-                            </button>
-                          ))}
+                    {simulationResponse.length > 0 && (
+                      <div className="mt-8 p-6 rounded-lg bg-black/50 border border-purple-500/20">
+                        <div className="flex justify-between items-center">
+                        <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                          Response
+                        </h3>
+                        <Button variant="gradient" size="sm" onClick={handleEvaluate(formattedResult.inputTweet, formattedResult.outputTweet)}>
+                            Evaluate
+                        </Button>
                         </div>
-                        
-                        <div className="mt-4">
-                          {formattedResult.contents.map((content, index) => (
-                            <div
-                              key={index}
-                              className={`p-4 rounded-lg bg-black/30 border border-purple-500/10 text-[#F5EEEE]/90 whitespace-pre-wrap font-mono ${
-                                activeTab === index ? 'block' : 'hidden'
-                              }`}
-                            >
-                              {JSON.stringify(content, null, 2)}
+                        {
+                            evalResult && (
+                                <div className="mt-4 space-y-6">
+                                    <div className="space-y-4">
+                                        {/* Truth Score Section */}
+                                        <div className="space-y-2">
+                                            <div className="text-sm text-purple-400 font-medium">Truth Score</div>
+                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                                                {evalResult.truth.score}
+                                            </div>
+                                            <div className="text-sm text-[#F5EEEE]/60 italic">
+                                                {evalResult.truth.rationale}
+                                            </div>
+                                        </div>
+
+                                        {/* Accuracy Score Section */}
+                                        <div className="space-y-2">
+                                            <div className="text-sm text-purple-400 font-medium">Accuracy Score</div>
+                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                                                {evalResult.accuracy.score}
+                                            </div>
+                                            <div className="text-sm text-[#F5EEEE]/60 italic">
+                                                {evalResult.accuracy.rationale}
+                                            </div>
+                                        </div>
+
+                                        {/* Creativity Score Section */}
+                                        <div className="space-y-2">
+                                            <div className="text-sm text-purple-400 font-medium">Creativity Score</div>
+                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                                                {evalResult.creativity.score}
+                                            </div>
+                                            <div className="text-sm text-[#F5EEEE]/60 italic">
+                                                {evalResult.creativity.rationale}
+                                            </div>
+                                        </div>
+
+                                        {/* Engagement Score Section */}
+                                        <div className="space-y-2">
+                                            <div className="text-sm text-purple-400 font-medium">Engagement Score</div>
+                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                                                {evalResult.engagement.score}
+                                            </div>
+                                            <div className="text-sm text-[#F5EEEE]/60 italic">
+                                                {evalResult.engagement.rationale}
+                                            </div>
+                                        </div>
+
+                                        {/* Final Score Section */}
+                                        <div className="space-y-2">
+                                            <div className="text-sm text-purple-400 font-medium">Final Score</div>
+                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                                                {evalResult.final_score}
+                                            </div>
+                                        </div>
+
+                                        {/* Recommended Response Section */}
+                                        <div className="space-y-2">
+                                            <div className="text-sm text-purple-400 font-medium">Recommended Response</div>
+                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                                                {evalResult.recommended_response}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        <div className="mt-4 space-y-4">
+                          <div className="space-y-2">
+                            <div className="text-sm text-purple-400 font-medium">Input Tweet</div>
+                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                              {formattedResult.inputTweet}
                             </div>
-                          ))}
+                          </div>
+                          <div className="space-y-2">
+                            <div className="text-sm text-purple-400 font-medium">Output Tweet</div>
+                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
+                              {formattedResult.outputTweet ? (
+                                formattedResult.outputTweet
+                              ) : (
+                                <span className="text-gray-500 italic">No Tweet was Simulated</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-4">
+                          <div className="flex border-b border-purple-500/20">
+                            {formattedResult.tabs.map((tab, index) => (
+                              <button
+                                key={index}
+                                onClick={() => setActiveTab(index)}
+                                className={`px-4 py-2 text-sm rounded-t-lg ${
+                                  activeTab === index
+                                    ? "bg-purple-500/20 text-purple-400"
+                                    : "text-[#F5EEEE]/60 hover:text-[#F5EEEE]/90"
+                                }`}
+                              >
+                                {tab}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="mt-4">
+                            {formattedResult.contents.map((content, index) => (
+                              <div
+                                key={index}
+                                className={`p-4 rounded-lg bg-black/30 border border-purple-500/10 text-[#F5EEEE]/90 whitespace-pre-wrap font-mono ${
+                                  activeTab === index ? "block" : "hidden"
+                                }`}
+                              >
+                                {JSON.stringify(content, null, 2)}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
+                    )}
+                  </div>
+                </div>
+              </section>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Modern desktop sidebar */}
+      <div
+        className={`hidden lg:flex flex-col fixed right-0 top-0 h-full border-l border-purple-500/20 bg-black/95 backdrop-blur-xl transition-all duration-300 z-10 ${
+          isSidebarCollapsed ? "w-[60px]" : "w-[600px]"
+        }`}
+      >
+        <div className="relative p-6 border-b border-purple-500/20 backdrop-blur-sm">
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/20 flex items-center justify-center hover:bg-purple-500/30 transition-all duration-200"
+          >
+            <ChevronRight
+              className={`w-5 h-5 text-purple-400 transition-transform duration-300 ${
+                isSidebarCollapsed ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+
+          {isSidebarCollapsed ? (
+            <div className="h-full flex items-center justify-center">
+              <span
+                className="vertical-text text-purple-400 font-semibold text-sm tracking-wider rotate-180"
+                style={{ writingMode: "vertical-rl" }}
+              >
+                Evaluation History
+              </span>
+            </div>
+          ) : (
+            <div className="transition-opacity duration-300">
+              <h3 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                Evaluation History
+              </h3>
+              <p className="mt-2 text-sm text-[#F5EEEE]/60">
+                Track your virtual&apos;s performance metrics
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div
+          className={`flex-1 overflow-y-auto ${
+            isSidebarCollapsed ? "hidden" : "block"
+          }`}
+        >
+          <div className="p-6 space-y-4">
+            {evaluationHistory.map((response, index) => (
+              <div
+                key={index}
+                className="group rounded-xl bg-purple-500/5 hover:bg-purple-500/10 border border-purple-500/10 hover:border-purple-500/20 transition-all duration-200"
+              >
+                <div className="p-6 space-y-4">
+                  {/* Tweet Content */}
+                  <div className="space-y-3">
+                    <div
+                      className="text-base text-[#F5EEEE]/90"
+                      title={response.original_tweet}
+                    >
+                      {response.original_tweet}
                     </div>
-                  )}
+                    <div
+                      className="text-base text-[#F5EEEE]/60"
+                      title={response.responded_tweet}
+                    >
+                      {response.responded_tweet}
+                    </div>
+                  </div>
+
+                  {/* Scores */}
+                  <div className="grid grid-cols-4 gap-4 pt-3 border-t border-purple-500/10">
+                    <div className="text-center">
+                      <div className="text-sm text-purple-400/80 mb-2">
+                        Truth
+                      </div>
+                      <div className="text-base font-medium text-[#F5EEEE]/80">
+                        {response.truth_score}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-purple-400/80 mb-2">
+                        Accuracy
+                      </div>
+                      <div className="text-base font-medium text-[#F5EEEE]/80">
+                        {response.accuracy_score}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-purple-400/80 mb-2">
+                        Creativity
+                      </div>
+                      <div className="text-base font-medium text-[#F5EEEE]/80">
+                        {response.creativity_score}
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-purple-400/80 mb-2">
+                        Final
+                      </div>
+                      <div className="text-base font-medium text-[#F5EEEE]/80">
+                        {response.final_score.toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </section>
-          </>
-        )}
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Evaluation History Toggle Button (FAB) */}
+      <Button
+        onClick={() => setIsMobileHistoryOpen(!isMobileHistoryOpen)}
+        variant="gradient"
+        className="lg:hidden fixed bottom-6 right-6 h-12 rounded-full flex items-center justify-center shadow-lg"
+      >
+        <span className="mr-2 font-medium">History</span>
+        <ChevronRight
+          className={`w-6 h-6 transform transition-transform ${
+            isMobileHistoryOpen ? "rotate-90" : "-rotate-90"
+          }`}
+        />
+      </Button>
+
+      {/* Mobile Evaluation History Panel */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40">
+        <div
+          ref={mobileHistoryRef}
+          className={`bg-black/95 border-t border-purple-500/20 backdrop-blur-xl transition-all duration-300 ${
+            isMobileHistoryOpen ? "max-h-[70vh]" : "max-h-0"
+          } overflow-hidden`}
+        >
+          <div className="container mx-auto px-4 py-6 overflow-y-auto max-h-[70vh]">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-semibold text-purple-400">
+                Evaluation History
+              </h3>
+              <Button
+                onClick={() => setIsMobileHistoryOpen(false)}
+                variant="ghost"
+                size="icon"
+                className="text-purple-400 hover:text-purple-300"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            <div className="flex flex-col gap-4">
+              {evaluationHistory.map((response, index) => (
+                <div
+                  key={index}
+                  className="bg-purple-500/5 rounded-lg p-4 border border-purple-500/20 space-y-3"
+                >
+                  <div className="space-y-2">
+                    <div className="text-sm text-purple-400 font-medium">
+                      Original Tweet
+                    </div>
+                    <div className="text-[#F5EEEE]/80">
+                      {response.original_tweet}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-sm text-purple-400 font-medium">
+                      Response
+                    </div>
+                    <div className="text-[#F5EEEE]/80">
+                      {response.responded_tweet}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-sm text-purple-400 font-medium">
+                        Truth Score
+                      </div>
+                      <div className="text-[#F5EEEE]/80">
+                        {response.truth_score}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-purple-400 font-medium">
+                        Accuracy Score
+                      </div>
+                      <div className="text-[#F5EEEE]/80">
+                        {response.accuracy_score}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-purple-400 font-medium">
+                        Creativity Score
+                      </div>
+                      <div className="text-[#F5EEEE]/80">
+                        {response.creativity_score}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-purple-400 font-medium">
+                        Final Score
+                      </div>
+                      <div className="text-[#F5EEEE]/80">
+                        {response.final_score.toFixed(2)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

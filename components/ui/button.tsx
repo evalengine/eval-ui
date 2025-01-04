@@ -19,6 +19,7 @@ const buttonVariants = cva(
           "bg-[--steel-blue] text-[--off-white] shadow-sm hover:bg-[--steel-blue-dark]",
         ghost: "hover:bg-[--steel-blue] hover:text-[--off-white]",
         link: "text-[--off-white] underline-offset-4 hover:underline",
+        gradient: "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg shadow-purple-500/20 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-200",
       },
       size: {
         default: "h-9 px-4 py-2",
