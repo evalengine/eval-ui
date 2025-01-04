@@ -257,7 +257,7 @@ export default function VirtualsSandboxEval() {
         setEvalResult(data);
         addToast("Successfully evaluated reply", "success");
     } catch (error) {
-        addToast("Error evaluating reply", "error");
+        addToast(`Error evaluating reply: ${error}`, "error");
     }
   }
 
