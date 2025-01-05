@@ -4,13 +4,11 @@ import { useEffect, useMemo, useState, useRef } from "react";
 import { Eye, EyeOff, Edit2, Save, ChevronRight, X } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
+import { evaBaseUrl } from "@/lib/evaApi";
+import { EvaluationModal } from "@/components/virtuals/EvaluationModal";
 
 const VIRTUAL_LOCAL_STORAGE_KEY = "virtual-api-key";
 const JWT_LOCAL_STORAGE_KEY = "virtual-jwt-token";
-const baseUrl =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:8010/proxy"
-    : "https://api.evaengine.ai";
 
 interface EVENT_RESPONSE {
   [key: string]: any | null;
@@ -75,7 +73,7 @@ export default function VirtualsSandboxEval() {
       key = apiKey;
     }
     try {
-      const response = await fetch(`${baseUrl}/api/eval/scores`, {
+      const response = await fetch(`${evaBaseUrl}/api/eval/scores`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -238,28 +236,6 @@ export default function VirtualsSandboxEval() {
     };
   }, [simulationResponse]);
 
-  const handleEvaluate = (inputTweet: string, outputTweet: string) => async () => {
-    try {
-        const formData = new URLSearchParams();
-        formData.append('input_tweet', inputTweet);
-        formData.append('output_tweet', outputTweet);
-
-        const response = await fetch(`${baseUrl}/api/eval/evaluate-tweet`, {
-            method: "POST",
-            headers: {
-                "accept": "application/json",
-                "X-API-Key": apiKey,
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: formData,
-        });
-        const data = await response.json();
-        setEvalResult(data);
-        addToast("Successfully evaluated reply", "success");
-    } catch (error) {
-        addToast(`Error evaluating reply: ${error}`, "error");
-    }
-  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -613,80 +589,17 @@ export default function VirtualsSandboxEval() {
                     {simulationResponse.length > 0 && (
                       <div className="mt-8 p-6 rounded-lg bg-black/50 border border-purple-500/20">
                         <div className="flex justify-between items-center">
-                        <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-                          Response
-                        </h3>
-                        <Button variant="gradient" size="sm" onClick={handleEvaluate(formattedResult.inputTweet, formattedResult.outputTweet)}>
-                            Evaluate
-                        </Button>
+                          <h3 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                            Response
+                          </h3>
+                          <EvaluationModal
+                            apiKey={apiKey}
+                            inputTweet={formattedResult.inputTweet}
+                            outputTweet={formattedResult.outputTweet}
+                            onEvaluationComplete={setEvalResult}
+                          />
                         </div>
-                        {
-                            evalResult && (
-                                <div className="mt-4 space-y-6">
-                                    <div className="space-y-4">
-                                        {/* Truth Score Section */}
-                                        <div className="space-y-2">
-                                            <div className="text-sm text-purple-400 font-medium">Truth Score</div>
-                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
-                                                {evalResult.truth.score}
-                                            </div>
-                                            <div className="text-sm text-[#F5EEEE]/60 italic">
-                                                {evalResult.truth.rationale}
-                                            </div>
-                                        </div>
 
-                                        {/* Accuracy Score Section */}
-                                        <div className="space-y-2">
-                                            <div className="text-sm text-purple-400 font-medium">Accuracy Score</div>
-                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
-                                                {evalResult.accuracy.score}
-                                            </div>
-                                            <div className="text-sm text-[#F5EEEE]/60 italic">
-                                                {evalResult.accuracy.rationale}
-                                            </div>
-                                        </div>
-
-                                        {/* Creativity Score Section */}
-                                        <div className="space-y-2">
-                                            <div className="text-sm text-purple-400 font-medium">Creativity Score</div>
-                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
-                                                {evalResult.creativity.score}
-                                            </div>
-                                            <div className="text-sm text-[#F5EEEE]/60 italic">
-                                                {evalResult.creativity.rationale}
-                                            </div>
-                                        </div>
-
-                                        {/* Engagement Score Section */}
-                                        <div className="space-y-2">
-                                            <div className="text-sm text-purple-400 font-medium">Engagement Score</div>
-                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
-                                                {evalResult.engagement.score}
-                                            </div>
-                                            <div className="text-sm text-[#F5EEEE]/60 italic">
-                                                {evalResult.engagement.rationale}
-                                            </div>
-                                        </div>
-
-                                        {/* Final Score Section */}
-                                        <div className="space-y-2">
-                                            <div className="text-sm text-purple-400 font-medium">Final Score</div>
-                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
-                                                {evalResult.final_score}
-                                            </div>
-                                        </div>
-
-                                        {/* Recommended Response Section */}
-                                        <div className="space-y-2">
-                                            <div className="text-sm text-purple-400 font-medium">Recommended Response</div>
-                                            <div className="p-3 rounded bg-black/30 border border-purple-500/10 text-[#F5EEEE]/80">
-                                                {evalResult.recommended_response}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        }
                         <div className="mt-4 space-y-4">
                           <div className="space-y-2">
                             <div className="text-sm text-purple-400 font-medium">Input Tweet</div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ToastWrapper } from "@/components/ui/toast-wrapper";
+import Providers from "./providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,13 +32,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-black text-[#FFF8F8] relative flex flex-col`}
       >
-        <ToastWrapper>
-          <Header className="relative" />
-          <main className="flex-1 flex flex-col relative z-10">
-            {children}
-          </main>
-          <Footer />
-        </ToastWrapper>
+        <Providers>
+          <ToastWrapper>
+            <Header className="relative" />
+            <main className="flex-1 flex flex-col relative z-10">
+              {children}
+            </main>
+            <Footer />
+          </ToastWrapper>
+        </Providers>
       </body>
     </html>
   );
