@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useMemo, useState, useRef } from "react";
-import { Eye, EyeOff, Edit2, Save, ChevronRight, X } from "lucide-react";
+import { Edit2, Save, ChevronRight, X } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { evaBaseUrl } from "@/lib/evaApi";
 import { EvaluationModal } from "@/components/virtuals/EvaluationModal";
-
-const VIRTUAL_LOCAL_STORAGE_KEY = "virtual-api-key";
-const JWT_LOCAL_STORAGE_KEY = "virtual-jwt-token";
+import { useKeys } from "@/components/Header";
 
 interface EVENT_RESPONSE {
   [key: string]: any | null;
+}
+
+interface Metrics {
+  score: number;
+  rationale: string;
 }
 
 interface EvalResult {
@@ -19,13 +22,10 @@ interface EvalResult {
   tweet_id: string;
   original_tweet: string;
   responded_tweet: string;
-  truth_score: number;
-  accuracy_score: number;
-  creativity_score: number;
+  truth: Metrics;
+  accuracy: Metrics;
+  creativity: Metrics;
   final_score: number;
-  truth_rationale: string;
-  accuracy_rationale: string;
-  creativity_rationale: string;
   recommended_response: string;
   created_at: string;
   updated_at: string;
@@ -33,8 +33,7 @@ interface EvalResult {
 
 export default function VirtualsSandboxEval() {
   const { addToast } = useToast();
-  const [apiKey, setApiKey] = useState("");
-  const [jwtToken, setJwtToken] = useState("");
+  const { apiKey, jwtToken } = useKeys();
   const [sessionId, setSessionId] = useState("");
   const [characterCard, setCharacterCard] = useState({
     name: "",
@@ -43,8 +42,6 @@ export default function VirtualsSandboxEval() {
     description: "",
     functions: [],
   });
-  const [showApiKey, setShowApiKey] = useState(false);
-  const [showJwtToken, setShowJwtToken] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [isSimulating, setIsSimulating] = useState(false);
   const [simulationResponse, setSimulationResponse] = useState<
@@ -68,16 +65,13 @@ export default function VirtualsSandboxEval() {
   const mobileHistoryRef = useRef<HTMLDivElement>(null);
   const [evalResult, setEvalResult] = useState<any | null>(null);
 
-  const fetchEvaluationHistory = async (key?: string) => {
-    if (!key) {
-      key = apiKey;
-    }
+  const fetchEvaluationHistory = async () => {
     try {
       const response = await fetch(`${evaBaseUrl}/api/eval/scores`, {
         method: "GET",
         headers: {
           accept: "application/json",
-          "X-API-Key": key,
+          "X-API-Key": apiKey,
         },
         mode: "cors",
       });
@@ -92,6 +86,37 @@ export default function VirtualsSandboxEval() {
     } catch (error) {
       addToast("Error fetching evaluation history", "error");
       console.error("Error fetching evaluation history:", error);
+    }
+  };
+
+  const fetchCharacterCard = async () => {
+    try {
+      const response = await fetch(
+        "https://asia-southeast1-twitter-agent-1076f.cloudfunctions.net/api-getVirtual",
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            accept: "application/json, text/plain, */*",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        addToast("Failed to fetch character card", "error");
+        return;
+      }
+      const data = await response.json();
+      setCharacterCard({
+        name: data.data.name,
+        goal: data.data.game.goal,
+        worldInfo: data.data.game.worldInfo,
+        description: data.data.game.description,
+        functions: data.data.game.functions,
+      });
+    } catch (error) {
+      addToast("Error fetching character card", "error");
+      console.error("Error fetching virtuals:", error);
     }
   };
 
@@ -137,67 +162,17 @@ export default function VirtualsSandboxEval() {
     }
   };
 
-  const fetchCharacterCard = async (token?: string) => {
-    if (!token) {
-      token = jwtToken;
+  useEffect(() => {
+    if (evaluationHistory.length === 0 && apiKey) {
+      fetchEvaluationHistory();
     }
-    try {
-      const response = await fetch(
-        "https://asia-southeast1-twitter-agent-1076f.cloudfunctions.net/api-getVirtual",
-        {
-          method: "GET",
-          mode: "cors",
-          headers: {
-            accept: "application/json, text/plain, */*",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        addToast("Failed to fetch character card", "error");
-        return;
-      }
-      const data = await response.json();
-      setCharacterCard({
-        name: data.data.name,
-        goal: data.data.game.goal,
-        worldInfo: data.data.game.worldInfo,
-        description: data.data.game.description,
-        functions: data.data.game.functions,
-      });
-    } catch (error) {
-      addToast("Error fetching character card", "error");
-      console.error("Error fetching virtuals:", error);
-    }
-  };
+  }, [apiKey, evaluationHistory.length, fetchEvaluationHistory]);
 
   useEffect(() => {
-    const savedApiKey = localStorage.getItem(VIRTUAL_LOCAL_STORAGE_KEY);
-    const savedJwt = localStorage.getItem(JWT_LOCAL_STORAGE_KEY);
-
-    if (evaluationHistory.length === 0 && savedApiKey) {
-      setApiKey(savedApiKey);
-      fetchEvaluationHistory(savedApiKey);
+    if (jwtToken) {
+      fetchCharacterCard();
     }
-    if (characterCard.name === "" && savedJwt) {
-      setJwtToken(savedJwt);
-      fetchCharacterCard(savedJwt);
-    }
-  }, []);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: "api" | "jwt"
-  ) => {
-    const value = e.target.value;
-    if (type === "api") {
-      setApiKey(value);
-      localStorage.setItem(VIRTUAL_LOCAL_STORAGE_KEY, value);
-    } else {
-      setJwtToken(value);
-      localStorage.setItem(JWT_LOCAL_STORAGE_KEY, value);
-    }
-  };
+  }, [fetchCharacterCard, jwtToken]);
 
   const handleEdit = (field: keyof typeof editMode) => {
     setEditMode((prev) => ({ ...prev, [field]: true }));
@@ -216,11 +191,10 @@ export default function VirtualsSandboxEval() {
   };
 
   const formattedResult = useMemo(() => {
-     
-     const tabs = simulationResponse
-        .flat()
-        .map((response) => Object.keys(response))
-        .flat();
+    const tabs = simulationResponse
+      .flat()
+      .map((response) => Object.keys(response))
+      .flat();
     const contents = simulationResponse
         .flat()
         .map((response) => Object.values(response))
@@ -235,7 +209,6 @@ export default function VirtualsSandboxEval() {
       outputTweet,
     };
   }, [simulationResponse]);
-
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -258,7 +231,6 @@ export default function VirtualsSandboxEval() {
 
   return (
     <div className="min-h-screen overflow-hidden flex">
-      {/* Main content area */}
       <div
         className={`flex-1 overflow-y-auto px-4 py-16 lg:px-8 transition-all duration-300 ${
           isSidebarCollapsed ? "lg:pr-[60px]" : "lg:pr-[400px]"
@@ -271,83 +243,9 @@ export default function VirtualsSandboxEval() {
                 Virtuals Sandbox
               </span>
             </h1>
-
-            <div className="max-w-2xl mx-auto space-y-6">
-              <div className="glossy p-8 rounded-xl border border-purple-500/10">
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-lg mb-2 text-[#F5EEEE]/80">
-                      API Key
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showApiKey ? "text" : "password"}
-                        value={apiKey}
-                        onChange={(e) => handleInputChange(e, "api")}
-                        placeholder="Enter your API key"
-                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowApiKey(!showApiKey)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F5EEEE]/50 hover:text-[#F5EEEE] focus:outline-none"
-                      >
-                        {showApiKey ? (
-                          <EyeOff className="w-5 h-5" />
-                        ) : (
-                          <Eye className="w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-lg mb-2 text-[#F5EEEE]/80">
-                      JWT Token
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showJwtToken ? "text" : "password"}
-                        value={jwtToken}
-                        onChange={(e) => handleInputChange(e, "jwt")}
-                        placeholder="Enter your JWT token"
-                        className="w-full px-4 py-3 rounded-lg bg-black/50 border border-purple-500/20 text-[#F5EEEE] placeholder-[#F5EEEE]/50 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowJwtToken(!showJwtToken)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F5EEEE]/50 hover:text-[#F5EEEE] focus:outline-none"
-                      >
-                        {showJwtToken ? (
-                          <EyeOff className="w-5 h-5" />
-                        ) : (
-                          <Eye className="w-5 h-5" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <Button
-                  onClick={async () => {
-                    try {
-                      await fetchEvaluationHistory();
-                      await fetchCharacterCard();
-                      addToast("Successfully fetched data", "success");
-                    } catch (error) {
-                      addToast("Error fetching data", "error");
-                      console.error("Error:", error);
-                    }
-                  }}
-                  variant="gradient"
-                  className="mt-6 w-full bg-gradient-to-r from-purple-400 to-blue-500 hover:from-purple-500 hover:to-blue-600 transition-all duration-200"
-                >
-                  Fetch All Data
-                </Button>
-              </div>
-            </div>
           </section>
 
-          {characterCard.name && (
+          {characterCard.name ? (
             <>
               <section className="mb-16">
                 <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">
@@ -654,6 +552,24 @@ export default function VirtualsSandboxEval() {
                 </div>
               </section>
             </>
+          ) : (
+            <div className="text-center py-12">
+              <div className="max-w-md mx-auto p-6 rounded-xl border border-purple-500/10 bg-black/50 backdrop-blur-sm">
+                <h2 className="text-2xl font-semibold text-purple-400 mb-4">No Character Card Found</h2>
+                <p className="text-[#F5EEEE]/70 mb-6">
+                  Please set up your JWT token in settings to load your character card.
+                </p>
+                <Button
+                  onClick={() => {
+                    const settingsButton = document.querySelector('[aria-label="Settings"]') as HTMLButtonElement;
+                    if (settingsButton) settingsButton.click();
+                  }}
+                  variant="gradient"
+                >
+                  Open Settings
+                </Button>
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -732,7 +648,7 @@ export default function VirtualsSandboxEval() {
                         Truth
                       </div>
                       <div className="text-base font-medium text-[#F5EEEE]/80">
-                        {response.truth_score}
+                        {response.truth.score}
                       </div>
                     </div>
                     <div className="text-center">
@@ -740,7 +656,7 @@ export default function VirtualsSandboxEval() {
                         Accuracy
                       </div>
                       <div className="text-base font-medium text-[#F5EEEE]/80">
-                        {response.accuracy_score}
+                        {response.accuracy.score}
                       </div>
                     </div>
                     <div className="text-center">
@@ -748,7 +664,7 @@ export default function VirtualsSandboxEval() {
                         Creativity
                       </div>
                       <div className="text-base font-medium text-[#F5EEEE]/80">
-                        {response.creativity_score}
+                        {response.creativity.score}
                       </div>
                     </div>
                     <div className="text-center">
@@ -831,7 +747,7 @@ export default function VirtualsSandboxEval() {
                         Truth Score
                       </div>
                       <div className="text-[#F5EEEE]/80">
-                        {response.truth_score}
+                        {response.truth.score}
                       </div>
                     </div>
                     <div>
@@ -839,7 +755,7 @@ export default function VirtualsSandboxEval() {
                         Accuracy Score
                       </div>
                       <div className="text-[#F5EEEE]/80">
-                        {response.accuracy_score}
+                        {response.accuracy.score}
                       </div>
                     </div>
                     <div>
@@ -847,7 +763,7 @@ export default function VirtualsSandboxEval() {
                         Creativity Score
                       </div>
                       <div className="text-[#F5EEEE]/80">
-                        {response.creativity_score}
+                        {response.creativity.score}
                       </div>
                     </div>
                     <div>
