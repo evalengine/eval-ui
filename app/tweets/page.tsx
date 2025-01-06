@@ -1,5 +1,6 @@
 "use client"
 
+import { useKeys } from "@/components/Header"
 import { EvaluationModal } from "@/components/virtuals/EvaluationModal"
 import { useEffect, useState } from "react"
 import {
@@ -27,7 +28,7 @@ const Tweet = ({
   inputTweet?: string
 }) => {
   const { data, error, isLoading } = useTweet(id, apiUrl)
-
+  
   useEffect(() => {
     if (data) {
       setFinalTweet(data.text)
@@ -48,6 +49,8 @@ const Tweet = ({
 }
 
 export default function TweetsPage() {
+    const { apiKey } = useKeys()
+
     const [finalInputTweet, setFinalInputTweet] = useState("")
     const [finalOutputTweet, setFinalOutputTweet] = useState("")
     const [inputTweet, setInputTweet] = useState("")
@@ -136,7 +139,7 @@ export default function TweetsPage() {
                                     </div>
                                     <div className="flex flex-col justify-center items-center">
                                         <EvaluationModal
-                                            apiKey={typeof window !== 'undefined' ? localStorage.getItem("virtual-api-key") || "" : ""}
+                                            apiKey={apiKey}
                                             inputTweet={finalInputTweet}
                                             outputTweet={finalOutputTweet}
                                             onEvaluationComplete={() => {
