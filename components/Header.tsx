@@ -43,13 +43,11 @@ export const KeysProvider = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   const handleSetApiKey = (value: string) => {
-    if (!value) return
     setApiKey(value)
     localStorage.setItem(VIRTUAL_LOCAL_STORAGE_KEY, value)
   }
 
   const handleSetJwtToken = (value: string) => {
-    if (!value) return
     setJwtToken(value)
     localStorage.setItem(JWT_LOCAL_STORAGE_KEY, value)
   }
@@ -90,8 +88,6 @@ export default function Header({ className = '' }: HeaderProps) {
   const handleSave = () => {
     setApiKey(tempApiKey)
     setJwtToken(tempJwtToken)
-    localStorage.setItem(VIRTUAL_LOCAL_STORAGE_KEY, tempApiKey)
-    localStorage.setItem(JWT_LOCAL_STORAGE_KEY, tempJwtToken)
     setOpen(false)
   }
 
