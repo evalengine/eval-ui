@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Edit2, Save, ChevronRight, X } from "lucide-react";
 import { useToast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
@@ -63,9 +63,8 @@ export default function VirtualsSandboxEval() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const [isMobileHistoryOpen, setIsMobileHistoryOpen] = useState(false);
   const mobileHistoryRef = useRef<HTMLDivElement>(null);
-  const [evalResult, setEvalResult] = useState<any | null>(null);
 
-  const fetchEvaluationHistory = async () => {
+  const fetchEvaluationHistory = useCallback(async () => {
     try {
       const response = await fetch(`${evaBaseUrl}/api/eval/scores`, {
         method: "GET",
@@ -87,9 +86,9 @@ export default function VirtualsSandboxEval() {
       addToast("Error fetching evaluation history", "error");
       console.error("Error fetching evaluation history:", error);
     }
-  };
+  }, [apiKey, addToast]);
 
-  const fetchCharacterCard = async () => {
+  const fetchCharacterCard = useCallback(async () => {
     try {
       const response = await fetch(
         "https://asia-southeast1-twitter-agent-1076f.cloudfunctions.net/api-getVirtual",
@@ -118,7 +117,7 @@ export default function VirtualsSandboxEval() {
       addToast("Error fetching character card", "error");
       console.error("Error fetching virtuals:", error);
     }
-  };
+  }, [jwtToken, addToast]);
 
   const handleSimulateReply = async () => {
     if (!replyText.trim() || !sessionId.trim()) return;
@@ -172,7 +171,7 @@ export default function VirtualsSandboxEval() {
     if (jwtToken) {
       fetchCharacterCard();
     }
-  }, [fetchCharacterCard, jwtToken]);
+  }, [jwtToken]);
 
   const handleEdit = (field: keyof typeof editMode) => {
     setEditMode((prev) => ({ ...prev, [field]: true }));
@@ -494,7 +493,6 @@ export default function VirtualsSandboxEval() {
                             apiKey={apiKey}
                             inputTweet={formattedResult.inputTweet}
                             outputTweet={formattedResult.outputTweet}
-                            onEvaluationComplete={setEvalResult}
                           />
                         </div>
 
