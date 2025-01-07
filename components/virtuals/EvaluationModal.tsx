@@ -47,18 +47,17 @@ export function EvaluationModal({ apiKey, inputTweet, outputTweet, onEvaluationC
 
     const evaluateMutation = useMutation({
         mutationFn: async () => {
-            const formData = new URLSearchParams();
-            formData.append('input_tweet', inputTweet);
-            formData.append('output_tweet', outputTweet);
-
             const response = await fetch(`${evaBaseUrl}/api/eval/evaluate-tweet`, {
                 method: "POST",
                 headers: {
                     "accept": "application/json",
                     "X-API-Key": apiKey,
-                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Content-Type": "application/json"
                 },
-                body: formData,
+                body: JSON.stringify({
+                    input_tweet: inputTweet,
+                    output_tweet: outputTweet
+                })
             });
 
             if (!response.ok) {
