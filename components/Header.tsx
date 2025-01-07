@@ -90,6 +90,8 @@ export default function Header({ className = '' }: HeaderProps) {
   const handleSave = () => {
     setApiKey(tempApiKey)
     setJwtToken(tempJwtToken)
+    localStorage.setItem(VIRTUAL_LOCAL_STORAGE_KEY, tempApiKey)
+    localStorage.setItem(JWT_LOCAL_STORAGE_KEY, tempJwtToken)
     setOpen(false)
   }
 
