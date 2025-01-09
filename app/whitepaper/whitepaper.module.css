@@ -1,0 +1,36 @@
+.prose {
+  font-feature-settings: "kern";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.prose p {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  line-height: 1.8;
+  letter-spacing: -0.011em;
+}
+
+.prose ul {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.prose h3 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.011em;
+}
+
+.prose section {
+  margin-top: 3em;
+  margin-bottom: 3em;
+} 

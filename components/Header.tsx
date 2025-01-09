@@ -93,7 +93,7 @@ export default function Header({ className = '' }: HeaderProps) {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 py-4 bg-black/80 backdrop-blur-sm border-b border-purple-500/10 ${className}`}>
+      <header className={`fixed top-0 left-0 right-0 py-1 bg-black/80 backdrop-blur-sm border-b border-purple-500/10 ${className}`}>
         <div className="container mx-auto px-4 py-2 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-[#FFF8F8]">
             EVAEngine
