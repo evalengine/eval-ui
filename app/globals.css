@@ -102,7 +102,7 @@
   }
 
   /* width */
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     width: 5px;
   }
 
@@ -110,7 +110,6 @@
     height: 5px;
   }
 
-  /* Fix for scrollbar corner overlap */
   ::-webkit-scrollbar-corner {
     background: transparent;
   }
@@ -121,5 +120,5 @@
 
   ::-webkit-scrollbar-thumb {
     background: hsl(var(--border));
-  }
+  } */
 }

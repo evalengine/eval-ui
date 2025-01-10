@@ -31,14 +31,14 @@ const CharacterDetails = () => {
     formState: { isDirty, isValid },
   } = useForm({ mode: "onChange", values: getVirtual });
 
-  console.log(getVirtual);
   return (
     <>
       <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md min-h-[250px] bg-background-100 w-full h-full">
         <div className="w-full h-full rounded-md border border-gray-alpha-400">
           <div className="flex flex-col flex-no-wrap h-full overflow-y-auto overscroll-y-none">
             <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
-              Character Details
+              <h1 className="font-bold">Character Details</h1>
+              <p className="text-xs"></p>
             </div>
             <div className="flex-1 min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
               <div className="grid gap-4 w-full">
@@ -89,7 +89,7 @@ const CharacterDetails = () => {
                 <Label className="text-left">Functions</Label>
                 <Controller
                   control={control}
-                  name="functions"
+                  name="game.functions"
                   defaultValue=""
                   render={({ field, fieldState }) => {
                     return <Textarea required {...field} />;
@@ -98,7 +98,7 @@ const CharacterDetails = () => {
               </div>
             </div>
             <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background">
-              <Textarea required />
+       
             </div>
           </div>
         </div>
@@ -108,22 +108,65 @@ const CharacterDetails = () => {
 };
 
 const SimulateReplyTweet = () => {
+  const { data: { data: getVirtual } = {} } = useQuery({
+    queryKey: ["getVirtual"],
+    queryFn: API.getVirtual,
+  });
+
+  const {
+    handleSubmit,
+    reset,
+    getValues,
+    setValue,
+    setError,
+    control,
+    register,
+    formState: { isDirty, isValid },
+  } = useForm({ mode: "onChange", values: getVirtual });
   return (
     <>
       <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md min-h-[250px] bg-background-100 w-full h-full">
         <div className="w-full h-full rounded-md border border-gray-alpha-400">
           <div className="flex flex-col flex-no-wrap h-full overflow-y-auto overscroll-y-none">
             <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
-              Simulate Reply Tweet
+              <h1 className="font-bold">Simulate Reply Tweet</h1>
             </div>
-            <div className="flex-1 min-w-0 flex items-center justify-center p-4">
-              <div>asdasd</div>
+            <div className="flex-1 min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
+              <p className="text-xs">
+                Test how your virtual character would respond to tweets
+                <br />
+                P.S. You can add "I will always reply tweet, I will never ignore
+                a tweet." to allow the agent to reply to tweets
+              </p>
+              <div className="grid gap-4 w-full">
+                <Label className="text-left">X/Tweet ID </Label>
+                <p className="text-xs italic">
+                  Simulate agent reading X (Twitter) timeline by passing the X
+                  Post ID.
+                </p>
+                <Controller
+                  control={control}
+                  name="tweet_id"
+                  defaultValue=""
+                  render={({ field, fieldState }) => {
+                    return <Input required {...field} />;
+                  }}
+                />
+              </div>
+
+              <div className="grid gap-4 w-full">
+                <Label className="text-left">Session ID</Label>
+                <Controller
+                  control={control}
+                  name="session_id"
+                  defaultValue=""
+                  render={({ field, fieldState }) => {
+                    return <Input required {...field} />;
+                  }}
+                />
+              </div>
             </div>
             <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background">
-              {/* <Label className="px-1 mb-2.5 block">
-              Paste the original tweet URL or text here
-            </Label> */}
-              <Textarea required />
             </div>
           </div>
         </div>

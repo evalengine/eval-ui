@@ -31,11 +31,12 @@ import { TemperatureSelector } from "./components/temperature-selector";
 import { TopPSelector } from "./components/top-p-selector";
 import { models, types } from "./data/models";
 import { presets } from "./data/presets";
-import { CTweet, Panels } from "./components/c-tweet";
+import { Panels } from "./components/c-tweet";
 import { Evaluate } from "./components/evaluate";
 import { Input } from "@/components/ui/input";
 import { APISettings } from "./components/api-settings";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import AnimatedCircularProgressBar from "@/components/magicui/animated-circular-progress-bar";
 
 import {
   Dialog,
@@ -94,11 +95,18 @@ const useEvaluationDialog = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col items-center">
-                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 flex items-center justify-center mb-4 bg-black/70">
+                    {/* <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 flex items-center justify-center mb-4 bg-black/70">
                       <p className="text-3xl md:text-4xl font-bold">
                         {result.final_score.toFixed(1)}
                       </p>
-                    </div>
+                    </div> */}
+                    <AnimatedCircularProgressBar
+                      max={100}
+                      min={0}
+                      value={result.final_score}
+                      gaugePrimaryColor="rgb(79 70 229)"
+                      gaugeSecondaryColor="rgba(0, 0, 0, 0.1)"
+                    />
                     <Progress value={result.final_score} />
                     <h1 className="mt-5 mb-3">Suggested Response</h1>
                     <p className="text-xs text-muted-foreground">

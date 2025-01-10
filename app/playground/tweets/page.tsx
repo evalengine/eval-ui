@@ -31,11 +31,12 @@ import { TemperatureSelector } from "./components/temperature-selector";
 import { TopPSelector } from "./components/top-p-selector";
 import { models, types } from "./data/models";
 import { presets } from "./data/presets";
-import { CTweet, Panels } from "./components/c-tweet";
+import { Panels } from "./components/c-tweet";
 import { Evaluate } from "./components/evaluate";
 import { Input } from "@/components/ui/input";
 import { APISettings } from "./components/api-settings";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import AnimatedCircularProgressBar from "@/components/magicui/animated-circular-progress-bar";
 
 import {
   Dialog,

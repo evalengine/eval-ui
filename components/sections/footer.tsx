@@ -1,8 +1,14 @@
+"use client";
 import { Icons } from "@/components/icons";
 import { BorderText } from "@/components/ui/border-number";
 import { siteConfig } from "@/lib/config";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
+  console.log(pathname);
+  if (pathname.includes("/playground")) return null;
+
   return (
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 container">
       <div className="flex items-center justify-between">

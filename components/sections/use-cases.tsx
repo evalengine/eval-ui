@@ -232,7 +232,7 @@ const Card2 = () => {
     },
   ];
   return (
-    <Link href="/virtuals">
+    <Link href="/playground/virtuals">
       <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 lg:border-r">
         <motion.div
           variants={containerVariants}
