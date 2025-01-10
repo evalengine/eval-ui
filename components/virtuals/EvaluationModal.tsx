@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { evaBaseUrl } from "@/lib/evaApi"
 import { Button } from "../ui/button"
-import { useToast } from "@/components/ui/toast"
 import { useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 interface EvaluationResult {
     id: number
@@ -42,7 +42,6 @@ interface EvaluationModalProps {
 
 export function EvaluationModal({ apiKey, inputTweet, outputTweet, onEvaluationComplete }: EvaluationModalProps) {
     const [open, setOpen] = useState(false)
-    const { addToast } = useToast()
     const [result, setResult] = useState<EvaluationResult | null>(null)
 
     const evaluateMutation = useMutation({
@@ -70,18 +69,17 @@ export function EvaluationModal({ apiKey, inputTweet, outputTweet, onEvaluationC
         onSuccess: (data) => {
             setResult(data);
             onEvaluationComplete?.(data);
-            addToast("Successfully evaluated reply", "success");
+            toast.success("Successfully evaluated reply");
             setOpen(true);
         },
         onError: (error: Error) => {
-            addToast(`Error evaluating reply: ${error.message}`, "error");
+            toast.error(`Error evaluating reply: ${error.message}`);
         }
     });
 
     if (!result) {
         return (
             <Button
-                variant="gradient"
                 size="sm"
                 onClick={() => evaluateMutation.mutate()}
                 disabled={evaluateMutation.isPending}
@@ -96,7 +94,7 @@ export function EvaluationModal({ apiKey, inputTweet, outputTweet, onEvaluationC
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="gradient" size="sm">View Evaluation</Button>
+                <Button size="sm">View Evaluation</Button>
             </DialogTrigger>
             <DialogContent className="w-[95vw] md:w-[90vw] lg:w-[85vw] xl:w-[80vw] max-w-7xl max-h-[90vh] md:max-h-[85vh] bg-black/95 border border-purple-500/20 backdrop-blur-xl overflow-y-auto">
                 <DialogHeader>

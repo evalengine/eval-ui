@@ -156,7 +156,6 @@ export default function Header({ className = '' }: HeaderProps) {
                 <Button
                   onClick={handleSave}
                   className="w-full"
-                  variant="gradient"
                 >
                   Save
                 </Button>

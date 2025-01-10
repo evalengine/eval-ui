@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Edit2, Save, ChevronRight, X } from "lucide-react";
-import { useToast } from "@/components/ui/toast";
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
 import { evaBaseUrl } from "@/lib/evaApi";
 import { EvaluationModal } from "@/components/virtuals/EvaluationModal";
@@ -32,7 +32,6 @@ interface EvalResult {
 }
 
 export default function VirtualsSandboxEval() {
-  const { addToast } = useToast();
   const { apiKey, jwtToken } = useKeys();
   const [sessionId, setSessionId] = useState("");
   const [characterCard, setCharacterCard] = useState({
@@ -76,17 +75,17 @@ export default function VirtualsSandboxEval() {
       });
 
       if (!response.ok) {
-        addToast("Failed to fetch evaluation history", "error");
+        toast.error("Failed to fetch evaluation history");
         return;
       }
 
       const data = await response.json();
       setEvaluationHistory(data.scores);
     } catch (error) {
-      addToast("Error fetching evaluation history", "error");
+      toast.error("Error fetching evaluation history");
       console.error("Error fetching evaluation history:", error);
     }
-  }, [apiKey, addToast]);
+  }, [apiKey]);
 
   const fetchCharacterCard = useCallback(async () => {
     try {
@@ -102,7 +101,7 @@ export default function VirtualsSandboxEval() {
         }
       );
       if (!response.ok) {
-        addToast("Failed to fetch character card", "error");
+        toast.error("Failed to fetch character card");
         return;
       }
       const data = await response.json();
@@ -114,10 +113,10 @@ export default function VirtualsSandboxEval() {
         functions: data.data.game.functions,
       });
     } catch (error) {
-      addToast("Error fetching character card", "error");
+      toast.error("Error fetching character card");
       console.error("Error fetching virtuals:", error);
     }
-  }, [jwtToken, addToast]);
+  }, [jwtToken]);
 
   const handleSimulateReply = async () => {
     if (!replyText.trim() || !sessionId.trim()) return;
@@ -148,13 +147,13 @@ export default function VirtualsSandboxEval() {
       );
 
       if (data.status !== 200) {
-        addToast("Failed to simulate reply", "error");
+        toast.error("Failed to simulate reply");
         return;
       }
       const response = await data.json();
       setSimulationResponse(response.data);
     } catch (error) {
-      addToast("Error simulating reply", "error");
+      toast.error("Error simulating reply");
       console.error("Error simulating reply:", error);
     } finally {
       setIsSimulating(false);
@@ -469,7 +468,6 @@ export default function VirtualsSandboxEval() {
                       <Button
                         onClick={handleSimulateReply}
                         disabled={isSimulating || !replyText.trim()}
-                        variant="gradient"
                         size="lg"
                         className="w-full"
                       >
@@ -562,7 +560,6 @@ export default function VirtualsSandboxEval() {
                     const settingsButton = document.querySelector('[aria-label="Settings"]') as HTMLButtonElement;
                     if (settingsButton) settingsButton.click();
                   }}
-                  variant="gradient"
                 >
                   Open Settings
                 </Button>
@@ -684,7 +681,6 @@ export default function VirtualsSandboxEval() {
       {/* Mobile Evaluation History Toggle Button (FAB) */}
       <Button
         onClick={() => setIsMobileHistoryOpen(!isMobileHistoryOpen)}
-        variant="gradient"
         className="lg:hidden fixed bottom-6 right-6 h-12 rounded-full flex items-center justify-center shadow-lg"
       >
         <span className="mr-2 font-medium">History</span>

@@ -6,7 +6,6 @@ import { cn, constructMetadata } from "@/lib/utils";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata, Viewport } from "next";
-import { ToastWrapper } from "@/components/ui/toast-wrapper";
 import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
 import { Header } from "@/components/sections/header";
@@ -48,11 +47,9 @@ export default function RootLayout({
             defaultTheme="dark"
             enableSystem={false}
           >
-            <ToastWrapper>
-              <Header />
-              {children}
-              <Footer />
-            </ToastWrapper>
+            <Header />
+            {children}
+            <Footer />
             <Toaster position="top-center" richColors={true} />
           </ThemeProvider>
         </Providers>

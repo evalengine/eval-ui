@@ -60,7 +60,7 @@ import API from "@/api";
 import { useMutation } from "@tanstack/react-query";
 import confetti from "canvas-confetti";
 
-export const useEvaluationDialog = () => {
+const useEvaluationDialog = () => {
   const {
     handleSubmit,
     reset,
