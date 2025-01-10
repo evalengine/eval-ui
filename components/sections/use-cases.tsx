@@ -105,7 +105,7 @@ export function Card1() {
   };
 
   return (
-    <Link href="/playground">
+    <Link href="/playground/tweets">
       <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 lg:border-r">
         <motion.div
           variants={containerVariants}
