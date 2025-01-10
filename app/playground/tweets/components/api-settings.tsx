@@ -29,10 +29,8 @@ export const useAPISettingsDialog = ({}) => {
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    const apiKey = localStorage.getItem("apiKey");
-    const jwtToken = localStorage.getItem("jwtToken");
-    setValue("apiKey", apiKey);
-    setValue("jwtToken", jwtToken);
+    setValue("virtual-api-key", localStorage.getItem("virtual-api-key"));
+    setValue("virtual-jwt-token", localStorage.getItem("virtual-jwt-token"));
   }, []);
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {} } = {}) =>
@@ -51,8 +49,14 @@ export const useAPISettingsDialog = ({}) => {
                 onSubmit={handleSubmit(async (values) => {
                   try {
                     console.log(values);
-                    localStorage.setItem("apiKey", values.apiKey);
-                    localStorage.setItem("jwtToken", values.jwtToken);
+                    localStorage.setItem(
+                      "virtual-api-key",
+                      values["virtual-api-key"]
+                    );
+                    localStorage.setItem(
+                      "virtual-jwt-token",
+                      values["virtual-jwt-token"]
+                    );
                   } catch (e) {
                   } finally {
                     reset();
@@ -69,18 +73,18 @@ export const useAPISettingsDialog = ({}) => {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid gap-4">
-                    <Label htmlFor="apiKey" className="text-left">
+                    <Label htmlFor="virtual-api-key" className="text-left">
                       API Key
                     </Label>
 
                     <Controller
                       control={control}
-                      name="apiKey"
+                      name="virtual-api-key"
                       defaultValue=""
                       render={({ field, fieldState }) => {
                         return (
                           <Input
-                            id="apiKey"
+                            id="virtual-api-key"
                             type="password"
                             required
                             autoComplete="off"
@@ -91,17 +95,17 @@ export const useAPISettingsDialog = ({}) => {
                     />
                   </div>
                   <div className="grid gap-4">
-                    <Label htmlFor="jwtToken" className="text-left">
+                    <Label htmlFor="virtual-jwt-token" className="text-left">
                       JWT Token
                     </Label>
                     <Controller
                       control={control}
-                      name="jwtToken"
+                      name="virtual-jwt-token"
                       defaultValue=""
                       render={({ field, fieldState }) => {
                         return (
                           <Input
-                            id="jwtToken"
+                            id="virtual-jwt-token"
                             type="password"
                             required
                             autoComplete="off"

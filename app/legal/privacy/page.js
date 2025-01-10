@@ -3,17 +3,17 @@ import { cn } from "@/lib/utils";
 
 export default function Page() {
     return (
-        <main className={cn("bg-white flex flex-col flex-shrink-0 flex-grow")}>
+        <main className={cn("flex flex-col flex-shrink-0 flex-grow")}>
             <div className="flex-grow mx-auto max-w-3xl flex flex-col items-center justify-center pb-20">
-                <div class="py-16">
-                    <div class="mx-auto max-w-screen-md px-4 sm:px-6 lg:px-8">
-                        <h1 class="font-display text-center text-3xl font-extrabold leading-[1.15] text-black sm:text-5xl sm:leading-[1.15]">
+                <div className="py-16">
+                    <div className="mx-auto max-w-screen-md px-4 sm:px-6 lg:px-8">
+                        <h1 className="font-display text-center text-3xl font-extrabold leading-[1.15] sm:text-5xl sm:leading-[1.15]">
                             Eva Engine Policy
                         </h1>
                     </div>
                 </div>
 
-                <article class="prose-headings:font-display prose prose-gray max-w-none transition-all prose-headings:relative prose-headings:scroll-mt-20 prose-headings:font-semibold">
+                <article className="prose-headings:font-display prose prose-invert prose-zinc text-white max-w-none transition-all prose-headings:relative prose-headings:scroll-mt-20 prose-headings:font-semibold">
                     <p>
                         <a href="https://vercel.com">Vercel</a> develops products and
                         features designed to help developers rapidly create their next
@@ -33,7 +33,7 @@ export default function Page() {
                     </p>
                     <a
                         href="#vercels-ai-products-and-your-data"
-                        class="no-underline hover:underline"
+                        className="no-underline hover:underline"
                     >
                         <h2 id="vercels-ai-products-and-your-data">
                             Vercel's AI Products and Your Data
@@ -65,7 +65,7 @@ export default function Page() {
                         services to train, improve, or fine tune any of the models used in
                         Vercel's AI Products.
                     </p>
-                    <a href="#acceptable-use" class="no-underline hover:underline">
+                    <a href="#acceptable-use" className="no-underline hover:underline">
                         <h2 id="acceptable-use">Acceptable Use</h2>
                     </a>
                     <p>
@@ -142,7 +142,7 @@ export default function Page() {
                         report suspected copyright infringement, please refer to our{" "}
                         <a href="https://vercel.com/docs/dmca">DMCA Policy</a>.
                     </p>
-                    <a href="#ai-usage-at-vercel" class="no-underline hover:underline">
+                    <a href="#ai-usage-at-vercel" className="no-underline hover:underline">
                         <h2 id="ai-usage-at-vercel">AI Usage at Vercel</h2>
                     </a>
                     <p>
@@ -232,7 +232,7 @@ export default function Page() {
                     </ul>
                     <a
                         href="#third-party-service-providers"
-                        class="no-underline hover:underline"
+                        className="no-underline hover:underline"
                     >
                         <h2 id="third-party-service-providers">
                             Third-Party Service Providers
@@ -320,7 +320,7 @@ export default function Page() {
                             detection for domain name registrations)
                         </li>
                     </ul>
-                    <a href="#compliance" class="no-underline hover:underline">
+                    <a href="#compliance" className="no-underline hover:underline">
                         <h2 id="compliance">Compliance</h2>
                     </a>
                     <p>
@@ -333,7 +333,7 @@ export default function Page() {
                         If you have any questions about this Policy, please reach out to{" "}
                         <a href="mailto:privacy@vercel.com">privacy@vercel.com</a>.
                     </p>
-                    <a href="#footnotes" class="no-underline hover:underline">
+                    <a href="#footnotes" className="no-underline hover:underline">
                         <h2 id="footnotes">Footnotes</h2>
                     </a>
                     <p>
