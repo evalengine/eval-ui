@@ -155,6 +155,7 @@ export function Card1() {
                   <div className="h-2 w-20 rounded-full bg-slate-400/50"></div>
                   <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
                   <div className="text-xs text-neutral-500">Evaluation Data</div>
+                  
                 </div>
               </motion.div>
             </div>
