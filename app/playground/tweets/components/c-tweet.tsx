@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tweet } from "./tweet";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import { extractTweetId } from "@/lib/utils";
+import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
 
 export const CTweet = ({ title = "", name = "" }) => {
   const {
@@ -26,13 +27,15 @@ export const CTweet = ({ title = "", name = "" }) => {
             <Label>{title} </Label>
           </div>
           <div className="flex-1 min-w-0 flex items-center justify-center p-4">
-            <div style={{ zoom: 0.75 }}>
-              <Tweet
+            <div style={{ zoom: 1 }}>
+              <ClientTweetCard
                 id={watch(`${name}_id`, "")}
                 onData={(data: any) => {
                   console.log(data);
                   if (`${name}` !== "responseTweet") return;
                   if (!data) return;
+                  if (!data?.parent?.user?.screen_name) return;
+                  if (!data?.parent?.id_str) return;
                   const parentUrl = `https://x.com/${data?.parent?.user?.screen_name}/status/${data?.parent?.id_str}`;
                   setValue(`originalTweet`, parentUrl);
                   const id = extractTweetId(parentUrl);
