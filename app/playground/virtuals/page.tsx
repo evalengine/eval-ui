@@ -1,7 +1,7 @@
 "use client";
 import { Metadata } from "next";
 import Image from "next/image";
-import { RotateCcw, Plus, History, Link } from "lucide-react";
+import { RotateCcw, Plus, History } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -189,6 +189,7 @@ import API from "@/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
+import Link from "next/link";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
