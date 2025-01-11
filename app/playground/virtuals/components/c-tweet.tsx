@@ -2,7 +2,6 @@
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-import { Tweet } from "./tweet";
 import {
   useForm,
   FormProvider,

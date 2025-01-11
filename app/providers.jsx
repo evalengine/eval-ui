@@ -24,7 +24,7 @@ export default function Providers({ children }) {
       <ModalProvider rootComponent={TransitionGroup}>
         <AllProviders>
           {children}
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          <ReactQueryDevtools initialIsOpen={false} />
         </AllProviders>
       </ModalProvider>
     </QueryClientProvider>

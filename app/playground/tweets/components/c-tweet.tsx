@@ -2,7 +2,6 @@
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-import { Tweet } from "./tweet";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import { extractTweetId } from "@/lib/utils";
 import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
