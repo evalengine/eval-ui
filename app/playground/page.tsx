@@ -242,7 +242,7 @@ const Card2 = () => {
           whileHover="whileHover"
           className="flex flex-col gap-y-5 items-center justify-between h-full w-full cursor-pointer"
         >
-          <div className="h-full border-b items-center justify-center overflow-hidden bg-transparent rounded-t-xl h-4/5 w-full flex ">
+          <div className="h-full border-b items-center justify-center overflow-hidden bg-transparent rounded-t-xl w-full flex ">
             <motion.div className="p-5 rounded-t-md cursor-pointer overflow-hidden h-[270px] flex flex-col gap-y-3.5 w-full">
               {logs.map((log, index) => (
                 <motion.div

@@ -55,7 +55,7 @@ export function Logos() {
   return (
     <Section id="logos">
       <div className="border-x border-t">
-        <div className="grid grid-cols-3 grid-cols-3 md:grid-cols-3">
+        <div className="grid grid-cols-3 md:grid-cols-3">
           {companies.map((_, idx) => (
             <a
               key={idx}
