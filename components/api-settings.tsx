@@ -59,7 +59,6 @@ export const useAPISettingsDialog = ({}) => {
                     );
                   } catch (e) {
                   } finally {
-                    reset();
                     hide();
                   }
                 })}
