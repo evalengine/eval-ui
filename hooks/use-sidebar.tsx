@@ -30,24 +30,12 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
 
-  // React.useEffect(() => {
-  //   const value = localStorage.getItem(LOCAL_STORAGE_KEY);
-  //   if (value) {
-  //     setSidebarOpen(JSON.parse(value));
-  //   }
-  //   setLoading(false);
-  // }, []);
-console.log('SidebarProvider', isSidebarOpen);
   const toggleSidebar = () => {
     setSidebarOpen((value) => {
       const newState = !value;
       return newState;
     });
   };
-
-  // if (isLoading) {
-  //   return null;
-  // }
 
   return (
     <SidebarContext.Provider
