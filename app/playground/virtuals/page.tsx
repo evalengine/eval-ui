@@ -1,7 +1,7 @@
 "use client";
 import { Metadata } from "next";
 import Image from "next/image";
-import { RotateCcw, Plus, History } from "lucide-react";
+import { RotateCcw, Plus, History, Link } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -290,9 +290,11 @@ export default function PlaygroundPage() {
               <aside className="flex flex-col gap-3 sticky top-[56px] py-4">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="icon" variant="ghost" type="button">
-                      <Plus className="w-5 h-5" />
-                    </Button>
+                    <Link href="/playground/virtuals">
+                      <Button size="icon" variant="ghost" type="button">
+                        <Plus className="w-5 h-5" />
+                      </Button>
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>New</p>

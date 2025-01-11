@@ -50,7 +50,6 @@ import { Progress } from "@/components/ui/progress";
 
 import { Settings } from "lucide-react";
 import { useModalWithProps } from "@/hooks/useModalWithProps";
-import { useEffect } from "react";
 import {
   Label as RELabel,
   PolarGrid,
@@ -65,9 +64,17 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 //   description: "The OpenAI Playground built using the components.",
 // };
 
-import API from "@/api";
 import { useMutation } from "@tanstack/react-query";
 import confetti from "canvas-confetti";
+
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import API from "@/api";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import isToday from "dayjs/plugin/isToday";
+dayjs.extend(relativeTime);
+dayjs.extend(isToday);
+import { useEffect, useMemo } from "react";
 
 const useEvaluationDialog = () => {
   const {
@@ -261,10 +268,12 @@ import { toast } from "sonner";
 import { Sidebar } from "./components/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { SidebarProvider } from "@/hooks/use-sidebar";
+import Link from "next/link";
 
 export default function PlaygroundPage() {
   const methods = useForm();
-  const { isSidebarOpen, isLoading, toggleSidebar } = useSidebar();
+  const { isSidebarOpen, openSidebar, closeSidebar, toggleSidebar } =
+    useSidebar();
 
   const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
 
@@ -307,6 +316,23 @@ export default function PlaygroundPage() {
     },
   });
 
+  const { data: { scores = [] } = {} } = useQuery({
+    queryKey: ["scores"],
+    queryFn: API.scores,
+  });
+
+  const groupScoresByDate = useMemo(() => {
+    return scores.reduce((acc: any, score: any) => {
+      const date = dayjs(score.created_at).format("YYYY-MM-DD");
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(score);
+
+      return acc;
+    }, {});
+  }, [scores]);
+
   return (
     <>
       <FormProvider {...methods}>
@@ -323,9 +349,11 @@ export default function PlaygroundPage() {
               <aside className="flex flex-col gap-3 sticky top-[57px] py-4">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="icon" variant="ghost" type="button">
-                      <Plus className="w-5 h-5" />
-                    </Button>
+                    <Link href="/playground/tweets">
+                      <Button size="icon" variant="ghost" type="button">
+                        <Plus className="w-5 h-5" />
+                      </Button>
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>New</p>
@@ -349,9 +377,64 @@ export default function PlaygroundPage() {
               </aside>
             </div>
             <div className="sticky top-[56px] z-20 bottom-0 w-0">
-              <Sidebar className="border-r w-[260px] hidden flex-col flex-shrink-0 pb-4 bg-background h-calc[(100dvh-56px)] overflow-hidden gap-4 md:flex sticky h-[calc(100dvh-56px)] -translate-x-[261px] duration-300 ease-in-out data-[state=open]:translate-x-0 top-[56px] left-[56px]">
+              <Sidebar className="border-r w-[260px] hidden flex-col flex-shrink-0 pb-4 bg-background h-[calc(100dvh-56px)] overflow-hidden md:flex sticky -translate-x-[261px] duration-300 ease-in-out data-[state=open]:translate-x-0 top-[56px] left-[56px]">
                 <div className="flex items-center justify-between p-5 text-sm border-b h-14">
                   <strong className="text-gray-alpha-1000">History</strong>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={closeSidebar}
+                  >
+                    <svg
+                      strokeLinejoin="round"
+                      viewBox="0 0 16 16"
+                      className="w-4 h-4 text-white"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M3.14647 7.2929C2.75595 7.68343 2.75595 8.31659 3.14647 8.70712L6.96969 12.5303L7.50002 13.0607L8.56068 12L8.03035 11.4697L4.56068 8.00001L8.03035 4.53034L8.56068 4.00001L7.50002 2.93935L6.96969 3.46968L3.14647 7.2929ZM8.14647 7.2929C7.75595 7.68343 7.75595 8.31659 8.14647 8.70712L11.9697 12.5303L12.5 13.0607L13.5607 12L13.0304 11.4697L9.56068 8.00001L13.0304 4.53034L13.5607 4.00001L12.5 2.93935L11.9697 3.46968L8.14647 7.2929Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </Button>
+                </div>
+
+                <div className="overflow-auto h-full flex-grow py-4 space-y-4 text-xs">
+                  {Object.keys(groupScoresByDate).map((date) => {
+                    return (
+                      <div key={date} className="">
+                        <div className="flex items-center justify-between px-6">
+                          <strong className="text-gray-alpha-1000">
+                            {dayjs(date).isToday()
+                              ? "Today"
+                              : dayjs(date).fromNow()}
+                          </strong>
+                        </div>
+                        <div className="py-2">
+                          {groupScoresByDate[date].map((score: any) => (
+                            <div
+                              key={score.id}
+                              className="flex items-center justify-between px-2"
+                            >
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                className="w-full justify-start"
+                              >
+                                <div className="truncate">
+                                  {score.original_tweet}
+                                </div>
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </Sidebar>
             </div>
