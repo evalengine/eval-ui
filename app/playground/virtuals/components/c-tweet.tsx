@@ -112,6 +112,7 @@ const CharacterDetails = () => {
   );
 };
 import { useMutation, useMutationState } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 const SimulateReplyTweet = () => {
   const {
@@ -131,7 +132,31 @@ const SimulateReplyTweet = () => {
     filters: { mutationKey: ["reactTwitter"] },
     select: (mutation) => mutation.state.data,
   });
-  console.log(reactTwitter);
+
+  const tabs = useMemo(() => {
+    return reactTwitter
+      .flat()
+      .map((response: any) => Object.keys(response))
+      .flat();
+  }, [reactTwitter]);
+  const contents = useMemo(() => {
+    return reactTwitter
+      .flat()
+      .map((response: any) => Object.values(response))
+      .flat();
+  }, [reactTwitter]);
+  const inputTweet = useMemo(() => {
+    return (
+      reactTwitter?.[0]?.["EVENT-REQUEST"]?.["event"]?.split(
+        "New tweet: "
+      )?.[1] || ""
+    );
+  }, [reactTwitter]);
+  const outputTweet = useMemo(() => {
+    return (
+      reactTwitter?.[reactTwitter.length - 1]?.["TWEET-CONTENT"]?.content || ""
+    );
+  }, [reactTwitter]);
 
   return (
     <>
@@ -200,26 +225,78 @@ const SimulateReplyTweet = () => {
               <h1 className="font-bold">Response</h1>
             </div>
             <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
-              <Tabs className="w-full">
+              <Tabs defaultValue="inputTweet" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger
+                    value="inputTweet"
+                    className="whitespace-pre-wrap"
+                  >
+                    Input Tweet
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="outputTweet"
+                    className="whitespace-pre-wrap"
+                  >
+                    Output Tweet
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="inputTweet">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Input Tweet</CardTitle>
+                      <CardDescription></CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="space-y-1 whitespace-pre-wrap text-background-muted text-sm">
+                        {inputTweet}
+                      </div>
+                    </CardContent>
+                    <CardFooter></CardFooter>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="outputTweet">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Output Tweet</CardTitle>
+                      <CardDescription></CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="space-y-1 whitespace-pre-wrap text-background-muted text-sm">
+                        {outputTweet || "No Tweet was simulated"}
+                      </div>
+                    </CardContent>
+                    <CardFooter></CardFooter>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+              <Tabs defaultValue="EVENT-REQUEST" className="w-full">
                 <TabsList className="grid w-full grid-cols-4">
                   {reactTwitter.map((e: any) =>
                     Object.keys(e).map((key) => {
-                      return <TabsTrigger value={key}>{key}</TabsTrigger>;
+                      return (
+                        <TabsTrigger
+                          key={key}
+                          value={key}
+                          className="whitespace-pre-wrap"
+                        >
+                          {key}
+                        </TabsTrigger>
+                      );
                     })
                   )}
                 </TabsList>
                 {reactTwitter.map((e: any) =>
                   Object.keys(e).map((key) => {
                     return (
-                      <TabsContent value={key}>
+                      <TabsContent key={key} value={key}>
                         <Card>
                           <CardHeader>
                             <CardTitle>{key}</CardTitle>
                             <CardDescription></CardDescription>
                           </CardHeader>
                           <CardContent className="space-y-2">
-                            <div className="space-y-1">
-                              {JSON.stringify(e[key])}
+                            <div className="space-y-1 whitespace-pre-wrap text-sm">
+                              {JSON.stringify(e[key], null, 2)}
                             </div>
                           </CardContent>
                           <CardFooter></CardFooter>
