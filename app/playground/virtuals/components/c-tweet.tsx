@@ -113,6 +113,10 @@ const CharacterDetails = () => {
 };
 import { useMutation, useMutationState } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { Evaluate } from "./evaluate";
+import confetti from "canvas-confetti";
+import { useEvaluationDialog } from "../../tweets/page";
+import { toast } from "sonner";
 
 const SimulateReplyTweet = () => {
   const {
@@ -157,6 +161,51 @@ const SimulateReplyTweet = () => {
       reactTwitter?.[reactTwitter.length - 1]?.["TWEET-CONTENT"]?.content || ""
     );
   }, [reactTwitter]);
+
+  const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
+  const queryClient = useQueryClient();
+
+  const evaluateTweet = useMutation({
+    mutationKey: ["evaluateTweet"],
+    mutationFn: API.evaluateTweet,
+    onSuccess: (data) => {
+      const end = Date.now() + 3 * 1000; // 3 seconds
+      const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+
+      const frame = () => {
+        if (Date.now() > end) return;
+
+        confetti({
+          particleCount: 2,
+          angle: 60,
+          spread: 55,
+          startVelocity: 60,
+          origin: { x: 0, y: 0.5 },
+          colors: colors,
+        });
+        confetti({
+          particleCount: 2,
+          angle: 120,
+          spread: 55,
+          startVelocity: 60,
+          origin: { x: 1, y: 0.5 },
+          colors: colors,
+        });
+
+        requestAnimationFrame(frame);
+      };
+
+      frame();
+      showEvaluationDialog({ result: data });
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(JSON.stringify(error) || "An error occurred");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["scores"] as any);
+    },
+  });
 
   return (
     <>
@@ -222,7 +271,21 @@ const SimulateReplyTweet = () => {
             </div>
 
             <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
-              <h1 className="font-bold">Response</h1>
+              <div className="flex items-center justify-between">
+                <h1 className="font-bold">Response</h1>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    evaluateTweet.mutate({
+                      input_tweet: inputTweet,
+                      output_tweet: outputTweet,
+                    });
+                  }}
+                  disabled={evaluateTweet.isPending}
+                >
+                  Evaluate
+                </Button>
+              </div>
             </div>
             <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
               <Tabs defaultValue="inputTweet" className="w-full">

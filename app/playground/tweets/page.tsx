@@ -76,7 +76,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 import { useEffect, useMemo } from "react";
 
-const useEvaluationDialog = () => {
+export const useEvaluationDialog = () => {
   const {
     handleSubmit,
     reset,

@@ -32,7 +32,9 @@ import { TopPSelector } from "./components/top-p-selector";
 import { models, types } from "./data/models";
 import { presets } from "./data/presets";
 import { Panels } from "./components/c-tweet";
+import { SimulateReply } from "./components/simulate-reply";
 import { Evaluate } from "./components/evaluate";
+
 import { Input } from "@/components/ui/input";
 import { APISettings } from "./components/api-settings";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
@@ -389,7 +391,7 @@ export default function PlaygroundPage() {
                     </h2>
                     <div className="flex w-full space-x-2 justify-end">
                       <APISettings />
-                      <Evaluate />
+                      <SimulateReply />
                     </div>
                   </div>
                   <Separator />
