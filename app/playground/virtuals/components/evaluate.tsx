@@ -53,11 +53,11 @@ interface EvaluationModalProps {
 import { useIsMutating } from "@tanstack/react-query";
 
 export function Evaluate() {
-  const evaluateTweet = useIsMutating({ mutationKey: ["evaluateTweet"] });
+  const reactTwitter = useIsMutating({ mutationKey: ["reactTwitter"] });
 
   return (
     <>
-      <Button type="submit" variant="secondary" disabled={evaluateTweet > 0}>
+      <Button type="submit" disabled={reactTwitter > 0}>
         Simulate Reply
       </Button>
     </>

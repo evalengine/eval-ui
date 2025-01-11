@@ -12,11 +12,11 @@ export interface SidebarProps extends React.ComponentProps<"div"> {}
 export function Sidebar({ className, children }: SidebarProps) {
   const { isSidebarOpen, toggleSidebar } = useSidebar();
   const ref = useRef(null);
-  useOnClickOutside(ref, () => {
-    if (isSidebarOpen) {
-      toggleSidebar();
-    }
-  });
+  // useOnClickOutside(ref, () => {
+  //   if (isSidebarOpen) {
+  //     toggleSidebar();
+  //   }
+  // });
 
   return (
     <div

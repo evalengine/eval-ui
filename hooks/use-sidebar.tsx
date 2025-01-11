@@ -7,6 +7,8 @@ const LOCAL_STORAGE_KEY = "sidebar";
 interface SidebarContext {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
+  openSidebar: () => void;
+  closeSidebar: () => void;
   isLoading: boolean;
 }
 
@@ -37,9 +39,23 @@ export function SidebarProvider({ children }: SidebarProviderProps) {
     });
   };
 
+  const openSidebar = () => {
+    setSidebarOpen(true);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   return (
     <SidebarContext.Provider
-      value={{ isSidebarOpen, toggleSidebar, isLoading }}
+      value={{
+        isSidebarOpen,
+        toggleSidebar,
+        openSidebar,
+        closeSidebar,
+        isLoading,
+      }}
     >
       {children}
     </SidebarContext.Provider>

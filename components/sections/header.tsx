@@ -26,8 +26,8 @@ export function Header() {
           <Link
             href="/playground/tweets"
             className={cn(
-              buttonVariants({ variant: "default" }),
-              "h-8 text-primary-foreground rounded-lg group tracking-tight font-medium"
+              buttonVariants({ variant: "outline" }),
+              "h-8 rounded-lg group tracking-tight font-medium"
             )}
           >
             {siteConfig.cta}

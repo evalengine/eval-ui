@@ -57,7 +57,7 @@ export function Evaluate() {
 
   return (
     <>
-      <Button type="submit" variant="secondary" disabled={evaluateTweet > 0}>
+      <Button type="submit" disabled={evaluateTweet > 0}>
         Evaluate
       </Button>
     </>

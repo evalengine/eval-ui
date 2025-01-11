@@ -204,14 +204,30 @@ dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
 export default function PlaygroundPage() {
-  const methods = useForm();
-  const { isSidebarOpen, isLoading, toggleSidebar } = useSidebar();
+  const { data: { data: getVirtual } = {} } = useQuery({
+    queryKey: ["getVirtual"],
+    queryFn: API.getVirtual,
+  });
+
+  const methods = useForm({
+    mode: "onChange",
+    values: {
+      customFunctions: [],
+      name: getVirtual?.name || "",
+      description: getVirtual?.game?.description || "",
+      functions: getVirtual?.game?.functions || [],
+      goal: getVirtual?.game?.goal || "",
+      worldInfo: getVirtual?.game?.worldInfo || "",
+    },
+  });
+  const { isSidebarOpen, openSidebar, closeSidebar, toggleSidebar } =
+    useSidebar();
 
   const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
 
-  const evaluateTweet = useMutation({
-    mutationKey: ["evaluateTweet"],
-    mutationFn: API.evaluateTweet,
+  const reactTwitter = useMutation({
+    mutationKey: ["reactTwitter"],
+    mutationFn: API.reactTwitter,
     onSuccess: (data) => {
       const end = Date.now() + 3 * 1000; // 3 seconds
       const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
@@ -244,7 +260,7 @@ export default function PlaygroundPage() {
     },
     onError: (error) => {
       console.error(error);
-      toast.error(`Error evaluating reply: ${error.message}`);
+      toast.error(JSON.stringify(error) || "An error occurred");
     },
   });
 
@@ -264,16 +280,19 @@ export default function PlaygroundPage() {
       return acc;
     }, {});
   }, [scores]);
-  console.log(groupScoresByDate);
 
   return (
     <>
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit((values) => {
-            evaluateTweet.mutate({
-              input_tweet: values.originalTweet,
-              output_tweet: values.responseTweet,
+            reactTwitter.mutate({
+              data: {
+                ...values,
+                sessionId: Math.floor(
+                  100000000 + Math.random() * 900000000
+                ).toString(),
+              },
             });
           })}
         >
@@ -311,6 +330,27 @@ export default function PlaygroundPage() {
               <Sidebar className="border-r w-[260px] hidden flex-col flex-shrink-0 pb-4 bg-background h-[calc(100dvh-56px)] overflow-hidden md:flex sticky -translate-x-[261px] duration-300 ease-in-out data-[state=open]:translate-x-0 top-[56px] left-[56px]">
                 <div className="flex items-center justify-between p-5 text-sm border-b h-14">
                   <strong className="text-gray-alpha-1000">History</strong>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={closeSidebar}
+                  >
+                    <svg
+                      strokeLinejoin="round"
+                      viewBox="0 0 16 16"
+                      className="w-4 h-4 text-white"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M3.14647 7.2929C2.75595 7.68343 2.75595 8.31659 3.14647 8.70712L6.96969 12.5303L7.50002 13.0607L8.56068 12L8.03035 11.4697L4.56068 8.00001L8.03035 4.53034L8.56068 4.00001L7.50002 2.93935L6.96969 3.46968L3.14647 7.2929ZM8.14647 7.2929C7.75595 7.68343 7.75595 8.31659 8.14647 8.70712L11.9697 12.5303L12.5 13.0607L13.5607 12L13.0304 11.4697L9.56068 8.00001L13.0304 4.53034L13.5607 4.00001L12.5 2.93935L11.9697 3.46968L8.14647 7.2929Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </Button>
                 </div>
 
                 <div className="overflow-auto h-full flex-grow py-4 space-y-4 text-xs">
@@ -345,24 +385,6 @@ export default function PlaygroundPage() {
                       </div>
                     );
                   })}
-
-                  {/* <div className="py-2 space-y-1">
-                    {scores?.map((score: any) => (
-                      <div
-                        key={score.id}
-                        className="flex items-center justify-between text-sm px-2"
-                      >
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start truncate"
-                        >
-                          <div className="truncate">{score.original_tweet}</div>
-                        </Button>
-                      </div>
-                    ))}
-                  </div> */}
-
-                  {/* {JSON.stringify(scores, null, 2)} */}
                 </div>
               </Sidebar>
             </div>

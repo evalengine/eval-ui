@@ -15,21 +15,17 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "@/api";
 
 const CharacterDetails = () => {
-  const { data: { data: getVirtual } = {} } = useQuery({
-    queryKey: ["getVirtual"],
-    queryFn: API.getVirtual,
-  });
-
   const {
+    control,
     handleSubmit,
     reset,
     getValues,
     setValue,
     setError,
-    control,
     register,
+    watch,
     formState: { isDirty, isValid },
-  } = useForm({ mode: "onChange", values: getVirtual });
+  } = useFormContext(); // retrieve all hook methods
 
   return (
     <>
@@ -56,7 +52,7 @@ const CharacterDetails = () => {
                 <Label className="text-left">Goal</Label>
                 <Controller
                   control={control}
-                  name="game.goal"
+                  name="goal"
                   defaultValue=""
                   render={({ field, fieldState }) => {
                     return <Textarea rows={5} required {...field} />;
@@ -67,7 +63,7 @@ const CharacterDetails = () => {
                 <Label className="text-left">World Info</Label>
                 <Controller
                   control={control}
-                  name="game.worldInfo"
+                  name="worldInfo"
                   defaultValue=""
                   render={({ field, fieldState }) => {
                     return <Textarea rows={5} required {...field} />;
@@ -78,7 +74,7 @@ const CharacterDetails = () => {
                 <Label className="text-left">Description</Label>
                 <Controller
                   control={control}
-                  name="game.description"
+                  name="description"
                   defaultValue=""
                   render={({ field, fieldState }) => {
                     return <Textarea rows={5} required {...field} />;
@@ -89,7 +85,7 @@ const CharacterDetails = () => {
                 <Label className="text-left">Functions</Label>
                 <Controller
                   control={control}
-                  name="game.functions"
+                  name="functions"
                   defaultValue=""
                   render={({ field, fieldState }) => {
                     return <Textarea rows={5} required {...field} />;
@@ -106,21 +102,18 @@ const CharacterDetails = () => {
 };
 
 const SimulateReplyTweet = () => {
-  const { data: { data: getVirtual } = {} } = useQuery({
-    queryKey: ["getVirtual"],
-    queryFn: API.getVirtual,
-  });
-
   const {
+    control,
     handleSubmit,
     reset,
     getValues,
     setValue,
     setError,
-    control,
     register,
+    watch,
     formState: { isDirty, isValid },
-  } = useForm({ mode: "onChange", values: getVirtual });
+  } = useFormContext(); // retrieve all hook methods
+
   return (
     <>
       <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md min-h-[250px] bg-background-100 w-full h-full">
@@ -144,7 +137,7 @@ const SimulateReplyTweet = () => {
                 </p>
                 <Controller
                   control={control}
-                  name="tweet_id"
+                  name="tweetId"
                   defaultValue=""
                   render={({ field, fieldState }) => {
                     return <Input required {...field} />;
@@ -156,7 +149,7 @@ const SimulateReplyTweet = () => {
                 <Label className="text-left">Session ID</Label>
                 <Controller
                   control={control}
-                  name="session_id"
+                  name="sessionId"
                   defaultValue=""
                   render={({ field, fieldState }) => {
                     return <Input required {...field} />;
