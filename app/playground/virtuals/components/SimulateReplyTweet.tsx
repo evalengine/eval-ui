@@ -177,7 +177,7 @@ export const SimulateReplyTweet = () => {
 
             <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
               <div className="flex items-center justify-between">
-                <h1 className="font-bold">Response</h1>
+                <h1 className="font-bold">Simulate Response</h1>
                 <Button
                   type="button"
                   onClick={() => {
@@ -192,89 +192,101 @@ export const SimulateReplyTweet = () => {
                 </Button>
               </div>
             </div>
-            <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
-              <Tabs defaultValue="inputTweet" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger
-                    value="inputTweet"
-                    className="whitespace-pre-wrap"
-                  >
-                    Input Tweet
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="outputTweet"
-                    className="whitespace-pre-wrap"
-                  >
-                    Output Tweet
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="inputTweet">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Input Tweet</CardTitle>
-                      <CardDescription></CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="space-y-1 whitespace-pre-wrap text-background-muted text-sm">
-                        {inputTweet}
-                      </div>
-                    </CardContent>
-                    <CardFooter></CardFooter>
-                  </Card>
-                </TabsContent>
-                <TabsContent value="outputTweet">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Output Tweet</CardTitle>
-                      <CardDescription></CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <div className="space-y-1 whitespace-pre-wrap text-background-muted text-sm">
-                        {outputTweet || "No Tweet was simulated"}
-                      </div>
-                    </CardContent>
-                    <CardFooter></CardFooter>
-                  </Card>
-                </TabsContent>
-              </Tabs>
-              <Tabs defaultValue="EVENT-REQUEST" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
+
+            {evaluateTweet.isIdle && (
+              <>
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-sm font-medium">
+                    Run the simulation to see how your virtual character would
+                  </p>
+                </div>
+              </>
+            )}
+            {evaluateTweet.isSuccess && (
+              <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
+                <Tabs defaultValue="inputTweet" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger
+                      value="inputTweet"
+                      className="whitespace-pre-wrap"
+                    >
+                      Input Tweet
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="outputTweet"
+                      className="whitespace-pre-wrap"
+                    >
+                      Output Tweet
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="inputTweet">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Input Tweet</CardTitle>
+                        <CardDescription></CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="space-y-1 whitespace-pre-wrap text-background-muted text-sm">
+                          {inputTweet}
+                        </div>
+                      </CardContent>
+                      <CardFooter></CardFooter>
+                    </Card>
+                  </TabsContent>
+                  <TabsContent value="outputTweet">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Output Tweet</CardTitle>
+                        <CardDescription></CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="space-y-1 whitespace-pre-wrap text-background-muted text-sm">
+                          {outputTweet || "No Tweet was simulated"}
+                        </div>
+                      </CardContent>
+                      <CardFooter></CardFooter>
+                    </Card>
+                  </TabsContent>
+                </Tabs>
+                <Tabs defaultValue="EVENT-REQUEST" className="w-full">
+                  <TabsList className="grid w-full grid-cols-4">
+                    {reactTwitter.map((e: any) =>
+                      Object.keys(e).map((key) => {
+                        return (
+                          <TabsTrigger
+                            key={key}
+                            value={key}
+                            className="whitespace-pre-wrap"
+                          >
+                            {key}
+                          </TabsTrigger>
+                        );
+                      })
+                    )}
+                  </TabsList>
                   {reactTwitter.map((e: any) =>
                     Object.keys(e).map((key) => {
                       return (
-                        <TabsTrigger
-                          key={key}
-                          value={key}
-                          className="whitespace-pre-wrap"
-                        >
-                          {key}
-                        </TabsTrigger>
+                        <TabsContent key={key} value={key}>
+                          <Card>
+                            <CardHeader>
+                              <CardTitle>{key}</CardTitle>
+                              <CardDescription></CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-2">
+                              <div className="space-y-1 whitespace-pre-wrap text-sm">
+                                {JSON.stringify(e[key], null, 2)}
+                              </div>
+                            </CardContent>
+                            <CardFooter></CardFooter>
+                          </Card>
+                        </TabsContent>
                       );
                     })
                   )}
-                </TabsList>
-                {reactTwitter.map((e: any) =>
-                  Object.keys(e).map((key) => {
-                    return (
-                      <TabsContent key={key} value={key}>
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>{key}</CardTitle>
-                            <CardDescription></CardDescription>
-                          </CardHeader>
-                          <CardContent className="space-y-2">
-                            <div className="space-y-1 whitespace-pre-wrap text-sm">
-                              {JSON.stringify(e[key], null, 2)}
-                            </div>
-                          </CardContent>
-                          <CardFooter></CardFooter>
-                        </Card>
-                      </TabsContent>
-                    );
-                  })
-                )}
-              </Tabs>
-            </div>
+                </Tabs>
+              </div>
+            )}
           </div>
         </div>
       </div>
