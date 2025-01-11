@@ -105,7 +105,7 @@ export function Card1() {
   };
 
   return (
-    <Link href="/playground/tweets">
+    <Link href="/playground/tweets" className="h-full">
       <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 lg:border-r">
         <motion.div
           variants={containerVariants}
@@ -154,7 +154,9 @@ export function Card1() {
                   <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
                   <div className="h-2 w-20 rounded-full bg-slate-400/50"></div>
                   <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
-                  <div className="text-xs text-neutral-500">Evaluation Data</div>
+                  <div className="text-xs text-neutral-500">
+                    Evaluation Data
+                  </div>
                 </div>
               </motion.div>
             </div>
@@ -232,7 +234,7 @@ const Card2 = () => {
     },
   ];
   return (
-    <Link href="/playground/virtuals">
+    <Link href="/playground/virtuals" className="h-full">
       <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 lg:border-r">
         <motion.div
           variants={containerVariants}
@@ -240,7 +242,7 @@ const Card2 = () => {
           whileHover="whileHover"
           className="flex flex-col gap-y-5 items-center justify-between h-full w-full cursor-pointer"
         >
-          <div className="border-b items-center justify-center overflow-hidden bg-transparent rounded-t-xl h-4/5 w-full flex ">
+          <div className="h-full border-b items-center justify-center overflow-hidden bg-transparent rounded-t-xl h-4/5 w-full flex ">
             <motion.div className="p-5 rounded-t-md cursor-pointer overflow-hidden h-[270px] flex flex-col gap-y-3.5 w-full">
               {logs.map((log, index) => (
                 <motion.div
@@ -277,9 +279,6 @@ const Card2 = () => {
                 >
                   <div className="mr-3">{log.icon}</div>
                   <div className="flex-grow">
-                    {/* <p className="text-foreground text-xs font-medium">
-                      [{log.timestamp}] {log.type.toUpperCase()}
-                    </p> */}
                     <p className="text-muted-foreground text-xs">
                       {log.message}
                     </p>
@@ -302,13 +301,11 @@ const Card2 = () => {
   );
 };
 
-export function UseCases() {
+export default function Home() {
   return (
-    <Section id="use-cases" title="Use Cases">
-      <div className="grid lg:grid-cols-2 h-full border border-b-0">
-        <Card1 />
-        <Card2 />
-      </div>
-    </Section>
+    <div className="grid lg:grid-cols-2 h-[calc(100dvh-56px)] border border-b-0">
+      <Card1 />
+      <Card2 />
+    </div>
   );
 }

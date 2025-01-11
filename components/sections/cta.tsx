@@ -11,7 +11,7 @@ export function CTA() {
         </p>
 
         <div className="flex justify-center">
-          <Link href="/playground/tweets">
+          <Link href="/playground">
             <Button className="flex items-center gap-2">Playground</Button>
           </Link>
         </div>

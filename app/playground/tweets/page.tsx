@@ -21,7 +21,6 @@ import API from "@/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
-import { useMemo } from "react";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
@@ -29,6 +28,7 @@ import { toast } from "sonner";
 import { Sidebar } from "@/components/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import Link from "next/link";
+import { useMemo } from "react";
 
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 
@@ -121,7 +121,14 @@ export default function PlaygroundPage() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Link href="/playground/tweets">
-                      <Button size="icon" variant="ghost" type="button">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        type="button"
+                        onClick={() => {
+                          methods.reset();
+                        }}
+                      >
                         <Plus className="w-5 h-5" />
                       </Button>
                     </Link>

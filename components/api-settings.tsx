@@ -29,8 +29,8 @@ export const useAPISettingsDialog = ({}) => {
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    setValue("virtual-api-key", localStorage.getItem("virtual-api-key"));
-    setValue("virtual-jwt-token", localStorage.getItem("virtual-jwt-token"));
+    setValue("virtual-api-key", localStorage.getItem("virtual-api-key") || "");
+    setValue("virtual-jwt-token", localStorage.getItem("virtual-jwt-token") || "");
   }, []);
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {} } = {}) =>

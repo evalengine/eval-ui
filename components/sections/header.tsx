@@ -24,7 +24,7 @@ export function Header() {
         </Link>
         <div className="hidden lg:block">
           <Link
-            href="/playground/tweets"
+            href="/playground"
             className={cn(
               buttonVariants({ variant: "outline" }),
               "rounded-lg group tracking-tight font-medium"
