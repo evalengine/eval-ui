@@ -59,7 +59,7 @@ const CharacterDetails = () => {
                   name="game.goal"
                   defaultValue=""
                   render={({ field, fieldState }) => {
-                    return <Textarea required {...field} />;
+                    return <Textarea rows={5} required {...field} />;
                   }}
                 />
               </div>
@@ -70,7 +70,7 @@ const CharacterDetails = () => {
                   name="game.worldInfo"
                   defaultValue=""
                   render={({ field, fieldState }) => {
-                    return <Textarea required {...field} />;
+                    return <Textarea rows={5} required {...field} />;
                   }}
                 />
               </div>
@@ -81,7 +81,7 @@ const CharacterDetails = () => {
                   name="game.description"
                   defaultValue=""
                   render={({ field, fieldState }) => {
-                    return <Textarea required {...field} />;
+                    return <Textarea rows={5} required {...field} />;
                   }}
                 />
               </div>
@@ -92,14 +92,12 @@ const CharacterDetails = () => {
                   name="game.functions"
                   defaultValue=""
                   render={({ field, fieldState }) => {
-                    return <Textarea required {...field} />;
+                    return <Textarea rows={5} required {...field} />;
                   }}
                 />
               </div>
             </div>
-            <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background">
-       
-            </div>
+            <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background"></div>
           </div>
         </div>
       </div>
@@ -166,8 +164,7 @@ const SimulateReplyTweet = () => {
                 />
               </div>
             </div>
-            <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background">
-            </div>
+            <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background"></div>
           </div>
         </div>
       </div>
