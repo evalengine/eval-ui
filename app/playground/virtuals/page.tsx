@@ -36,7 +36,6 @@ import { Evaluate } from "./components/evaluate";
 import { Input } from "@/components/ui/input";
 import { APISettings } from "./components/api-settings";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
-import AnimatedCircularProgressBar from "@/components/magicui/animated-circular-progress-bar";
 
 import {
   Dialog,
@@ -95,18 +94,12 @@ const useEvaluationDialog = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col items-center">
-                    {/* <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 flex items-center justify-center mb-4 bg-black/70">
+                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 flex items-center justify-center mb-4 bg-black/70">
                       <p className="text-3xl md:text-4xl font-bold">
                         {result.final_score.toFixed(1)}
                       </p>
-                    </div> */}
-                    <AnimatedCircularProgressBar
-                      max={100}
-                      min={0}
-                      value={result.final_score}
-                      gaugePrimaryColor="rgb(79 70 229)"
-                      gaugeSecondaryColor="rgba(0, 0, 0, 0.1)"
-                    />
+                    </div>
+                  
                     <Progress value={result.final_score} />
                     <h1 className="mt-5 mb-3">Suggested Response</h1>
                     <p className="text-xs text-muted-foreground">
@@ -200,9 +193,12 @@ const useEvaluationDialog = () => {
   return [show, hide];
 };
 import { toast } from "sonner";
+import { Sidebar } from "./components/sidebar";
+import { useSidebar } from "@/hooks/use-sidebar";
 
 export default function PlaygroundPage() {
   const methods = useForm();
+  const { isSidebarOpen, isLoading, toggleSidebar } = useSidebar();
 
   const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
 
@@ -256,19 +252,9 @@ export default function PlaygroundPage() {
             });
           })}
         >
-          <div className="flex flex-col items-start justify-between space-y-2 px-6 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-            <h2 className="text-lg font-semibold whitespace-nowrap">
-              Virtuals Sandbox
-            </h2>
-            <div className="ml-auto flex w-full space-x-2 sm:justify-end">
-              <APISettings />
-              <Evaluate />
-            </div>
-          </div>
-          <Separator />
           <div className="flex flex-row w-full">
-            <div className="hidden z-30 sticky top-[57px] flex-shrink-0 border-r w-14 bg-background-100 px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-128px)]">
-              <aside className="flex flex-col gap-3 sticky top-[57px] py-4">
+            <div className="hidden z-30 sticky top-[56px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
+              <aside className="flex flex-col gap-3 sticky top-[56px] py-4">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -284,7 +270,12 @@ export default function PlaygroundPage() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button size="icon" variant="ghost" type="button">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        type="button"
+                        onClick={toggleSidebar}
+                      >
                         <History className="w-5 h-5" />
                       </Button>
                     </TooltipTrigger>
@@ -295,9 +286,26 @@ export default function PlaygroundPage() {
                 </TooltipProvider>
               </aside>
             </div>
+            <div className="sticky top-[56px] z-20 bottom-0 w-0">
+              <Sidebar className="border-r w-[260px] hidden flex-col flex-shrink-0 pb-4 bg-background h-calc[(100dvh-56px)] overflow-hidden gap-4 md:flex sticky h-[calc(100dvh-56px)] -translate-x-[261px] duration-300 ease-in-out data-[state=open]:translate-x-0 top-[56px] left-[56px]">
+                <div className="flex items-center justify-between p-5 text-sm border-b h-14">
+                  <strong className="text-gray-alpha-1000">History</strong>
+                </div>
+              </Sidebar>
+            </div>
             <div className="w-full md:w-[calc(100dvw-56px)]">
-              <div className="flex overflow-hidden h-[calc(100svh-128px)]">
-                <div className="flex flex-col flex-1 h-full overflow-x-auto bg-background-100">
+              <div className="flex overflow-hidden h-[calc(100svh-56px)]">
+                <div className="flex flex-col flex-1 h-full overflow-x-auto bg-background">
+                  <div className="flex flex-row items-center justify-between px-6 py-4">
+                    <h2 className="text-lg font-semibold whitespace-nowrap">
+                      Virtuals Sandbox
+                    </h2>
+                    <div className="flex w-full space-x-2 justify-end">
+                      <APISettings />
+                      <Evaluate />
+                    </div>
+                  </div>
+                  <Separator />
                   <div className="flex w-full h-full p-2 space-x-2 overflow-x-auto snap-x snap-mandatory md:snap-none md:overflow-y-hidden">
                     <Panels />
                   </div>

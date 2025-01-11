@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
 import { Header } from "@/components/sections/header";
 import { Footer } from "@/components/sections/footer";
+import { SidebarProvider } from "@/hooks/use-sidebar";
 
 import "./globals.css";
 
@@ -47,10 +48,12 @@ export default function RootLayout({
             defaultTheme="dark"
             enableSystem={false}
           >
-            <Header />
-            {children}
-            <Footer />
-            <Toaster position="top-center" richColors={true} />
+            <SidebarProvider>
+              <Header />
+              {children}
+              <Footer />
+              <Toaster position="top-center" richColors={true} />
+            </SidebarProvider>
           </ThemeProvider>
         </Providers>
       </body>
