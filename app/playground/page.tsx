@@ -1,21 +1,6 @@
 "use client";
 
-import { Section } from "@/components/section";
-import OrbitingCircles from "@/components/ui/orbiting-circles";
 import { cubicBezier, motion } from "framer-motion";
-import {
-  AlertTriangleIcon,
-  BrainCircuitIcon,
-  DatabaseIcon,
-  GitForkIcon,
-  HeadsetIcon,
-  InfoIcon,
-  MessageSquareIcon,
-  SearchIcon,
-  SquareTerminal,
-  UserSearch,
-  XCircleIcon,
-} from "lucide-react";
 import Link from "next/link";
 
 const containerVariants = {
@@ -27,7 +12,7 @@ const containerVariants = {
   },
 };
 
-export function Card1() {
+function Card1() {
   const variant1 = {
     initial: {
       scale: 0.87,
