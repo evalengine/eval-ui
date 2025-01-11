@@ -1,6 +1,4 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { TailwindIndicator } from "@/components/tailwind-indicator";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/config";
 import { cn, constructMetadata } from "@/lib/utils";
 import { GeistMono } from "geist/font/mono";
@@ -10,13 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Providers from "./providers";
 import { Header } from "@/components/sections/header";
 import { Footer } from "@/components/sections/footer";
-import { SidebarProvider } from "@/hooks/use-sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 import "./globals.css";
 

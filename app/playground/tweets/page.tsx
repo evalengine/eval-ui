@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 
-import { Tweet } from "./components/tweet";
+import { Tweet } from "./components/Tweet";
 import { APISettings } from "@/components/api-settings";
 import { useForm, FormProvider } from "react-hook-form";
 

@@ -27,7 +27,7 @@ export function Header() {
             href="/playground/tweets"
             className={cn(
               buttonVariants({ variant: "outline" }),
-              "h-8 rounded-lg group tracking-tight font-medium"
+              "rounded-lg group tracking-tight font-medium"
             )}
           >
             {siteConfig.cta}

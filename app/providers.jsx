@@ -1,13 +1,12 @@
 "use client";
 
-import { KeysProvider } from "@/components/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
 import { ModalProvider } from "@liholiho/react-modal-hook";
 import { TransitionGroup } from "react-transition-group";
 
-const providers = [KeysProvider];
+const providers = [];
 
 const AllProviders = ({ children }) => {
   return providers.reduce(
