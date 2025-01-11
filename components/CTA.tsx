@@ -15,7 +15,7 @@ export default function CTA() {
               Join the future of decentralized AI agent assessment with EVAEngine.
             </p>
             <Button className="glossy glossy-hover font-bold px-12 py-8 text-xl bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 transform hover:scale-105 transition-all">
-              Get Started
+              Playground
             </Button>
           </div>
         </div>

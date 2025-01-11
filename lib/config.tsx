@@ -13,7 +13,7 @@ export const BLUR_FADE_DELAY = 0.15;
 export const siteConfig = {
   name: "EVA Engine",
   description: "Create AI Agents with just a few lines of code.",
-  cta: "Get Started",
+  cta: "Playground",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   keywords: [
     "EVA Engine",
@@ -32,7 +32,7 @@ export const siteConfig = {
     title: "EVA Engine",
     description:
       "EVA Engine gives your AI agent a real performance score. We evaluate every interaction, record it on blockchain for proof.",
-    cta: "Get Started",
+    cta: "Playground",
     ctaDescription:
       "Finally, a way to show your AI agent is better than the rest.",
   },
@@ -86,7 +86,7 @@ export const siteConfig = {
         "Email support",
         "Access to community forum",
       ],
-      cta: "Get Started",
+      cta: "Playground",
     },
     {
       name: "Pro",
@@ -101,7 +101,7 @@ export const siteConfig = {
         "Custom AI model fine-tuning",
         "Collaboration tools",
       ],
-      cta: "Get Started",
+      cta: "Playground",
     },
     {
       name: "Enterprise",
@@ -117,7 +117,7 @@ export const siteConfig = {
         "Advanced analytics and reporting",
       ],
       popular: true,
-      cta: "Get Started",
+      cta: "Playground",
     },
   ],
   footer: {

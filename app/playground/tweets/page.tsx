@@ -51,6 +51,14 @@ import { Progress } from "@/components/ui/progress";
 import { Settings } from "lucide-react";
 import { useModalWithProps } from "@/hooks/useModalWithProps";
 import { useEffect } from "react";
+import {
+  Label as RELabel,
+  PolarGrid,
+  PolarRadiusAxis,
+  RadialBar,
+  RadialBarChart,
+} from "recharts";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 
 // export const metadata: Metadata = {
 //   title: "Playground",
@@ -94,14 +102,82 @@ const useEvaluationDialog = () => {
                       Overall Performance
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex flex-col items-center">
-                    <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 flex items-center justify-center mb-4 bg-black/70">
+                  <CardContent className="flex flex-col items-center justify-center">
+                    {/* <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 flex items-center justify-center mb-4 bg-black/70">
                       <p className="text-3xl md:text-4xl font-bold">
                         {result.final_score.toFixed(1)}
                       </p>
-                    </div>
+                    </div> */}
+                    <ChartContainer
+                      config={{}}
+                      className="mx-auto aspect-square h-64"
+                    >
+                      <RadialBarChart
+                        data={[
+                          {
+                            browser: "safari",
+                            scores: result.final_score,
+                            fill: "hsl(var(--primary))",
+                          },
+                        ]}
+                        startAngle={0}
+                        endAngle={
+                          result.final_score > 100
+                            ? 360
+                            : (result.final_score / 100) * 360
+                        }
+                        innerRadius={80}
+                        outerRadius={110}
+                      >
+                        <PolarGrid
+                          gridType="circle"
+                          radialLines={false}
+                          stroke="none"
+                          className="first:fill-muted last:fill-background"
+                          polarRadius={[86, 74]}
+                        />
+                        <RadialBar
+                          dataKey="scores"
+                          background
+                          cornerRadius={10}
+                        />
+                        <PolarRadiusAxis
+                          tick={false}
+                          tickLine={false}
+                          axisLine={false}
+                        >
+                          <RELabel
+                            content={({ viewBox }) => {
+                              if (
+                                viewBox &&
+                                "cx" in viewBox &&
+                                "cy" in viewBox
+                              ) {
+                                return (
+                                  <text
+                                    x={viewBox.cx}
+                                    y={viewBox.cy}
+                                    textAnchor="middle"
+                                    dominantBaseline="middle"
+                                  >
+                                    <tspan
+                                      x={viewBox.cx}
+                                      y={viewBox.cy! + 3}
+                                      className="fill-foreground text-4xl font-bold"
+                                    >
+                                      {result.final_score.toFixed(1)}
+                                    </tspan>
+                                  </text>
+                                );
+                              }
+                            }}
+                          />
+                        </PolarRadiusAxis>
+                      </RadialBarChart>
+                    </ChartContainer>
+
                     <Progress value={result.final_score} />
-                    <h1 className="mt-5 mb-3">Suggested Response</h1>
+                    <h1 className="mt-5 mb-3 font-bold">Suggested Response</h1>
                     <p className="text-xs text-muted-foreground">
                       {result.recommended_response}
                     </p>
@@ -121,20 +197,9 @@ const useEvaluationDialog = () => {
                           {category}
                         </CardTitle>
 
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="h-4 w-4 text-muted-foreground"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                          />
-                        </svg>
+                        <small className="font-bold">
+                          {data.score.toFixed(1)}
+                        </small>
                       </CardHeader>
                       <CardContent>
                         <Progress value={data.score} />
@@ -195,6 +260,7 @@ const useEvaluationDialog = () => {
 import { toast } from "sonner";
 import { Sidebar } from "./components/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
+import { SidebarProvider } from "@/hooks/use-sidebar";
 
 export default function PlaygroundPage() {
   const methods = useForm();
@@ -255,35 +321,31 @@ export default function PlaygroundPage() {
           <div className="flex flex-row w-full">
             <div className="hidden z-30 sticky top-[57px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
               <aside className="flex flex-col gap-3 sticky top-[57px] py-4">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button size="icon" variant="ghost" type="button">
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>New</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        type="button"
-                        onClick={toggleSidebar}
-                      >
-                        <History className="w-5 h-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>History</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button size="icon" variant="ghost" type="button">
+                      <Plus className="w-5 h-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>New</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      type="button"
+                      onClick={toggleSidebar}
+                    >
+                      <History className="w-5 h-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>History</p>
+                  </TooltipContent>
+                </Tooltip>
               </aside>
             </div>
             <div className="sticky top-[56px] z-20 bottom-0 w-0">
@@ -296,7 +358,7 @@ export default function PlaygroundPage() {
             <div className="w-full md:w-[calc(100dvw-56px)]">
               <div className="flex overflow-hidden h-[calc(100svh-56px)]">
                 <div className="flex flex-col flex-1 h-full overflow-x-auto bg-background">
-                  <div className="flex flex-row items-center justify-between px-6 py-4">
+                  <div className="flex flex-row items-center justify-between px-6 py-2">
                     <h2 className="text-lg font-semibold whitespace-nowrap">
                       Evaluate Reply Tweet
                     </h2>

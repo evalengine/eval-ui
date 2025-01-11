@@ -99,7 +99,7 @@ const useEvaluationDialog = () => {
                         {result.final_score.toFixed(1)}
                       </p>
                     </div>
-                  
+
                     <Progress value={result.final_score} />
                     <h1 className="mt-5 mb-3">Suggested Response</h1>
                     <p className="text-xs text-muted-foreground">
@@ -195,6 +195,7 @@ const useEvaluationDialog = () => {
 import { toast } from "sonner";
 import { Sidebar } from "./components/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
+import { SidebarProvider } from "@/hooks/use-sidebar";
 
 export default function PlaygroundPage() {
   const methods = useForm();
@@ -255,35 +256,31 @@ export default function PlaygroundPage() {
           <div className="flex flex-row w-full">
             <div className="hidden z-30 sticky top-[56px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
               <aside className="flex flex-col gap-3 sticky top-[56px] py-4">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button size="icon" variant="ghost" type="button">
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>New</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        type="button"
-                        onClick={toggleSidebar}
-                      >
-                        <History className="w-5 h-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>History</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button size="icon" variant="ghost" type="button">
+                      <Plus className="w-5 h-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>New</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      type="button"
+                      onClick={toggleSidebar}
+                    >
+                      <History className="w-5 h-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>History</p>
+                  </TooltipContent>
+                </Tooltip>
               </aside>
             </div>
             <div className="sticky top-[56px] z-20 bottom-0 w-0">
@@ -296,7 +293,7 @@ export default function PlaygroundPage() {
             <div className="w-full md:w-[calc(100dvw-56px)]">
               <div className="flex overflow-hidden h-[calc(100svh-56px)]">
                 <div className="flex flex-col flex-1 h-full overflow-x-auto bg-background">
-                  <div className="flex flex-row items-center justify-between px-6 py-4">
+                  <div className="flex flex-row items-center justify-between px-6 py-2">
                     <h2 className="text-lg font-semibold whitespace-nowrap">
                       Virtuals Sandbox
                     </h2>
