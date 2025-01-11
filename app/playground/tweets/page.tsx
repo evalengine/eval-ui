@@ -16,7 +16,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import confetti from "canvas-confetti";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "@/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -43,6 +43,7 @@ export default function PlaygroundPage() {
     useSidebar();
 
   const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
+  const queryClient = useQueryClient();
 
   const evaluateTweet = useMutation({
     mutationKey: ["evaluateTweet"],
@@ -80,6 +81,9 @@ export default function PlaygroundPage() {
     onError: (error) => {
       console.error(error);
       toast.error(JSON.stringify(error) || "An error occurred");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["scores"] as any);
     },
   });
 
