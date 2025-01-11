@@ -60,17 +60,6 @@ import { useMutation } from "@tanstack/react-query";
 import confetti from "canvas-confetti";
 
 const useEvaluationDialog = () => {
-  const {
-    handleSubmit,
-    reset,
-    getValues,
-    setValue,
-    setError,
-    control,
-    register,
-    formState: { isDirty, isValid },
-  } = useForm({ mode: "onChange" });
-
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {}, result = {} } = {} as any) =>
       ({ in: open, onExited }: any) => {
@@ -228,36 +217,36 @@ export default function PlaygroundPage() {
   const reactTwitter = useMutation({
     mutationKey: ["reactTwitter"],
     mutationFn: API.reactTwitter,
-    onSuccess: (data) => {
-      const end = Date.now() + 3 * 1000; // 3 seconds
-      const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+    // onSuccess: (data) => {
+    //   const end = Date.now() + 3 * 1000; // 3 seconds
+    //   const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
 
-      const frame = () => {
-        if (Date.now() > end) return;
+    //   const frame = () => {
+    //     if (Date.now() > end) return;
 
-        confetti({
-          particleCount: 2,
-          angle: 60,
-          spread: 55,
-          startVelocity: 60,
-          origin: { x: 0, y: 0.5 },
-          colors: colors,
-        });
-        confetti({
-          particleCount: 2,
-          angle: 120,
-          spread: 55,
-          startVelocity: 60,
-          origin: { x: 1, y: 0.5 },
-          colors: colors,
-        });
+    //     confetti({
+    //       particleCount: 2,
+    //       angle: 60,
+    //       spread: 55,
+    //       startVelocity: 60,
+    //       origin: { x: 0, y: 0.5 },
+    //       colors: colors,
+    //     });
+    //     confetti({
+    //       particleCount: 2,
+    //       angle: 120,
+    //       spread: 55,
+    //       startVelocity: 60,
+    //       origin: { x: 1, y: 0.5 },
+    //       colors: colors,
+    //     });
 
-        requestAnimationFrame(frame);
-      };
+    //     requestAnimationFrame(frame);
+    //   };
 
-      frame();
-      showEvaluationDialog({ result: data });
-    },
+    //   frame();
+    //   showEvaluationDialog({ result: data });
+    // },
     onError: (error) => {
       console.error(error);
       toast.error(JSON.stringify(error) || "An error occurred");

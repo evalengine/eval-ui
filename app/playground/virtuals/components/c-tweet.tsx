@@ -13,6 +13,17 @@ import { extractTweetId } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "@/api";
+import { Button } from "@/components/ui/button";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const CharacterDetails = () => {
   const {
@@ -100,6 +111,7 @@ const CharacterDetails = () => {
     </>
   );
 };
+import { useMutation, useMutationState } from "@tanstack/react-query";
 
 const SimulateReplyTweet = () => {
   const {
@@ -114,6 +126,13 @@ const SimulateReplyTweet = () => {
     formState: { isDirty, isValid },
   } = useFormContext(); // retrieve all hook methods
 
+  const [{ data: reactTwitter = [] } = {}]: any = useMutationState({
+    // this mutation key needs to match the mutation key of the given mutation (see above)
+    filters: { mutationKey: ["reactTwitter"] },
+    select: (mutation) => mutation.state.data,
+  });
+  console.log(reactTwitter);
+
   return (
     <>
       <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md min-h-[250px] bg-background-100 w-full h-full">
@@ -122,7 +141,7 @@ const SimulateReplyTweet = () => {
             <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
               <h1 className="font-bold">Simulate Reply Tweet</h1>
             </div>
-            <div className="flex-1 min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
+            <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
               <p className="text-xs">
                 Test how your virtual character would respond to tweets
                 <br />
@@ -150,14 +169,67 @@ const SimulateReplyTweet = () => {
                 <Controller
                   control={control}
                   name="sessionId"
-                  defaultValue=""
+                  defaultValue={Math.floor(
+                    100000000 + Math.random() * 900000000
+                  ).toString()}
                   render={({ field, fieldState }) => {
-                    return <Input required {...field} />;
+                    return (
+                      <div className="flex items-center space-x-2">
+                        <Input required {...field} />
+                        <Button
+                          variant="outline"
+                          type="button"
+                          onClick={() => {
+                            field.onChange(
+                              Math.floor(
+                                100000000 + Math.random() * 900000000
+                              ).toString()
+                            );
+                          }}
+                        >
+                          Generate
+                        </Button>
+                      </div>
+                    );
                   }}
                 />
               </div>
             </div>
-            <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background"></div>
+
+            <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
+              <h1 className="font-bold">Response</h1>
+            </div>
+            <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
+              <Tabs className="w-full">
+                <TabsList className="grid w-full grid-cols-4">
+                  {reactTwitter.map((e: any) =>
+                    Object.keys(e).map((key) => {
+                      return <TabsTrigger value={key}>{key}</TabsTrigger>;
+                    })
+                  )}
+                </TabsList>
+                {reactTwitter.map((e: any) =>
+                  Object.keys(e).map((key) => {
+                    return (
+                      <TabsContent value={key}>
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>{key}</CardTitle>
+                            <CardDescription></CardDescription>
+                          </CardHeader>
+                          <CardContent className="space-y-2">
+                            <div className="space-y-1">
+                              {JSON.stringify(e[key])}
+                            </div>
+                          </CardContent>
+                          <CardFooter></CardFooter>
+                        </Card>
+                      </TabsContent>
+                    );
+                  })
+                )}
+              </Tabs>
+            </div>
           </div>
         </div>
       </div>

@@ -303,7 +303,7 @@ export default function PlaygroundPage() {
     },
     onError: (error) => {
       console.error(error);
-      toast.error(`Error evaluating reply: ${error.message}`);
+      toast.error(JSON.stringify(error) || "An error occurred");
     },
   });
 
