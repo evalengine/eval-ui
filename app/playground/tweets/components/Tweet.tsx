@@ -6,7 +6,7 @@ import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import { extractTweetId } from "@/lib/utils";
 import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
 
-export const CTweet = ({ title = "", name = "" }) => {
+export const Tweet = ({ title = "", name = "" }) => {
   const {
     handleSubmit,
     reset,
@@ -64,11 +64,10 @@ export const CTweet = ({ title = "", name = "" }) => {
 };
 
 export const Panels = ({}) => {
-  const methods = useForm();
   return (
     <>
-      <CTweet title="Original Tweet" name="originalTweet" />
-      <CTweet title="Response Tweet" name="responseTweet" />
+      <Tweet title="Original Tweet" name="originalTweet" />
+      <Tweet title="Response Tweet" name="responseTweet" />
     </>
   );
 };

@@ -4,7 +4,6 @@ import * as React from "react";
 
 import { useSidebar } from "@/hooks/use-sidebar";
 import { cn } from "@/lib/utils";
-import { useOnClickOutside } from "usehooks-ts";
 import { useRef } from "react";
 
 export interface SidebarProps extends React.ComponentProps<"div"> {}

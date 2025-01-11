@@ -3,14 +3,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 import {
-  useForm,
-  FormProvider,
   useFormContext,
-  Controller,
+  Controller
 } from "react-hook-form";
-import { extractTweetId } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import API from "@/api";
 import { Button } from "@/components/ui/button";
 
@@ -24,7 +21,13 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const CharacterDetails = () => {
+import { useMutation, useMutationState } from "@tanstack/react-query";
+import { useMemo } from "react";
+import confetti from "canvas-confetti";
+import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
+import { toast } from "sonner";
+
+export const CharacterDetails = () => {
   const {
     control,
     handleSubmit,
@@ -110,14 +113,8 @@ const CharacterDetails = () => {
     </>
   );
 };
-import { useMutation, useMutationState } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { Evaluate } from "./evaluate";
-import confetti from "canvas-confetti";
-import { useEvaluationDialog } from "../../tweets/page";
-import { toast } from "sonner";
 
-const SimulateReplyTweet = () => {
+export const SimulateReplyTweet = () => {
   const {
     control,
     handleSubmit,
@@ -372,16 +369,6 @@ const SimulateReplyTweet = () => {
           </div>
         </div>
       </div>
-    </>
-  );
-};
-
-export const Panels = ({}) => {
-  const methods = useForm();
-  return (
-    <>
-      <CharacterDetails />
-      <SimulateReplyTweet />
     </>
   );
 };

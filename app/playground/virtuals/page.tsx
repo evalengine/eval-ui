@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 
-import { Panels } from "./components/c-tweet";
-import { SimulateReply } from "./components/simulate-reply";
+import { CharacterDetails } from "./components/CharacterDetails";
+import { SimulateReplyTweet } from "./components/SimulateReplyTweet";
 
-import { APISettings } from "./components/api-settings";
+import { APISettings } from "@/components/api-settings";
 import { useForm, FormProvider } from "react-hook-form";
 
 import { useMemo } from "react";
@@ -20,7 +20,7 @@ import { useMemo } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import { toast } from "sonner";
-import { Sidebar } from "./components/sidebar";
+import { Sidebar } from "@/components/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useQuery } from "@tanstack/react-query";
 import API from "@/api";
@@ -230,12 +230,15 @@ export default function PlaygroundPage() {
                     </h2>
                     <div className="flex w-full space-x-2 justify-end">
                       <APISettings />
-                      <SimulateReply />
+                      <Button type="submit" disabled={reactTwitter.isPending}>
+                        Simulate Reply
+                      </Button>
                     </div>
                   </div>
                   <Separator />
                   <div className="flex w-full h-full p-2 space-x-2 overflow-x-auto snap-x snap-mandatory md:snap-none md:overflow-y-hidden">
-                    <Panels />
+                    <CharacterDetails />
+                    <SimulateReplyTweet />
                   </div>
                 </div>
               </div>
