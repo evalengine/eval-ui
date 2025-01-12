@@ -1,5 +1,5 @@
 export async function GET(req) {
-  const path = req.url.replace("http://localhost:3000/api/proxy", "");
+  const path = req.url.replace(/.*(?=\/api\/proxy)/, "");
 
   // Respond with the stream
   return fetch("https://api.evaengine.ai" + path, {
