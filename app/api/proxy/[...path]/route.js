@@ -9,7 +9,7 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-  const path = req.url.replace("http://localhost:3000/api/proxy", "");
+  const path = req.url.replace(/.*(?=\/api\/proxy)/, "");
   const requestBody = req.body;
 
   console.log("ssreq.body", req.body);
