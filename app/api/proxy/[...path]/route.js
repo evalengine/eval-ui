@@ -1,6 +1,6 @@
 export async function GET(req) {
-  const path = req.url.replace(/.*(?=\/api\/proxy)/, "");
-
+  const path = req.url.replace(/.*\/api\/proxy/, "");
+  console.log("pathliho", path);
   // Respond with the stream
   return fetch("https://api.evaengine.ai" + path, {
     method: "GET",
@@ -9,7 +9,7 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-  const path = req.url.replace(/.*(?=\/api\/proxy)/, "");
+  const path = req.url.replace(/.*\/api\/proxy/, "");
   const requestBody = req.body;
 
   console.log("ssreq.body", req.body);
@@ -18,11 +18,11 @@ export async function POST(req) {
     method: "POST",
     headers: req.headers,
     body: requestBody, // Pass the stream directly
-    duplex: "half", 
+    duplex: "half",
   });
   const responseData = await response.json();
   return new Response(JSON.stringify(responseData), {
     status: response.status,
-    headers: { 'Content-Type': 'application/json' },
-});
+    headers: { "Content-Type": "application/json" },
+  });
 }
