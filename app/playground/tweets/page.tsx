@@ -202,6 +202,9 @@ export default function PlaygroundPage() {
                                 type="button"
                                 variant="ghost"
                                 className="w-full justify-start"
+                                onClick={() => {
+                                  showEvaluationDialog({ result: score });
+                                }}
                               >
                                 <div className="truncate">
                                   {score.original_tweet}
