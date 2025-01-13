@@ -52,6 +52,7 @@
     "react-icons": "^5.2.1",
     "react-transition-group": "^4.4.5",
     "react-tweet": "^3.2.1",
+    "react18-json-view": "^0.2.9-canary.8",
     "recharts": "^2.15.0",
     "rehype-pretty-code": "^0.14.0",
     "rehype-stringify": "^10.0.1",
