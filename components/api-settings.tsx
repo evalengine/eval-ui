@@ -44,6 +44,16 @@ export const useAPISettingsDialog = ({}) => {
     );
   }, []);
   const queryClient = useQueryClient();
+
+  const { data = "" } = useQuery({
+    queryKey: ["virtual-jwt-token"],
+    queryFn: async () => {
+      return localStorage.getItem("virtual-jwt-token") || "";
+    },
+  });
+
+  const isJWTExpired = useIsJWTExpired(data || "");
+
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {} } = {}) =>
       ({ in: open, onExited }: any) => {
@@ -82,10 +92,19 @@ export const useAPISettingsDialog = ({}) => {
               >
                 <DialogHeader>
                   <DialogTitle>API Settings </DialogTitle>
-                  <DialogDescription>
-                    Configure your API settings to start using the EvaEngine
-                    API.
-                  </DialogDescription>
+                  {isJWTExpired ? (
+                    <DialogDescription>
+                      <p className="text-red-500 italic text-xs">
+                        Your JWT token has expired. Please update your API
+                        settings to continue using the EvaEngine API.
+                      </p>
+                    </DialogDescription>
+                  ) : (
+                    <DialogDescription>
+                      Configure your API settings to start using the EvaEngine
+                      API.
+                    </DialogDescription>
+                  )}
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid gap-4">
