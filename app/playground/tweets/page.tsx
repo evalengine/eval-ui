@@ -118,7 +118,7 @@ export default function PlaygroundPage() {
           <div className="flex flex-row w-full">
             <div className="hidden z-30 sticky top-[57px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
               <aside className="flex flex-col gap-3 sticky top-[57px] py-4">
-                <Tooltip>
+                <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
                     <Link href="/playground/tweets">
                       <Button
@@ -137,7 +137,7 @@ export default function PlaygroundPage() {
                     <p>New</p>
                   </TooltipContent>
                 </Tooltip>
-                <Tooltip>
+                <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"

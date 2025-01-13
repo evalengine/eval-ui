@@ -12,7 +12,11 @@ import { Separator } from "@/components/ui/separator";
 import { CharacterDetails } from "./components/CharacterDetails";
 import { SimulateReplyTweet } from "./components/SimulateReplyTweet";
 
-import { APISettings } from "@/components/api-settings";
+import {
+  APISettings,
+  useAPISettingsDialog,
+  useIsJWTExpired,
+} from "@/components/api-settings";
 import { useForm, FormProvider } from "react-hook-form";
 
 import { useMemo } from "react";
@@ -28,6 +32,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
 import Link from "next/link";
+import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
@@ -112,11 +117,28 @@ export default function PlaygroundPage() {
     }, {});
   }, [scores]);
 
+  const { data = "" } = useQuery({
+    queryKey: ["virtual-jwt-token"],
+    queryFn: async () => {
+      return localStorage.getItem("virtual-jwt-token") || "";
+    },
+  });
+
+  const isJWTExpired = useIsJWTExpired(data || "");
+  const [showAPISettingsDialog, hideAPISettingsDialog] = useAPISettingsDialog(
+    {}
+  );
+  const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
+
   return (
     <>
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit((values) => {
+            if (isJWTExpired) {
+              showAPISettingsDialog();
+              return;
+            }
             reactTwitter.mutate({
               data: {
                 ...values,
@@ -130,7 +152,7 @@ export default function PlaygroundPage() {
           <div className="flex flex-row w-full">
             <div className="hidden z-30 sticky top-[56px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
               <aside className="flex flex-col gap-3 sticky top-[56px] py-4">
-                {/* <Tooltip>
+                {/* <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
                     <Link href="/playground/virtuals">
                       <Button size="icon" variant="ghost" type="button">
@@ -142,7 +164,7 @@ export default function PlaygroundPage() {
                     <p>New</p>
                   </TooltipContent>
                 </Tooltip> */}
-                <Tooltip>
+                <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
@@ -207,6 +229,9 @@ export default function PlaygroundPage() {
                                 type="button"
                                 variant="ghost"
                                 className="w-full justify-start"
+                                onClick={() => {
+                                  showEvaluationDialog({ result: score });
+                                }}
                               >
                                 <div className="truncate">
                                   {score.original_tweet}

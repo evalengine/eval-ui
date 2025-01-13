@@ -14,7 +14,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
 import { useModalWithProps } from "@/hooks/useModalWithProps";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import dayjs from "dayjs";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+const jwt = require("jsonwebtoken");
 
 export const useAPISettingsDialog = ({}) => {
   const {
@@ -30,8 +38,12 @@ export const useAPISettingsDialog = ({}) => {
 
   useEffect(() => {
     setValue("virtual-api-key", localStorage.getItem("virtual-api-key") || "");
-    setValue("virtual-jwt-token", localStorage.getItem("virtual-jwt-token") || "");
+    setValue(
+      "virtual-jwt-token",
+      localStorage.getItem("virtual-jwt-token") || ""
+    );
   }, []);
+  const queryClient = useQueryClient();
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {} } = {}) =>
       ({ in: open, onExited }: any) => {
@@ -56,6 +68,11 @@ export const useAPISettingsDialog = ({}) => {
                     localStorage.setItem(
                       "virtual-jwt-token",
                       values["virtual-jwt-token"]
+                    );
+
+                    queryClient.setQueryData(
+                      ["virtual-jwt-token"],
+                      () => values["virtual-jwt-token"]
                     );
                   } catch (e) {
                   } finally {
@@ -128,10 +145,63 @@ export const useAPISettingsDialog = ({}) => {
   return [show, hide];
 };
 
+export function useIsJWTExpired(token: string) {
+  const decoded = jwt.decode(token);
+  const expirationTime = dayjs.unix(decoded?.exp);
+  return dayjs().isAfter(expirationTime);
+}
+
 export function APISettings() {
   const [showAPISettingsDialog, hideAPISettingsDialog] = useAPISettingsDialog(
     {}
   );
+
+  const { data = "" } = useQuery({
+    queryKey: ["virtual-jwt-token"],
+    queryFn: async () => {
+      return localStorage.getItem("virtual-jwt-token") || "";
+    },
+  });
+
+  const isJWTExpired = useIsJWTExpired(data || "");
+
+  if (isJWTExpired) {
+    return (
+      <>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={showAPISettingsDialog}
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-4 h-4 text-red-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+                />
+              </svg>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>
+              Your JWT token has expired. Please update your API settings to
+              continue using the EvaEngine API.
+            </p>
+          </TooltipContent>
+        </Tooltip>
+      </>
+    );
+  }
 
   return (
     <>

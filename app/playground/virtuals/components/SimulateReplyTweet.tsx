@@ -186,7 +186,7 @@ export const SimulateReplyTweet = () => {
                       output_tweet: outputTweet,
                     });
                   }}
-                  disabled={evaluateTweet.isPending}
+                  disabled={evaluateTweet.isPending || !evaluateTweet.data}
                 >
                   Evaluate
                 </Button>
@@ -202,7 +202,7 @@ export const SimulateReplyTweet = () => {
                 </div>
               </>
             )}
-            {evaluateTweet.isSuccess && (
+            {evaluateTweet.data && (
               <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
                 <Tabs defaultValue="inputTweet" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">

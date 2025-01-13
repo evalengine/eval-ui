@@ -35,7 +35,7 @@ export const useEvaluationDialog = () => {
           >
             <DialogContent className="w-full max-w-screen-lg overflow-hidden">
               <DialogTitle>Tweet Evaluation Report</DialogTitle>
-              <div className="overflow-auto h-96 lg:h-full space-y-4">
+              <div className="overflow-auto h-96 lg:h-[calc(100dvh-156px)] space-y-4">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-sm font-medium capitalize">
@@ -52,7 +52,8 @@ export const useEvaluationDialog = () => {
                           {
                             browser: "safari",
                             scores: result.final_score,
-                            fill: "hsl(var(--primary))",
+                            // fill: "hsl(var(--primary))",
+                            fill: "#fff"
                           },
                         ]}
                         startAngle={0}
