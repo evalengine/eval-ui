@@ -138,10 +138,10 @@ export default function PlaygroundPage() {
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit((values) => {
-            // if (isJWTExpired) {
-            //   showAPISettingsDialog();
-            //   return;
-            // }
+            if (isJWTExpired) {
+              showAPISettingsDialog();
+              return;
+            }
             const id = extractTweetId(values.tweetId);
             reactTwitter.mutate({
               data: {
