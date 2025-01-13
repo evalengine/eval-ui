@@ -89,6 +89,12 @@ export function formatDate(date: string) {
 }
 
 export const extractTweetId = (text: string) => {
-  const urlMatches = text.match(/(?:twitter\.com|x\.com)\/\w+\/status\/(\d+)/);
-  return urlMatches ? urlMatches[1] : "";
+  try {
+    const urlMatches = text.match(
+      /(?:twitter\.com|x\.com)\/\w+\/status\/(\d+)/
+    );
+    return urlMatches ? urlMatches[1] : "";
+  } catch (e) {
+    return "";
+  }
 };

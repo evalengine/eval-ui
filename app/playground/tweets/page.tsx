@@ -235,9 +235,6 @@ export default function PlaygroundPage() {
                   </div>
                   <Separator />
                   <div className="flex w-full h-full p-2 space-x-2 overflow-x-auto snap-x snap-mandatory md:snap-none md:overflow-y-hidden">
-                    {/* <Tweet title="Original Tweet" name="originalTweet" />
-                    <Tweet title="Response Tweet" name="responseTweet" /> */}
-
                     <Controller
                       control={methods.control}
                       name="originalTweet"

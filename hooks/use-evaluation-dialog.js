@@ -20,10 +20,23 @@ import isToday from "dayjs/plugin/isToday";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
+import { Label } from "@/components/ui/label";
+import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
+import { extractTweetId } from "@/lib/utils";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 export const useEvaluationDialog = () => {
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {}, result = {} } = {}) =>
       ({ in: open, onExited }) => {
+        const original_tweet_id = extractTweetId(result.original_tweet);
+        const responded_tweet_id = extractTweetId(result.responded_tweet);
         return (
           <Dialog
             open={open}
@@ -53,7 +66,7 @@ export const useEvaluationDialog = () => {
                             browser: "safari",
                             scores: result.final_score,
                             // fill: "hsl(var(--primary))",
-                            fill: "#fff"
+                            fill: "#fff",
                           },
                         ]}
                         startAngle={0}
@@ -114,11 +127,42 @@ export const useEvaluationDialog = () => {
 
                     <Progress value={result.final_score} />
                     <h1 className="mt-5 mb-3 font-bold">Suggested Response</h1>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-sm text-muted-foreground">
                       {result.recommended_response}
                     </p>
                   </CardContent>
                 </Card>
+
+                <div className="flex w-full p-2 space-x-2 overflow-x-auto snap-x snap-mandatory md:snap-none md:overflow-y-hidden">
+                  <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md bg-background-100 w-full">
+                    <div className="w-full rounded-md border border-gray-alpha-400">
+                      <div className="flex flex-col flex-no-wrap overflow-y-auto overscroll-y-none">
+                        <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
+                          <Label>Original Tweet</Label>
+                        </div>
+                        <div className="min-w-0 flex items-center justify-center p-4">
+                          <div style={{ zoom: 1 }}>
+                            <ClientTweetCard id={original_tweet_id} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md bg-background-100 w-full">
+                    <div className="w-full rounded-md border border-gray-alpha-400">
+                      <div className="flex flex-col flex-no-wrap overflow-y-auto overscroll-y-none">
+                        <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
+                          <Label>Response Tweet</Label>
+                        </div>
+                        <div className="min-w-0 flex items-center justify-center p-4">
+                          <div style={{ zoom: 1 }}>
+                            <ClientTweetCard id={responded_tweet_id} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {Object.entries({
@@ -138,10 +182,18 @@ export const useEvaluationDialog = () => {
                         </small>
                       </CardHeader>
                       <CardContent>
-                        <Progress value={data.score} />
-                        <p className="text-xs text-muted-foreground mt-4">
-                          {data.rationale}
-                        </p>
+                        <Accordion type="single" collapsible>
+                          <AccordionItem value={category}>
+                            <AccordionTrigger>
+                              <Progress value={data.score} />
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <p className="text-xs text-muted-foreground mt-4">
+                                {data.rationale}
+                              </p>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
                       </CardContent>
                     </Card>
                   ))}
