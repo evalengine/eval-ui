@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { Tweet } from "./components/Tweet";
 import { APISettings } from "@/components/api-settings";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 
 import { useMutation } from "@tanstack/react-query";
 import confetti from "canvas-confetti";
@@ -232,8 +232,37 @@ export default function PlaygroundPage() {
                   </div>
                   <Separator />
                   <div className="flex w-full h-full p-2 space-x-2 overflow-x-auto snap-x snap-mandatory md:snap-none md:overflow-y-hidden">
-                    <Tweet title="Original Tweet" name="originalTweet" />
-                    <Tweet title="Response Tweet" name="responseTweet" />
+                    {/* <Tweet title="Original Tweet" name="originalTweet" />
+                    <Tweet title="Response Tweet" name="responseTweet" /> */}
+
+                    <Controller
+                      control={methods.control}
+                      name="originalTweet"
+                      defaultValue=""
+                      render={({ field, fieldState }) => {
+                        return <Tweet title="Original Tweet" {...field} />;
+                      }}
+                    />
+                    <Controller
+                      control={methods.control}
+                      name="responseTweet"
+                      defaultValue=""
+                      render={({ field, fieldState }) => {
+                        return (
+                          <Tweet
+                            title="Response Tweet"
+                            onData={(data: any) => {
+                              if (!data) return;
+                              if (!data?.parent?.user?.screen_name) return;
+                              if (!data?.parent?.id_str) return;
+                              const parentUrl = `https://x.com/${data?.parent?.user?.screen_name}/status/${data?.parent?.id_str}`;
+                              methods.setValue(`originalTweet`, parentUrl);
+                            }}
+                            {...field}
+                          />
+                        );
+                      }}
+                    />
                   </div>
                 </div>
               </div>

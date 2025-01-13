@@ -2,21 +2,31 @@
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  useFormContext,
+  Controller,
+} from "react-hook-form";
 import { extractTweetId } from "@/lib/utils";
 import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
+import { useEffect, useState } from "react";
 
-export const Tweet = ({ title = "", name = "" }) => {
-  const {
-    handleSubmit,
-    reset,
-    getValues,
-    setValue,
-    setError,
-    register,
-    watch,
-    formState: { isDirty, isValid },
-  } = useFormContext(); // retrieve all hook methods
+export const Tweet = ({
+  title = "",
+  name = "",
+  value = "",
+  onChange = () => {},
+  onData = () => {},
+}: any) => {
+  const [tweetId, setTweetId] = useState() as any;
+
+  useEffect(() => {
+    try {
+      const id = extractTweetId(value);
+      setTweetId(id);
+    } catch (e) {}
+  }, [value]);
 
   return (
     <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md min-h-[250px] bg-background-100 w-full h-full">
@@ -27,20 +37,7 @@ export const Tweet = ({ title = "", name = "" }) => {
           </div>
           <div className="flex-1 min-w-0 flex items-center justify-center p-4">
             <div style={{ zoom: 1 }}>
-              <ClientTweetCard
-                id={watch(`${name}_id`, "")}
-                onData={(data: any) => {
-                  console.log(data);
-                  if (`${name}` !== "responseTweet") return;
-                  if (!data) return;
-                  if (!data?.parent?.user?.screen_name) return;
-                  if (!data?.parent?.id_str) return;
-                  const parentUrl = `https://x.com/${data?.parent?.user?.screen_name}/status/${data?.parent?.id_str}`;
-                  setValue(`originalTweet`, parentUrl);
-                  const id = extractTweetId(parentUrl);
-                  setValue(`originalTweet_id`, id);
-                }}
-              />
+              <ClientTweetCard id={tweetId} onData={onData} />
             </div>
           </div>
           <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background">
@@ -48,26 +45,16 @@ export const Tweet = ({ title = "", name = "" }) => {
               Paste the original tweet URL or text here
             </Label> */}
             <Textarea
-              {...register(name)}
               required
               placeholder="https://x.com/Chromia/status/1863946639070597470"
+              value={value}
               onChange={(e) => {
-                const id = extractTweetId(e.target.value);
-                setValue(`${name}_id`, id);
+                onChange(e.target.value);
               }}
             />
           </div>
         </div>
       </div>
     </div>
-  );
-};
-
-export const Panels = ({}) => {
-  return (
-    <>
-      <Tweet title="Original Tweet" name="originalTweet" />
-      <Tweet title="Response Tweet" name="responseTweet" />
-    </>
   );
 };

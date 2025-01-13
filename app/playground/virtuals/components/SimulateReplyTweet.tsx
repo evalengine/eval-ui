@@ -22,6 +22,9 @@ import { useMemo } from "react";
 import confetti from "canvas-confetti";
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 import { toast } from "sonner";
+import { Tweet } from "../../tweets/components/Tweet";
+import { extractTweetId } from "@/lib/utils";
+// import { Tweet } from "../../tweets/components/Tweet";
 
 export const SimulateReplyTweet = () => {
   const {
@@ -128,17 +131,22 @@ export const SimulateReplyTweet = () => {
                 a tweet." to allow the agent to reply to tweets
               </p>
               <div className="grid gap-4 w-full">
-                <Label className="text-left">X/Tweet ID </Label>
                 <p className="text-xs italic">
                   Simulate agent reading X (Twitter) timeline by passing the X
                   Post ID.
                 </p>
+
                 <Controller
                   control={control}
                   name="tweetId"
                   defaultValue=""
                   render={({ field, fieldState }) => {
-                    return <Input required {...field} />;
+                    return (
+                      <Tweet
+                        title="X/Tweet ID"
+                        {...field}
+                      />
+                    );
                   }}
                 />
               </div>
@@ -195,7 +203,7 @@ export const SimulateReplyTweet = () => {
 
             {evaluateTweet.isIdle && (
               <>
-                <div className="flex items-center justify-center h-full">
+                <div className="flex items-center justify-center h-full p-10">
                   <p className="text-sm font-medium">
                     Run the simulation to see how your virtual character would
                   </p>

@@ -33,6 +33,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
 import Link from "next/link";
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
+import { extractTweetId } from "@/lib/utils";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
@@ -56,6 +57,8 @@ export default function PlaygroundPage() {
       functions: getVirtual?.game?.functions || [],
       goal: getVirtual?.game?.goal || "",
       worldInfo: getVirtual?.game?.worldInfo || "",
+      tweetId: "",
+      sessionId: "",
     },
   });
   const { isSidebarOpen, openSidebar, closeSidebar, toggleSidebar } =
@@ -135,13 +138,15 @@ export default function PlaygroundPage() {
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit((values) => {
-            if (isJWTExpired) {
-              showAPISettingsDialog();
-              return;
-            }
+            // if (isJWTExpired) {
+            //   showAPISettingsDialog();
+            //   return;
+            // }
+            const id = extractTweetId(values.tweetId);
             reactTwitter.mutate({
               data: {
                 ...values,
+                tweetId: id || values.tweetId,
                 sessionId: Math.floor(
                   100000000 + Math.random() * 900000000
                 ).toString(),

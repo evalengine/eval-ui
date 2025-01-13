@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { useFormContext, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { JsonEditor, githubDarkTheme } from "json-edit-react";
 
 export const CharacterDetails = () => {
   const {
@@ -79,7 +80,16 @@ export const CharacterDetails = () => {
                   name="functions"
                   defaultValue=""
                   render={({ field, fieldState }) => {
-                    return <Textarea rows={5} required {...field} />;
+                    return (
+                      <JsonEditor
+                        theme={githubDarkTheme}
+                        data={field.value}
+                        setData={(data) => {
+                          field.onChange(data);
+                        }}
+                      />
+                    );
+                    // return <Textarea rows={5} required {...field} />;
                   }}
                 />
               </div>
