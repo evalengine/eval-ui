@@ -142,7 +142,11 @@ export const useEvaluationDialog = () => {
                         </div>
                         <div className="min-w-0 flex items-center justify-center p-4">
                           <div style={{ zoom: 1 }}>
-                            <ClientTweetCard id={original_tweet_id} />
+                            {original_tweet_id ? (
+                              <ClientTweetCard id={original_tweet_id} />
+                            ) : (
+                              result.original_tweet
+                            )}
                           </div>
                         </div>
                       </div>
@@ -156,7 +160,11 @@ export const useEvaluationDialog = () => {
                         </div>
                         <div className="min-w-0 flex items-center justify-center p-4">
                           <div style={{ zoom: 1 }}>
-                            <ClientTweetCard id={responded_tweet_id} />
+                            {responded_tweet_id ? (
+                              <ClientTweetCard id={responded_tweet_id} />
+                            ) : (
+                              result.original_tweet
+                            )}
                           </div>
                         </div>
                       </div>
