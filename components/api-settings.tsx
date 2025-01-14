@@ -84,6 +84,9 @@ export const useAPISettingsDialog = ({}) => {
                       ["virtual-jwt-token"],
                       () => values["virtual-jwt-token"]
                     );
+                    queryClient.invalidateQueries(["getVirtual"] as any);
+                    queryClient.invalidateQueries(["scores"] as any);
+                    queryClient.invalidateQueries(["getVirtual"] as any);
                   } catch (e) {
                   } finally {
                     hide();
@@ -94,10 +97,10 @@ export const useAPISettingsDialog = ({}) => {
                   <DialogTitle>API Settings </DialogTitle>
                   {isJWTExpired ? (
                     <DialogDescription>
-                      <p className="text-red-500 italic text-xs">
+                      <span className="text-red-500 italic text-xs">
                         Your JWT token has expired. Please update your API
                         settings to continue using the EvaEngine API.
-                      </p>
+                      </span>
                     </DialogDescription>
                   ) : (
                     <DialogDescription>
@@ -165,9 +168,13 @@ export const useAPISettingsDialog = ({}) => {
 };
 
 export function useIsJWTExpired(token: string) {
-  const decoded = jwt.decode(token);
-  const expirationTime = dayjs.unix(decoded?.exp);
-  return dayjs().isAfter(expirationTime);
+  try {
+    const decoded = jwt.decode(token);
+    const expirationTime = dayjs.unix(decoded?.exp);
+    return dayjs().isAfter(expirationTime);
+  } catch (e) {
+    return true;
+  }
 }
 
 export function APISettings() {

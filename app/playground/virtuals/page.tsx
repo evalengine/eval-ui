@@ -50,6 +50,9 @@ export default function PlaygroundPage() {
 
   const methods = useForm({
     mode: "onChange",
+    defaultValues: {
+      sessionId: Math.floor(100000000 + Math.random() * 900000000).toString(),
+    },
     values: {
       customFunctions: [],
       name: getVirtual?.name || "",
@@ -58,7 +61,6 @@ export default function PlaygroundPage() {
       goal: getVirtual?.game?.goal || "",
       worldInfo: getVirtual?.game?.worldInfo || "",
       tweetId: "",
-      sessionId: "",
     },
   });
   const { isSidebarOpen, openSidebar, closeSidebar, toggleSidebar } =
@@ -142,7 +144,7 @@ export default function PlaygroundPage() {
               showAPISettingsDialog();
               return;
             }
-            const id = extractTweetId(values.tweetId);
+            const id = extractTweetId(values.tweetId!);
             reactTwitter.mutate({
               data: {
                 ...values,

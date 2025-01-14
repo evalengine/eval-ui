@@ -156,9 +156,7 @@ export const SimulateReplyTweet = () => {
                 <Controller
                   control={control}
                   name="sessionId"
-                  defaultValue={Math.floor(
-                    100000000 + Math.random() * 900000000
-                  ).toString()}
+                  defaultValue=""
                   render={({ field, fieldState }) => {
                     return (
                       <div className="flex items-center space-x-2">
