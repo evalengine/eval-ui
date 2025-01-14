@@ -25,6 +25,10 @@ import { toast } from "sonner";
 import { Tweet } from "../../tweets/components/Tweet";
 import { extractTweetId } from "@/lib/utils";
 // import { Tweet } from "../../tweets/components/Tweet";
+import JsonView from "react18-json-view";
+import "react18-json-view/src/style.css";
+// If dark mode is needed, import `dark.css`.
+import "react18-json-view/src/dark.css";
 
 export const SimulateReplyTweet = () => {
   const {
@@ -44,6 +48,10 @@ export const SimulateReplyTweet = () => {
     filters: { mutationKey: ["reactTwitter"] },
     select: (mutation) => mutation.state.data,
   });
+
+  const hasReactTwitter = useMemo(() => {
+    return reactTwitter?.length > 0;
+  }, [reactTwitter]);
 
   const tabs = useMemo(() => {
     return reactTwitter
@@ -111,6 +119,7 @@ export const SimulateReplyTweet = () => {
       toast.error(JSON.stringify(error) || "An error occurred");
     },
     onSettled: () => {
+      console.log("onSettled", evaluateTweet.data);
       queryClient.invalidateQueries(["scores"] as any);
     },
   });
@@ -141,12 +150,7 @@ export const SimulateReplyTweet = () => {
                   name="tweetId"
                   defaultValue=""
                   render={({ field, fieldState }) => {
-                    return (
-                      <Tweet
-                        title="X/Tweet ID"
-                        {...field}
-                      />
-                    );
+                    return <Tweet title="X/Tweet ID" {...field} />;
                   }}
                 />
               </div>
@@ -192,14 +196,14 @@ export const SimulateReplyTweet = () => {
                       output_tweet: outputTweet,
                     });
                   }}
-                  disabled={evaluateTweet.isPending || !evaluateTweet.data}
+                  disabled={evaluateTweet.isPending || !hasReactTwitter}
                 >
                   Evaluate
                 </Button>
               </div>
             </div>
 
-            {evaluateTweet.isIdle && (
+            {!hasReactTwitter && (
               <>
                 <div className="flex items-center justify-center h-full p-10">
                   <p className="text-sm font-medium">
@@ -208,7 +212,7 @@ export const SimulateReplyTweet = () => {
                 </div>
               </>
             )}
-            {evaluateTweet.data && (
+            {hasReactTwitter && (
               <div className="min-w-0 flex flex-col items-start justify-start space-y-4 p-4">
                 <Tabs defaultValue="inputTweet" className="w-full">
                   <TabsList className="grid w-full grid-cols-2">
@@ -281,7 +285,8 @@ export const SimulateReplyTweet = () => {
                             </CardHeader>
                             <CardContent className="space-y-2">
                               <div className="space-y-1 whitespace-pre-wrap text-sm">
-                                {JSON.stringify(e[key], null, 2)}
+                                {/* {JSON.stringify(e[key], null, 2)} */}
+                                <JsonView src={e[key]} />
                               </div>
                             </CardContent>
                             <CardFooter></CardFooter>
