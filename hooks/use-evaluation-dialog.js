@@ -145,7 +145,7 @@ export const useEvaluationDialog = () => {
                             {original_tweet_id ? (
                               <ClientTweetCard id={original_tweet_id} />
                             ) : (
-                              result.original_tweet
+                              <p>{result.original_tweet}</p>
                             )}
                           </div>
                         </div>
@@ -163,7 +163,7 @@ export const useEvaluationDialog = () => {
                             {responded_tweet_id ? (
                               <ClientTweetCard id={responded_tweet_id} />
                             ) : (
-                              result.original_tweet
+                              <p>{result.original_tweet}</p>
                             )}
                           </div>
                         </div>
