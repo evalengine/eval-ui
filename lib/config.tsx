@@ -132,8 +132,8 @@ export const siteConfig = {
       },
     ],
     links: [
-      { text: "Privacy Policy", url: "/legal/privacy" },
-      { text: "Terms of Service", url: "/legal/terms" },
+      // { text: "Privacy Policy", url: "/legal/privacy" },
+      // { text: "Terms of Service", url: "/legal/terms" },
       // { text: "Contact", url: "#" },
     ],
     bottomText: "© 2025 EVAEngine. All rights reserved.",
