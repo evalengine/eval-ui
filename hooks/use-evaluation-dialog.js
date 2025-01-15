@@ -126,8 +126,8 @@ export const useEvaluationDialog = () => {
                     </ChartContainer>
 
                     <Progress value={result.final_score} />
-                    <h1 className="mt-5 mb-3 font-bold">Suggested Response</h1>
-                    <p className="text-sm text-muted-foreground">
+                    <h1 className="mt-5 mb-3 text-muted-foreground">Suggested Response</h1>
+                    <p className="text-sm font-bold">
                       {result.recommended_response}
                     </p>
                   </CardContent>
