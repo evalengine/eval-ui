@@ -13,6 +13,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
+  
   return (
     <Link href="/playground">
       <motion.a
