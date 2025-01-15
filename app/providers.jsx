@@ -15,9 +15,17 @@ const AllProviders = ({ children }) => {
   );
 };
 
-export default function Providers({ children }) {
-  const [queryClient] = useState(() => new QueryClient());
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60000,
+      retry: 3,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
+export default function Providers({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ModalProvider rootComponent={TransitionGroup}>

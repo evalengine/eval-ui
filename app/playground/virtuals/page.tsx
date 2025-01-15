@@ -21,7 +21,7 @@ import { useForm, FormProvider } from "react-hook-form";
 
 import { useMemo } from "react";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toast } from "sonner";
 import { Sidebar } from "@/components/sidebar";
@@ -66,39 +66,17 @@ export default function PlaygroundPage() {
   const { isSidebarOpen, openSidebar, closeSidebar, toggleSidebar } =
     useSidebar();
 
+  const queryClient = useQueryClient();
+
   const reactTwitter = useMutation({
-    mutationKey: ["reactTwitter"],
+    // mutationKey: ["reactTwitter"],
     mutationFn: API.reactTwitter,
-    // onSuccess: (data) => {
-    //   const end = Date.now() + 3 * 1000; // 3 seconds
-    //   const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
-
-    //   const frame = () => {
-    //     if (Date.now() > end) return;
-
-    //     confetti({
-    //       particleCount: 2,
-    //       angle: 60,
-    //       spread: 55,
-    //       startVelocity: 60,
-    //       origin: { x: 0, y: 0.5 },
-    //       colors: colors,
-    //     });
-    //     confetti({
-    //       particleCount: 2,
-    //       angle: 120,
-    //       spread: 55,
-    //       startVelocity: 60,
-    //       origin: { x: 1, y: 0.5 },
-    //       colors: colors,
-    //     });
-
-    //     requestAnimationFrame(frame);
-    //   };
-
-    //   frame();
-    //   showEvaluationDialog({ result: data });
-    // },
+    onSuccess: (response) => {
+      queryClient.setQueryData(
+        ["reactTwitter"] as any,
+        () => response?.data || []
+      );
+    },
     onError: (error) => {
       console.log(error);
       toast.error(JSON.stringify(error) || "An error occurred");

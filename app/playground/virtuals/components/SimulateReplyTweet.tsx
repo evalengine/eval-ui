@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 
 import { useFormContext, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "@/api";
 import { Button } from "@/components/ui/button";
 
@@ -43,10 +43,14 @@ export const SimulateReplyTweet = () => {
     formState: { isDirty, isValid },
   } = useFormContext(); // retrieve all hook methods
 
-  const [{ data: reactTwitter = [] } = {}]: any = useMutationState({
-    // this mutation key needs to match the mutation key of the given mutation (see above)
-    filters: { mutationKey: ["reactTwitter"] },
-    select: (mutation) => mutation.state.data,
+  // const [{ data: reactTwitter = [] } = {}]: any = useMutationState({
+  //   // this mutation key needs to match the mutation key of the given mutation (see above)
+  //   filters: { mutationKey: ["reactTwitter"] },
+  //   select: (mutation) => mutation.state.data,
+  // });
+  const { data: reactTwitter = [] as any } = useQuery({
+    queryKey: ["reactTwitter"],
+    queryFn: async () => queryClient.getQueryData(["reactTwitter"]) || [],
   });
 
   const hasReactTwitter = useMemo(() => {
