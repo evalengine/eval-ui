@@ -34,7 +34,7 @@ export const siteConfig = {
       "EVA Engine gives your AI agent a real performance score. We evaluate every interaction, record it on blockchain for proof.",
     cta: "Playground",
     ctaDescription:
-      "Finally, a way to show your AI agent is better than the rest.",
+      "Finally, a way to evaluate responses from your AI Agent.",
   },
   features: [
     {
