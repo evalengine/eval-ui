@@ -134,7 +134,7 @@ export const siteConfig = {
     links: [
       // { text: "Privacy Policy", url: "/legal/privacy" },
       // { text: "Terms of Service", url: "/legal/terms" },
-      // { text: "Contact", url: "#" },
+      { text: "Contact", url: "#" },
     ],
     bottomText: "© 2025 EVAEngine. All rights reserved.",
     brandText: "EVA Engine",
