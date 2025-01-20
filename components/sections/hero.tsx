@@ -13,10 +13,9 @@ import { lazy, Suspense, useEffect, useState } from "react";
 const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
-  
   return (
-    <Link href="/playground">
-      <motion.a
+    <Link href="/whitepaper">
+      <motion.div
         className="flex w-auto items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-pre"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -26,7 +25,7 @@ function HeroPill() {
           🛠️ New
         </div>
         <p className="text-xs font-medium text-primary sm:text-sm">
-          Introducing EVA: Evaluation Validation Architecture
+          Introducing EVA: Whitepaper
         </p>
         <svg
           width="12"
@@ -41,7 +40,7 @@ function HeroPill() {
             fill="hsl(var(--primary))"
           />
         </svg>
-      </motion.a>
+      </motion.div>
     </Link>
   );
 }
