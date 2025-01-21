@@ -8,7 +8,7 @@ export default function Page() {
                 <div className="py-16">
                     <div className="mx-auto max-w-screen-md px-4 sm:px-6 lg:px-8">
                         <h1 className="font-display text-center text-3xl font-extrabold leading-[1.15] sm:text-5xl sm:leading-[1.15]">
-                            Eva Engine Policy
+                            Eval Engine Policy
                         </h1>
                     </div>
                 </div>
