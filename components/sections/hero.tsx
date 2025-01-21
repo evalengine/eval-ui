@@ -25,7 +25,7 @@ function HeroPill() {
           🛠️ New
         </div>
         <p className="text-xs font-medium text-primary sm:text-sm">
-          Introducing EVA: Whitepaper
+          Introducing EVAL: Whitepaper
         </p>
         <svg
           width="12"

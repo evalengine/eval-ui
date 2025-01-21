@@ -8,7 +8,7 @@ export default function Page() {
         <div className="w-full py-16">
           <div className="mx-auto max-w-screen-md w-full">
             <h1 className="font-display text-center text-3xl font-extrabold leading-[1.15] sm:text-5xl sm:leading-[1.15]">
-              EVA Engine Whitepaper
+              EVAL Engine Whitepaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
               LitePaper from Johnson Lai, Prem Kumar at Chromia Team
@@ -19,7 +19,7 @@ export default function Page() {
         <article className="prose-headings:font-display prose prose-invert prose-zinc text-white max-w-none transition-all prose-headings:relative prose-headings:scroll-mt-20 prose-headings:font-semibold">
           <h2>Abstract</h2>
           <p>
-            We present EVA Engine (Evaluation Validation Architecture), a
+            We present EVAL Engine (Evaluation Validation Architecture), a
             decentralized framework for evaluating AI agents with a focus on
             crypto-native agents through verifiable real-time assessments and
             continuous learning capabilities.
