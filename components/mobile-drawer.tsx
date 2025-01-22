@@ -8,6 +8,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
+  DrawerClose,
 } from "@/components/ui/drawer";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
@@ -33,14 +34,15 @@ export function MobileDrawer() {
           <DrawerDescription>{siteConfig.description}</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <Link
-            href="#"
-            className={cn(
-              buttonVariants({ variant: "default" }),
-              "text-white rounded-full group"
-            )}
-          >
-            {siteConfig.cta}
+          <Link href="/playground" className="w-full block">
+            <DrawerClose
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "text-white rounded-full group w-full"
+              )}
+            >
+              {siteConfig.cta}
+            </DrawerClose>
           </Link>
         </DrawerFooter>
       </DrawerContent>
