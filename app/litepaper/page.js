@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+
 export default function Page() {
   return (
     <main className={cn("flex flex-col flex-shrink-0 flex-grow")}>
@@ -8,15 +9,15 @@ export default function Page() {
         <div className="w-full py-16">
           <div className="mx-auto max-w-screen-md w-full">
             <h1 className="font-display text-center text-3xl font-extrabold leading-[1.15] sm:text-5xl sm:leading-[1.15]">
-              EVAL Engine Whitepaper
+              EVAL Engine LitePaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
-              LitePaper from Johnson Lai, Prem Kumar at Chromia Team
+              drafted by <a href="https://x.com/jlwhoo7" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Johnson Lai</a> & <a href="https://x.com/defichemist95" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Prem Kumar</a>
             </p>
           </div>
         </div>
 
-        <article className="prose-headings:font-display prose prose-invert prose-zinc text-white max-w-none transition-all prose-headings:relative prose-headings:scroll-mt-20 prose-headings:font-semibold">
+        <article className="prose-headings:font-display prose prose-invert prose-zinc text-white max-w-none transition-all prose-headings:relative prose-headings:scroll-mt-20 prose-headings:font-semibold prose-a:text-blue-400 hover:prose-a:text-blue-300">
           <h2>Abstract</h2>
           <p>
             We present EVAL Engine (Evaluation Validation Architecture), a
@@ -28,7 +29,7 @@ export default function Page() {
             Our system utilizes Chromias gas-free relational blockchain
             architecture to enable transparent, immutable, and cost-effective
             evaluation of AI agent performance. The system incorporates
-            LLM-as-a-judge and social engagement metrics for continuous
+            LLM-as-a-judge<sup><a href="#references">[1]</a></sup> and social engagement metrics for continuous
             reinforcement learning via feedback loop and reward system.
           </p>
           <p>
@@ -46,9 +47,9 @@ export default function Page() {
             <p>
               We saw Crypto x AI Agent taking off in the space of Crypto Twitter
               (CT), particularly on the social aspect of things. But most AI
-              that weve seen dont even have evaluation metrics. Its just pure
-              hallucination, and you are not able to evaluate whether it is able
-              to perform well.
+              that weve seen dont even have evaluation metrics.
+              This creates a significant risk of hallucination - the generation of plausible yet factually unsupported content<sup><a href="#references">[2]</a></sup>. 
+              Without standardized evaluation metrics, it becomes challenging to verify the reliability and trustworthiness of these AI agents' outputs, particularly in the context of sensitive financial and cryptocurrency-related information
             </p>
             <div>
               <h2>Key Challenges</h2>
@@ -246,7 +247,7 @@ export default function Page() {
                 </h3>
                 <ul className="list-disc pl-5 space-y-2">
                   <li>
-                  Final evaluation outcomes and intermediate results are stored on Chromia’s relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
+                  Final evaluation outcomes and intermediate results are stored on Chromia's relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
                   </li>
                 </ul>
               </div>
@@ -257,7 +258,7 @@ export default function Page() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold mt-4">
-                  Basic Weighted Average Evaluation
+                  Weighted Average Evaluation
                 </h3>
                 <p className="mb-4">
                   Let {"{"}𝑠𝑐₁, 𝑠𝑐₂, …, 𝑠𝑐ₙ{"}"} be individual scores from
@@ -333,16 +334,7 @@ export default function Page() {
                 </h3>
                 <p className="mb-4">
                   Each evaluation report on EVAL Engine is paid for using $EVAL
-                  tokens through a subscription model detailed in Chromia{" "}
-                  <a
-                    href="https://docs.chromia.com/ft4/backend/accounts/subscription"
-                    className="text-blue-400 hover:text-blue-300 underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    FT4 documentation
-                  </a>
-                  . By tokenizing the cost per evaluation, the platform
+                  tokens through a subscription model<sup><a href="#references">[3]</a></sup>. By tokenizing the cost per evaluation, the platform
                   seamlessly handles real-time user demand for evaluation
                   services.
                 </p>
@@ -472,6 +464,20 @@ export default function Page() {
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+          <div>
+            <h2>References</h2>
+            <div className="space-y-4">
+              <p id="references">
+                [1] Zheng, L., et al. (2023). "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena." [v4] <a href="https://arxiv.org/abs/2306.05685" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">arXiv:2306.05685</a>
+              </p>
+              <p>
+                [2] Huang, L., et al. (2023). "A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions." [v2] <a href="https://arxiv.org/abs/2311.05232" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">arXiv:2311.05232</a>
+              </p>
+              <p>
+                [3] Chromia Documentation. "Subscription Fee Strategy." <a href="https://docs.chromia.com/ft4/backend/accounts/subscription" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Chromia FT4 Documentation</a>
+              </p>
             </div>
           </div>
         </article>

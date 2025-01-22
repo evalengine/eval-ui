@@ -14,7 +14,7 @@ const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
   return (
-    <Link href="/whitepaper">
+    <Link href="/litepaper">
       <motion.div
         className="flex w-auto items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-pre"
         initial={{ opacity: 0, y: -20 }}
@@ -25,7 +25,7 @@ function HeroPill() {
           🛠️ New
         </div>
         <p className="text-xs font-medium text-primary sm:text-sm">
-          Introducing EVAL: Whitepaper
+          Introducing EVAL: LitePaper
         </p>
         <svg
           width="12"
