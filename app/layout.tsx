@@ -9,6 +9,8 @@ import Providers from "./providers";
 import { Header } from "@/components/sections/header";
 import { Footer } from "@/components/sections/footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 
 import "./globals.css";
 
@@ -55,6 +57,7 @@ export default function RootLayout({
           </ThemeProvider>
         </Providers>
       </body>
+      <GoogleAnalytics gaId="G-8HHCJMQT38" />
     </html>
   );
 }
