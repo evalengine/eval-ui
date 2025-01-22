@@ -47,7 +47,7 @@ export function Footer() {
       </div>
       <BorderText
         text={siteConfig.footer.brandText}
-        className="text-[clamp(3rem,15vw,10rem)] overflow-hidden font-mono tracking-tighter font-medium"
+        className="text-[clamp(2rem,10vw,8rem)] overflow-hidden font-mono tracking-tighter font-medium"
       />
     </footer>
   );
