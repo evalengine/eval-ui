@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 export function Footer() {
   const pathname = usePathname();
-  console.log(pathname);
   if (pathname.includes("/playground")) return null;
 
   return (
