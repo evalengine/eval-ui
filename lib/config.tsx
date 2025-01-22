@@ -136,7 +136,7 @@ export const siteConfig = {
       // { text: "Terms of Service", url: "/legal/terms" },
       { text: "Contact", url: "#" },
     ],
-    bottomText: "© 2025 EVAEngine. All rights reserved.",
+    bottomText: "© 2025 EVALEngine. All rights reserved.",
     brandText: "EVAL Engine",
   },
 
