@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-
+import Image from "next/image";
 export default function Page() {
   return (
     <main className={cn("flex flex-col flex-shrink-0 flex-grow")}>
@@ -32,13 +32,13 @@ export default function Page() {
             reinforcement learning via feedback loop and reward system.
           </p>
           <p>
-            We demonstrate EvaEngine can achieve efficient, secure evaluations
+            We demonstrate EVAL Engine can achieve efficient, secure evaluations
             while adapting to evolving performance standards through
             engagement-driven feedback loops.
           </p>
           <p>
             We also present a comprehensive roadmap for the development of
-            EvaEngine, including API development, data preparation, model
+            EVAL Engine, including API development, data preparation, model
             development, and model deployment.
           </p>
           <div>
@@ -53,13 +53,13 @@ export default function Page() {
             <div>
               <h2>Key Challenges</h2>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Lack of real-time verification capabilities</li>
+                <li>Lack of real-time verification capabilities.</li>
                 <li>
                   High computational cost to store evaluation data unreliably
-                  due to gas fees
+                  due to gas fees.
                 </li>
-                <li>Absence of continuous learning mechanisms</li>
-                <li>Limited integration with engagement metrics</li>
+                <li>Absence of continuous learning mechanisms.</li>
+                <li>Limited integration with engagement metrics.</li>
               </ul>
             </div>
           </div>
@@ -85,18 +85,37 @@ export default function Page() {
             </ul>
           </div>
           <p>
-            EvaEngine addresses these challenges head-on with a decentralized
+            EVAL Engine addresses these challenges head-on with a decentralized
             system specifically designed for real-time, cost-effective, and
-            transparent evaluations. Built on Chromias gas-free relational
-            blockchain, our framework unlocks efficient data storage while
-            preserving immutability and traceability. By integrating LLM-based
-            judgments, social engagement metrics, and continuous reinforcement
-            learning strategies, EvaEngine enables a dynamic environment where
-            AI agents—particularly crypto-native ones—can evolve and improve
-            continuously.
+            transparent evaluations.
+            <br />
+            <br />
+            Built on Chromias gas-free relational blockchain, our framework
+            unlocks efficient data storage while preserving immutability and
+            traceability.
+            <br />
+            <br />
+            By integrating LLM-based judgments, social engagement metrics, and
+            continuous reinforcement learning strategies, EVAL Engine enables a
+            dynamic environment where AI agents—particularly crypto-native ones—
+            can evolve and improve continuously.
           </p>
           <div>
             <h2>System Architecture</h2>
+            
+            <div className="relative w-full">
+              <img
+                src="/arch.png"
+                alt="EVAL Engine Architecture"
+                width="800"
+                height="600"
+                className="my-8 w-full h-auto rounded-lg shadow-lg"
+                onError={(e) => {
+                  console.error('Error loading image:', e);
+                }}
+              />
+            </div>
+            
             <div>
               <h2>Data Format &amp; Ingestion Layer</h2>
               <ul className="list-disc pl-5 space-y-1">
@@ -116,10 +135,10 @@ export default function Page() {
               </ul>
             </div>
             <div>
-              <h2>EvaEngine: Evaluation Engine</h2>
+              <h2>EVAL Engine: Evaluation Engine</h2>
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  The EvaEngine orchestrates multiple evaluators (e.g.,
+                  The EVAL Engine orchestrates multiple evaluators (e.g.,
                   classification models, LLM judges) to form a composite score
                   that reflects various performance metrics (accuracy,
                   creativity, factual correctness).
@@ -186,10 +205,11 @@ export default function Page() {
             <h2>Evaluation Technicalities</h2>
             <p className="mb-4">
               Traditional single-prompt scoring systems are vulnerable to
-              manipulation through prompt injection and leaking. EvaEngine
+              manipulation through prompt injection and leaking. EVAL Engine
               implements a robust multi-layer approach to ensure evaluation
               integrity:
             </p>
+            <img src="/maths.png" alt="EVAL Engine Architecture" width="800" height="600" className="my-8 w-full h-auto rounded-lg shadow-lg" />
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold mb-2">
@@ -219,6 +239,14 @@ export default function Page() {
                   <li>
                     Feedback loop for continuous improvement of evaluation
                     criteria
+                  </li>
+                </ul>
+                <h3 className="text-xl font-bold mb-2">
+                  On-Chain Storage         
+                </h3>
+                <ul className="list-disc pl-5 space-y-2">
+                  <li>
+                  Final evaluation outcomes and intermediate results are stored on Chromia’s relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
                   </li>
                 </ul>
               </div>
@@ -304,7 +332,7 @@ export default function Page() {
                   Subscription Model in $EVAL
                 </h3>
                 <p className="mb-4">
-                  Each evaluation report on EvaEngine is paid for using $EVAL
+                  Each evaluation report on EVAL Engine is paid for using $EVAL
                   tokens through a subscription model detailed in Chromia{" "}
                   <a
                     href="https://docs.chromia.com/ft4/backend/accounts/subscription"
@@ -324,7 +352,7 @@ export default function Page() {
                   Token Utility and Conversion
                 </h3>
                 <p className="mb-4">
-                  EvaEngine uses $EVAL tokens to acquire $CHR when computational
+                  EVAL Engine uses $EVAL tokens to acquire $CHR when computational
                   resources are required. This design leverages Chromias
                   gas-free architecture while maintaining a clear payment model.
                   Because each evaluation is properly backed by tokens (both in
@@ -337,7 +365,7 @@ export default function Page() {
           <div>
             <h2>Roadmap</h2>
             <p className="mb-6">
-              EvaEngine continually refines its AI evaluation capabilities,
+              EVAL Engine continually refines its AI evaluation capabilities,
               leverages decentralized data storage on Chromia, and integrates
               real-time social signals to maintain accuracy and adaptability.
             </p>
