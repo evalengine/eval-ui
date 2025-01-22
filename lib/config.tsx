@@ -124,19 +124,20 @@ export const siteConfig = {
     socialLinks: [
       {
         icon: <Icons.github className="h-5 w-5" />,
-        url: "https://github.com/chromindscan",
+        url: "https://github.com/evalengine",
       },
       {
         icon: <Icons.twitter className="h-5 w-5" />,
-        url: "https://x.com/jlwhoo7",
+        url: "https://x.com/Eval_Engine ",
       },
     ],
     links: [
       // { text: "Privacy Policy", url: "/legal/privacy" },
       // { text: "Terms of Service", url: "/legal/terms" },
-      { text: "Contact", url: "#" },
+      // { text: "Contact", url: "#" },
+      { text: "Docs", url: "https://eval-engine.gitbook.io/eval-engine" },
     ],
-    bottomText: "© 2025 EVAEngine. All rights reserved.",
+    bottomText: "© 2025 EVALEngine. All rights reserved.",
     brandText: "EVAL Engine",
   },
 
