@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export default function Page() {
   return (
@@ -8,15 +9,15 @@ export default function Page() {
         <div className="w-full py-16">
           <div className="mx-auto max-w-screen-md w-full">
             <h1 className="font-display text-center text-3xl font-extrabold leading-[1.15] sm:text-5xl sm:leading-[1.15]">
-              EVAL Engine Whitepaper
+              EVAL Engine LitePaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
-              LitePaper from Johnson Lai, Prem Kumar at Chromia Team
+              drafted by <a href="https://x.com/jlwhoo7" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Johnson Lai</a> & <a href="https://x.com/defichemist95" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Prem Kumar</a>
             </p>
           </div>
         </div>
 
-        <article className="prose-headings:font-display prose prose-invert prose-zinc text-white max-w-none transition-all prose-headings:relative prose-headings:scroll-mt-20 prose-headings:font-semibold">
+        <article className="prose-headings:font-display prose prose-invert prose-zinc text-white max-w-none transition-all prose-headings:relative prose-headings:scroll-mt-20 prose-headings:font-semibold prose-a:text-blue-400 hover:prose-a:text-blue-300">
           <h2>Abstract</h2>
           <p>
             We present EVAL Engine (Evaluation Validation Architecture), a
@@ -28,17 +29,17 @@ export default function Page() {
             Our system utilizes Chromias gas-free relational blockchain
             architecture to enable transparent, immutable, and cost-effective
             evaluation of AI agent performance. The system incorporates
-            LLM-as-a-judge and social engagement metrics for continuous
+            LLM-as-a-judge<sup><a href="#references">[1]</a></sup> and social engagement metrics for continuous
             reinforcement learning via feedback loop and reward system.
           </p>
           <p>
-            We demonstrate EvaEngine can achieve efficient, secure evaluations
+            We demonstrate EVAL Engine can achieve efficient, secure evaluations
             while adapting to evolving performance standards through
             engagement-driven feedback loops.
           </p>
           <p>
             We also present a comprehensive roadmap for the development of
-            EvaEngine, including API development, data preparation, model
+            EVAL Engine, including API development, data preparation, model
             development, and model deployment.
           </p>
           <div>
@@ -46,20 +47,20 @@ export default function Page() {
             <p>
               We saw Crypto x AI Agent taking off in the space of Crypto Twitter
               (CT), particularly on the social aspect of things. But most AI
-              that weve seen dont even have evaluation metrics. Its just pure
-              hallucination, and you are not able to evaluate whether it is able
-              to perform well.
+              that weve seen dont even have evaluation metrics.
+              This creates a significant risk of hallucination - the generation of plausible yet factually unsupported content<sup><a href="#references">[2]</a></sup>. 
+              Without standardized evaluation metrics, it becomes challenging to verify the reliability and trustworthiness of these AI agents' outputs, particularly in the context of sensitive financial and cryptocurrency-related information
             </p>
             <div>
               <h2>Key Challenges</h2>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Lack of real-time verification capabilities</li>
+                <li>Lack of real-time verification capabilities.</li>
                 <li>
                   High computational cost to store evaluation data unreliably
-                  due to gas fees
+                  due to gas fees.
                 </li>
-                <li>Absence of continuous learning mechanisms</li>
-                <li>Limited integration with engagement metrics</li>
+                <li>Absence of continuous learning mechanisms.</li>
+                <li>Limited integration with engagement metrics.</li>
               </ul>
             </div>
           </div>
@@ -85,18 +86,37 @@ export default function Page() {
             </ul>
           </div>
           <p>
-            EvaEngine addresses these challenges head-on with a decentralized
+            EVAL Engine addresses these challenges head-on with a decentralized
             system specifically designed for real-time, cost-effective, and
-            transparent evaluations. Built on Chromias gas-free relational
-            blockchain, our framework unlocks efficient data storage while
-            preserving immutability and traceability. By integrating LLM-based
-            judgments, social engagement metrics, and continuous reinforcement
-            learning strategies, EvaEngine enables a dynamic environment where
-            AI agents—particularly crypto-native ones—can evolve and improve
-            continuously.
+            transparent evaluations.
+            <br />
+            <br />
+            Built on Chromias gas-free relational blockchain, our framework
+            unlocks efficient data storage while preserving immutability and
+            traceability.
+            <br />
+            <br />
+            By integrating LLM-based judgments, social engagement metrics, and
+            continuous reinforcement learning strategies, EVAL Engine enables a
+            dynamic environment where AI agents—particularly crypto-native ones—
+            can evolve and improve continuously.
           </p>
           <div>
             <h2>System Architecture</h2>
+            
+            <div className="relative w-full">
+              <img
+                src="/arch.png"
+                alt="EVAL Engine Architecture"
+                width="800"
+                height="600"
+                className="my-8 w-full h-auto rounded-lg shadow-lg"
+                onError={(e) => {
+                  console.error('Error loading image:', e);
+                }}
+              />
+            </div>
+            
             <div>
               <h2>Data Format &amp; Ingestion Layer</h2>
               <ul className="list-disc pl-5 space-y-1">
@@ -116,10 +136,10 @@ export default function Page() {
               </ul>
             </div>
             <div>
-              <h2>EvaEngine: Evaluation Engine</h2>
+              <h2>EVAL Engine: Evaluation Engine</h2>
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  The EvaEngine orchestrates multiple evaluators (e.g.,
+                  The EVAL Engine orchestrates multiple evaluators (e.g.,
                   classification models, LLM judges) to form a composite score
                   that reflects various performance metrics (accuracy,
                   creativity, factual correctness).
@@ -186,10 +206,11 @@ export default function Page() {
             <h2>Evaluation Technicalities</h2>
             <p className="mb-4">
               Traditional single-prompt scoring systems are vulnerable to
-              manipulation through prompt injection and leaking. EvaEngine
+              manipulation through prompt injection and leaking. EVAL Engine
               implements a robust multi-layer approach to ensure evaluation
               integrity:
             </p>
+            <img src="/maths.png" alt="EVAL Engine Architecture" width="800" height="600" className="my-8 w-full h-auto rounded-lg shadow-lg" />
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold mb-2">
@@ -221,6 +242,14 @@ export default function Page() {
                     criteria
                   </li>
                 </ul>
+                <h3 className="text-xl font-bold mb-2">
+                  On-Chain Storage         
+                </h3>
+                <ul className="list-disc pl-5 space-y-2">
+                  <li>
+                  Final evaluation outcomes and intermediate results are stored on Chromia's relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -229,7 +258,7 @@ export default function Page() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold mt-4">
-                  Basic Weighted Average Evaluation
+                  Weighted Average Evaluation
                 </h3>
                 <p className="mb-4">
                   Let {"{"}𝑠𝑐₁, 𝑠𝑐₂, …, 𝑠𝑐ₙ{"}"} be individual scores from
@@ -304,17 +333,8 @@ export default function Page() {
                   Subscription Model in $EVAL
                 </h3>
                 <p className="mb-4">
-                  Each evaluation report on EvaEngine is paid for using $EVAL
-                  tokens through a subscription model detailed in Chromia{" "}
-                  <a
-                    href="https://docs.chromia.com/ft4/backend/accounts/subscription"
-                    className="text-blue-400 hover:text-blue-300 underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    FT4 documentation
-                  </a>
-                  . By tokenizing the cost per evaluation, the platform
+                  Each evaluation report on EVAL Engine is paid for using $EVAL
+                  tokens through a subscription model<sup><a href="#references">[3]</a></sup>. By tokenizing the cost per evaluation, the platform
                   seamlessly handles real-time user demand for evaluation
                   services.
                 </p>
@@ -324,7 +344,7 @@ export default function Page() {
                   Token Utility and Conversion
                 </h3>
                 <p className="mb-4">
-                  EvaEngine uses $EVAL tokens to acquire $CHR when computational
+                  EVAL Engine uses $EVAL tokens to acquire $CHR when computational
                   resources are required. This design leverages Chromias
                   gas-free architecture while maintaining a clear payment model.
                   Because each evaluation is properly backed by tokens (both in
@@ -337,7 +357,7 @@ export default function Page() {
           <div>
             <h2>Roadmap</h2>
             <p className="mb-6">
-              EvaEngine continually refines its AI evaluation capabilities,
+              EVAL Engine continually refines its AI evaluation capabilities,
               leverages decentralized data storage on Chromia, and integrates
               real-time social signals to maintain accuracy and adaptability.
             </p>
@@ -444,6 +464,20 @@ export default function Page() {
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+          <div>
+            <h2>References</h2>
+            <div className="space-y-4">
+              <p id="references">
+                [1] Zheng, L., et al. (2023). "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena." [v4] <a href="https://arxiv.org/abs/2306.05685" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">arXiv:2306.05685</a>
+              </p>
+              <p>
+                [2] Huang, L., et al. (2023). "A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions." [v2] <a href="https://arxiv.org/abs/2311.05232" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">arXiv:2311.05232</a>
+              </p>
+              <p>
+                [3] Chromia Documentation. "Subscription Fee Strategy." <a href="https://docs.chromia.com/ft4/backend/accounts/subscription" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Chromia FT4 Documentation</a>
+              </p>
             </div>
           </div>
         </article>
