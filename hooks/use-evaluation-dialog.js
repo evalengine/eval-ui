@@ -30,6 +30,37 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+const ScoreCard = ({ label, percentage, color }) => {
+  const totalDots = 10; // Total number of dots
+  const filledDots = Math.round((percentage / 100) * totalDots); // Calculate the number of filled dots
+  const emptyDots = totalDots - filledDots; // Remaining dots are empty
+
+  return (
+    <div className="flex items-center justify-between bg-black p-4 rounded-xl">
+      <div>
+        {/* Dots */}
+        <div className="flex space-x-1">
+          {[...Array(filledDots)].map((_, i) => (
+            <div
+              key={`filled-${i}`}
+              className={`w-4 h-4 rounded-full ${color}`}
+            ></div>
+          ))}
+          {[...Array(emptyDots)].map((_, i) => (
+            <div
+              key={`empty-${i}`}
+              className="w-4 h-4 rounded-full bg-gray-700"
+            ></div>
+          ))}
+        </div>
+        {/* Label */}
+        <div className="text-sm mt-2">{label}</div>
+      </div>
+      {/* Percentage */}
+      <div className="text-2xl font-bold">{percentage.toFixed(1)}</div>
+    </div>
+  );
+};
 
 export const useEvaluationDialog = () => {
   const [show, hide] = useModalWithProps(
@@ -48,7 +79,37 @@ export const useEvaluationDialog = () => {
           >
             <DialogContent className="w-full max-w-screen-lg overflow-hidden">
               <DialogTitle>Tweet Evaluation Report</DialogTitle>
-              <div className="overflow-auto h-96 lg:h-[calc(100dvh-156px)] space-y-4">
+              <div className="p-4 bg-gray-200 text-white max-w-sm mx-auto rounded-lg space-y-6">
+                {/* Sections */}
+                <ScoreCard
+                  label="Consistency"
+                  percentage={69.7}
+                  color="bg-pink-500"
+                />
+                <ScoreCard
+                  label="Style"
+                  percentage={89.1}
+                  color="bg-green-500"
+                />
+                <ScoreCard
+                  label="Creativity"
+                  percentage={71.2}
+                  color="bg-blue-500"
+                />
+
+                {/* Overall Score */}
+                <div className="flex items-center justify-between bg-black p-4 rounded-xl">
+                <div>
+                    <div className="text-lg">Overall score</div>
+                    <div className="text-sm">TOP*</div>
+                  </div>
+                  <div>
+                    <div className="text-4xl font-bold">87.7</div>
+                    <div className="text-lg">5%</div>
+                  </div>
+                </div>
+              </div>
+              {/* <div className="overflow-auto h-96 lg:h-[calc(100dvh-156px)] space-y-4">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-sm font-medium capitalize">
@@ -206,7 +267,7 @@ export const useEvaluationDialog = () => {
                     </Card>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </DialogContent>
           </Dialog>
         );

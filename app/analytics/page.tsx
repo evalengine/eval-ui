@@ -1,112 +1,99 @@
-"use client";
+import { Metadata } from "next";
+import Image from "next/image";
 
-import { PostchainClient } from "@/lib/postchain";
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { CalendarDateRangePicker } from "./components/date-range-picker"
+import { Overview } from "./components/overview";
+import { RecentLogs } from "./components/recent-logs";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ArrowUpRightFromSquare } from "lucide-react";
+import Link from "next/link";
 
-export default function AnalyticsPage() {
-  const [client, setClient] = useState<PostchainClient | null>(null);
-  const [twitterScores, setTwitterScores] = useState(0);
-  const [accountsCount, setAccountsCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function initClient() {
-      try {
-        const newClient = new PostchainClient();
-        await newClient.init();
-        setClient(newClient);
-      } catch (error) {
-        console.error("Failed to initialize client:", error);
-      }
-    }
-
-    initClient();
-  }, []);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (!client) return;
-
-      try {
-        const [scores, accounts] = await Promise.all([
-          client.getTweetScoresCount(),
-          client.getAccountsCount(),
-        ]);
-        setTwitterScores(scores as number);
-        setAccountsCount(accounts as number);
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-  }, [client]);
-
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Example dashboard app built using the components.",
+};
+import { Metrics } from "./components/metrics";
+export default function DashboardPage() {
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-8">Analytics Dashboard</h1>
-
-      <div className="my-8 p-4 bg-muted rounded-lg">
-        <a
-          href="https://explorer.chromia.com/mainnet/9E7D8243FE78287588E112384F8DC5F3E1CD35D48FD3BE41E46D8F17DD0BED65"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-        >
-          <ExternalLink className="h-4 w-4" />
-          <span>View real time logs on Chromia Explorer</span>
-        </a>
+    <>
+      <div className="container mx-auto flex-col md:flex">
+        {/* <div className="border-b">
+          <div className="flex h-16 items-center px-4">
+            <TeamSwitcher />
+            <MainNav className="mx-6" />
+            <div className="ml-auto flex items-center space-x-4">
+              <Search />
+              <UserNav />
+            </div>
+          </div>
+        </div> */}
+        <div className="flex-1 space-y-4 pt-6">
+          <Link
+            href={
+              process.env.NEXT_PUBLIC_EXPLORER_URL ||
+              "https://explorer.chromia.com/mainnet/9E7D8243FE78287588E112384F8DC5F3E1CD35D48FD3BE41E46D8F17DD0BED65"
+            }
+            target="_blank"
+          >
+            <Alert>
+              <ArrowUpRightFromSquare className="h-4 w-4" />
+              <AlertTitle>Chromia Explorer</AlertTitle>
+              <AlertDescription>
+                View real time logs on Chromia Explorer
+              </AlertDescription>
+            </Alert>
+          </Link>
+          <div className="flex items-center justify-between space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight">Analytics</h2>
+            <div className="flex items-center space-x-2"></div>
+          </div>
+          <Tabs defaultValue="overview" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="analytics" disabled>
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="reports" disabled>
+                Reports
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview" className="space-y-4">
+              <Metrics />
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                {/* <Card className="col-span-4">
+                  <CardHeader>
+                    <CardTitle>Overview</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pl-2">
+                    <Overview />
+                  </CardContent>
+                </Card> */}
+                <Card className="col-span-full">
+                  <CardHeader>
+                    <CardTitle>Recent logs</CardTitle>
+                    <CardDescription>
+                      The most recent logs from your operations.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <RecentLogs />
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-muted-foreground">
-              Total Twitter Scores
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <div className="space-y-2" />
-            ) : (
-              <>
-                <div className="text-4xl font-bold mb-2">
-                  {new Intl.NumberFormat().format(twitterScores)}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Total scores processed
-                </p>
-              </>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-muted-foreground">
-              Total Accounts
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <div className="space-y-2" />
-            ) : (
-              <>
-                <div className="text-4xl font-bold mb-2">
-                  {new Intl.NumberFormat().format(accountsCount)}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Total registered accounts
-                </p>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    </>
   );
 }
