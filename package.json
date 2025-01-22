@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "proxy": "lcp --proxyUrl https://api.evaengine.ai"
+    "proxy": "lcp --proxyUrl https://api.evalengine.ai"
   },
   "dependencies": {
     "@liholiho/react-modal-hook": "^3.0.0",

@@ -99,12 +99,12 @@ export const useAPISettingsDialog = ({}) => {
                     <DialogDescription>
                       <span className="text-red-500 italic text-xs">
                         Your JWT token has expired. Please update your API
-                        settings to continue using the EvaEngine API.
+                        settings to continue using the EvalEngine API.
                       </span>
                     </DialogDescription>
                   ) : (
                     <DialogDescription>
-                      Configure your API settings to start using the EvaEngine
+                      Configure your API settings to start using the EvalEngine
                       API.
                     </DialogDescription>
                   )}
@@ -221,7 +221,7 @@ export function APISettings() {
           <TooltipContent>
             <p>
               Your JWT token has expired. Please update your API settings to
-              continue using the EvaEngine API.
+              continue using the EvalEngine API.
             </p>
           </TooltipContent>
         </Tooltip>

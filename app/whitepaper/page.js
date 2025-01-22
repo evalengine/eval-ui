@@ -32,13 +32,13 @@ export default function Page() {
             reinforcement learning via feedback loop and reward system.
           </p>
           <p>
-            We demonstrate EvaEngine can achieve efficient, secure evaluations
+            We demonstrate EvalEngine can achieve efficient, secure evaluations
             while adapting to evolving performance standards through
             engagement-driven feedback loops.
           </p>
           <p>
             We also present a comprehensive roadmap for the development of
-            EvaEngine, including API development, data preparation, model
+            EvalEngine, including API development, data preparation, model
             development, and model deployment.
           </p>
           <div>
@@ -85,13 +85,13 @@ export default function Page() {
             </ul>
           </div>
           <p>
-            EvaEngine addresses these challenges head-on with a decentralized
+            EvalEngine addresses these challenges head-on with a decentralized
             system specifically designed for real-time, cost-effective, and
             transparent evaluations. Built on Chromias gas-free relational
             blockchain, our framework unlocks efficient data storage while
             preserving immutability and traceability. By integrating LLM-based
             judgments, social engagement metrics, and continuous reinforcement
-            learning strategies, EvaEngine enables a dynamic environment where
+            learning strategies, EvalEngine enables a dynamic environment where
             AI agents—particularly crypto-native ones—can evolve and improve
             continuously.
           </p>
@@ -116,10 +116,10 @@ export default function Page() {
               </ul>
             </div>
             <div>
-              <h2>EvaEngine: Evaluation Engine</h2>
+              <h2>EvalEngine: Evaluation Engine</h2>
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  The EvaEngine orchestrates multiple evaluators (e.g.,
+                  The EvalEngine orchestrates multiple evaluators (e.g.,
                   classification models, LLM judges) to form a composite score
                   that reflects various performance metrics (accuracy,
                   creativity, factual correctness).
@@ -186,7 +186,7 @@ export default function Page() {
             <h2>Evaluation Technicalities</h2>
             <p className="mb-4">
               Traditional single-prompt scoring systems are vulnerable to
-              manipulation through prompt injection and leaking. EvaEngine
+              manipulation through prompt injection and leaking. EvalEngine
               implements a robust multi-layer approach to ensure evaluation
               integrity:
             </p>
@@ -304,7 +304,7 @@ export default function Page() {
                   Subscription Model in $EVAL
                 </h3>
                 <p className="mb-4">
-                  Each evaluation report on EvaEngine is paid for using $EVAL
+                  Each evaluation report on EvalEngine is paid for using $EVAL
                   tokens through a subscription model detailed in Chromia{" "}
                   <a
                     href="https://docs.chromia.com/ft4/backend/accounts/subscription"
@@ -324,7 +324,7 @@ export default function Page() {
                   Token Utility and Conversion
                 </h3>
                 <p className="mb-4">
-                  EvaEngine uses $EVAL tokens to acquire $CHR when computational
+                  EvalEngine uses $EVAL tokens to acquire $CHR when computational
                   resources are required. This design leverages Chromias
                   gas-free architecture while maintaining a clear payment model.
                   Because each evaluation is properly backed by tokens (both in
@@ -337,7 +337,7 @@ export default function Page() {
           <div>
             <h2>Roadmap</h2>
             <p className="mb-6">
-              EvaEngine continually refines its AI evaluation capabilities,
+              EvalEngine continually refines its AI evaluation capabilities,
               leverages decentralized data storage on Chromia, and integrates
               real-time social signals to maintain accuracy and adaptability.
             </p>
