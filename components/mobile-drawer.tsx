@@ -31,7 +31,7 @@ export function MobileDrawer() {
             <Icons.logo className="w-auto h-[40px]" />
             <DrawerTitle>{siteConfig.name}</DrawerTitle>
           </Link>
-          <DrawerDescription>{siteConfig.description}</DrawerDescription>
+          {/* <DrawerDescription>{siteConfig.description}</DrawerDescription> */}
         </DrawerHeader>
         <DrawerFooter>
           <Link href="/litepaper" className="w-full block">
