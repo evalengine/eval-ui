@@ -11,11 +11,12 @@ import { Footer } from "@/components/sections/footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-
 import "./globals.css";
 
 export const metadata: Metadata = constructMetadata({
-  title: `${siteConfig.name} | ${siteConfig.description}`,
+  title: siteConfig.name,
+  description: siteConfig.description,
+  image: "https://evaengine.ai/banner.jpeg",
 });
 
 export const viewport: Viewport = {
