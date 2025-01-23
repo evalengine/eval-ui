@@ -12,7 +12,7 @@ export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
   name: "EVAL Engine",
-  // description: "Create AI Agents with just a few lines of code.",
+  description: "",
   cta: "Playground",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   keywords: [
