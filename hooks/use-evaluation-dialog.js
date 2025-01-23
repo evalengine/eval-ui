@@ -31,6 +31,51 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+const ScoreCard = ({ label, percentage, color, rationale }) => {
+  const totalDots = 10; // Total number of dots
+  const filledDots = Math.round((percentage / 100) * totalDots); // Calculate the number of filled dots
+  const emptyDots = totalDots - filledDots; // Remaining dots are empty
+
+  return (
+    <div className="flex flex-col bg-zinc-900 p-4 rounded-xl">
+      {/* <Accordion type="single" collapsible>
+        <AccordionItem>
+          <AccordionTrigger> */}
+      <div className="flex items-center justify-between">
+        <div>
+          {/* Dots */}
+          <div className="flex space-x-1">
+            {[...Array(filledDots)].map((_, i) => (
+              <div
+                key={`filled-${i}`}
+                className={`w-4 h-4 rounded-full ${color}`}
+              ></div>
+            ))}
+            {[...Array(emptyDots)].map((_, i) => (
+              <div
+                key={`empty-${i}`}
+                className="w-4 h-4 rounded-full bg-zinc-700"
+              ></div>
+            ))}
+          </div>
+          {/* Label */}
+          <div className="mt-2 font-medium capitalize">{label}</div>
+        </div>
+
+        {/* Percentage */}
+        <div className="text-3xl font-bold ml-6">{percentage.toFixed(1)}</div>
+      </div>
+      {/* </AccordionTrigger> */}
+
+      {/* <AccordionContent> */}
+      <p className="text-xs text-muted-foreground mt-4">{rationale}</p>
+      {/* </AccordionContent>
+        </AccordionItem>
+      </Accordion> */}
+    </div>
+  );
+};
+
 export const useEvaluationDialog = () => {
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {}, result = {} } = {}) =>
@@ -48,91 +93,47 @@ export const useEvaluationDialog = () => {
           >
             <DialogContent className="w-full max-w-screen-lg overflow-hidden">
               <DialogTitle>Tweet Evaluation Report</DialogTitle>
+
               <div className="overflow-auto h-96 lg:h-[calc(100dvh-156px)] space-y-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-sm font-medium capitalize">
-                      Overall Performance
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-col items-center justify-center">
-                    <ChartContainer
-                      config={{}}
-                      className="mx-auto aspect-square h-64"
-                    >
-                      <RadialBarChart
-                        data={[
-                          {
-                            browser: "safari",
-                            scores: result.final_score,
-                            // fill: "hsl(var(--primary))",
-                            fill: "#fff",
-                          },
-                        ]}
-                        startAngle={0}
-                        endAngle={
-                          result.final_score > 100
-                            ? 360
-                            : (result.final_score / 100) * 360
-                        }
-                        innerRadius={80}
-                        outerRadius={110}
-                      >
-                        <PolarGrid
-                          gridType="circle"
-                          radialLines={false}
-                          stroke="none"
-                          className="first:fill-muted last:fill-background"
-                          polarRadius={[86, 74]}
-                        />
-                        <RadialBar
-                          dataKey="scores"
-                          background
-                          cornerRadius={10}
-                        />
-                        <PolarRadiusAxis
-                          tick={false}
-                          tickLine={false}
-                          axisLine={false}
-                        >
-                          <RELabel
-                            content={({ viewBox }) => {
-                              if (
-                                viewBox &&
-                                "cx" in viewBox &&
-                                "cy" in viewBox
-                              ) {
-                                return (
-                                  <text
-                                    x={viewBox.cx}
-                                    y={viewBox.cy}
-                                    textAnchor="middle"
-                                    dominantBaseline="middle"
-                                  >
-                                    <tspan
-                                      x={viewBox.cx}
-                                      y={viewBox.cy + 3}
-                                      className="fill-foreground text-4xl font-bold"
-                                    >
-                                      {result.final_score.toFixed(1)}
-                                    </tspan>
-                                  </text>
-                                );
-                              }
-                            }}
-                          />
-                        </PolarRadiusAxis>
-                      </RadialBarChart>
-                    </ChartContainer>
+                <ScoreCard
+                  label="Overall"
+                  percentage={result.final_score}
+                  color="bg-white"
+                  rationale={
+                    <>
+                      <h1 className="mt-5 mb-3 text-muted-foreground">
+                        Suggested Response
+                      </h1>
+                      <p className="text-sm font-bold">
+                        {result.recommended_response}
+                      </p>
+                    </>
+                  }
+                />
 
-                    <Progress value={result.final_score} />
-                    <h1 className="mt-5 mb-3 text-muted-foreground">Suggested Response</h1>
-                    <p className="text-sm font-bold">
-                      {result.recommended_response}
-                    </p>
-                  </CardContent>
-                </Card>
-
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
+                  {Object.entries({
+                    truth: result.truth,
+                    accuracy: result.accuracy,
+                    creativity: result.creativity,
+                    engagement: result.engagement,
+                  }).map(([category, data]) => (
+                    <ScoreCard
+                      key={category}
+                      label={category}
+                      percentage={data.score}
+                      color={
+                        {
+                          truth: "bg-pink-500",
+                          accuracy: "bg-green-500",
+                          creativity: "bg-blue-500",
+                          engagement: "bg-yellow-500",
+                        }[category]
+                      }
+                      rationale={data.rationale}
+                    />
+                  ))}
+                </div>
                 <div className="flex w-full p-2 space-x-2 overflow-x-auto snap-x snap-mandatory md:snap-none md:overflow-y-hidden">
                   <div className="flex-shrink-0 md:flex-shrink md:min-w-96 snap-center rounded-md bg-background-100 w-full">
                     <div className="w-full rounded-md border border-gray-alpha-400">
@@ -170,41 +171,6 @@ export const useEvaluationDialog = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {Object.entries({
-                    truth: result.truth,
-                    accuracy: result.accuracy,
-                    creativity: result.creativity,
-                    engagement: result.engagement,
-                  }).map(([category, data]) => (
-                    <Card key={category}>
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium capitalize">
-                          {category}
-                        </CardTitle>
-
-                        <small className="font-bold">
-                          {data.score.toFixed(1)}
-                        </small>
-                      </CardHeader>
-                      <CardContent>
-                        <Accordion type="single" collapsible>
-                          <AccordionItem value={category}>
-                            <AccordionTrigger>
-                              <Progress value={data.score} />
-                            </AccordionTrigger>
-                            <AccordionContent>
-                              <p className="text-xs text-muted-foreground mt-4">
-                                {data.rationale}
-                              </p>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
-                      </CardContent>
-                    </Card>
-                  ))}
                 </div>
               </div>
             </DialogContent>

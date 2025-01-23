@@ -22,15 +22,24 @@ export function Header() {
           <Icons.logo className="w-auto" />
           <span className="font-semibold text-lg">{siteConfig.name}</span>
         </Link>
-        <div className="hidden lg:block">
+        <div className="hidden lg:block space-x-4">
           <Link
-            href="/playground"
+            href="/litepaper"
             className={cn(
               buttonVariants({ variant: "outline" }),
               "rounded-lg group tracking-tight font-medium"
             )}
           >
-            {siteConfig.cta}
+            LitePaper
+          </Link>
+          <Link
+            href="/playground"
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "rounded-lg group tracking-tight font-medium"
+            )}
+          >
+            Playground
           </Link>
         </div>
         <div className="mt-2 cursor-pointer block lg:hidden">
