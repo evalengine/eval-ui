@@ -109,7 +109,7 @@ export function Card1() {
         variants={containerVariants}
         initial="initial"
         whileHover="whileHover"
-        className="flex flex-col gap-y-5 items-center justify-between h-full w-full cursor-pointer"
+        className="flex flex-col gap-y-5 items-center justify-between h-full w-full"
       >
         <div className="flex h-full w-full items-center justify-center rounded-t-xl border-b">
           <div className="relative flex flex-col items-center justify-center gap-y-2 p-10">
@@ -123,9 +123,7 @@ export function Card1() {
               <div className="flex flex-col gap-y-2">
                 <div className="h-2 w-32 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
                 <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
-                <div className="text-xs text-neutral-500">
-                  Google Search API integration
-                </div>
+                <div className="text-xs text-neutral-500">API integration</div>
               </div>
             </motion.div>
             <motion.div
@@ -239,10 +237,10 @@ const Card2 = () => {
         variants={containerVariants}
         initial="initial"
         whileHover="whileHover"
-        className="flex flex-col gap-y-5 items-center justify-between h-full w-full cursor-pointer"
+        className="flex flex-col gap-y-5 items-center justify-between h-full w-full"
       >
         <div className="border-b items-center justify-center overflow-hidden bg-transparent rounded-t-xl h-4/5 w-full flex ">
-          <motion.div className="p-5 rounded-t-md cursor-pointer overflow-hidden h-[270px] flex flex-col gap-y-3.5 w-full">
+          <motion.div className="p-5 rounded-t-md overflow-hidden h-[270px] flex flex-col gap-y-3.5 w-full">
             {logs.map((log, index) => (
               <motion.div
                 key={log.id}

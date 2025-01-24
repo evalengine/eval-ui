@@ -29,7 +29,7 @@ export function MobileDrawer() {
             className="relative mr-6 flex items-center space-x-2"
           >
             <Icons.logo className="w-auto h-[40px]" />
-            <DrawerTitle>{siteConfig.name}</DrawerTitle>
+            {/* <DrawerTitle>{siteConfig.name}</DrawerTitle> */}
           </Link>
           {/* <DrawerDescription>{siteConfig.description}</DrawerDescription> */}
         </DrawerHeader>

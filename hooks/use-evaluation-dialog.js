@@ -31,7 +31,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const ScoreCard = ({ label, percentage, color, rationale }) => {
+const ScoreCard = ({ label, percentage, color, rationale, scoreLabel }) => {
   const totalDots = 10; // Total number of dots
   const filledDots = Math.round((percentage / 100) * totalDots); // Calculate the number of filled dots
   const emptyDots = totalDots - filledDots; // Remaining dots are empty
@@ -63,12 +63,12 @@ const ScoreCard = ({ label, percentage, color, rationale }) => {
         </div>
 
         {/* Percentage */}
-        <div className="text-3xl font-bold ml-6">{percentage.toFixed(1)}</div>
+        <div className="text-3xl font-bold ml-6">{scoreLabel}</div>
       </div>
       {/* </AccordionTrigger> */}
 
       {/* <AccordionContent> */}
-      <p className="text-xs text-muted-foreground mt-4">{rationale}</p>
+      <div className="text-xs text-muted-foreground mt-4">{rationale}</div>
       {/* </AccordionContent>
         </AccordionItem>
       </Accordion> */}
@@ -98,6 +98,13 @@ export const useEvaluationDialog = () => {
                 <ScoreCard
                   label="Overall"
                   percentage={result.final_score}
+                  scoreLabel={
+                    <>
+                      <h1 className="text-5xl">
+                        {result.final_score.toFixed(1)}
+                      </h1>
+                    </>
+                  }
                   color="bg-white"
                   rationale={
                     <>
@@ -122,6 +129,11 @@ export const useEvaluationDialog = () => {
                       key={category}
                       label={category}
                       percentage={data.score}
+                      scoreLabel={
+                        <>
+                          <h1 className="text-3xl">{data.score.toFixed(1)}</h1>
+                        </>
+                      }
                       color={
                         {
                           truth: "bg-pink-500",
