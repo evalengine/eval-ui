@@ -19,7 +19,7 @@ import {
 } from "@/components/api-settings";
 import { useForm, FormProvider } from "react-hook-form";
 
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -36,7 +36,7 @@ import { extractTweetId } from "@/lib/utils";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
-export default function PlaygroundPage() {
+function Playground() {
   const { data: { data: getVirtual } = {} } = useQuery({
     queryKey: ["getVirtual"],
     queryFn: API.getVirtual,
@@ -106,7 +106,6 @@ export default function PlaygroundPage() {
     {}
   );
   const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
-
 
   return (
     <>
@@ -240,5 +239,13 @@ export default function PlaygroundPage() {
         </form>
       </FormProvider>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <Playground />
+    </Suspense>
   );
 }

@@ -5,14 +5,15 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle, DialogFooter
+  DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
 import { useModalWithProps } from "@/hooks/useModalWithProps";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -49,8 +50,8 @@ export const useAPISettingsDialog = ({}) => {
     );
 
     const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete('token');
-    window.history.replaceState(null, '', `?${newParams.toString()}`);
+    newParams.delete("token");
+    window.history.replaceState(null, "", `?${newParams.toString()}`);
   }, [token]);
   const queryClient = useQueryClient();
 
@@ -289,7 +290,7 @@ export function useIsJWTExpired(token: string) {
   }
 }
 
-export function APISettings() {
+function _APISettings() {
   const [showAPISettingsDialog, hideAPISettingsDialog] = useAPISettingsDialog(
     {}
   );
@@ -352,5 +353,13 @@ export function APISettings() {
         <Settings className="w-4 h-4" />
       </Button>
     </>
+  );
+}
+
+export function APISettings() {
+  return (
+    <Suspense>
+      <_APISettings />
+    </Suspense>
   );
 }

@@ -6,12 +6,11 @@ import { Tools } from "@/components/sections/tools";
 import { UseCases } from "@/components/sections/use-cases";
 import { Chromia } from "@/components/sections/chromia";
 import { redirect } from "next/navigation";
-import { SearchParams } from "next/dist/server/request/search-params";
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<{ token: string }>;
 }) {
   const { token } = await searchParams;
   if (token) {
