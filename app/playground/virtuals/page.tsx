@@ -19,7 +19,7 @@ import {
 } from "@/components/api-settings";
 import { useForm, FormProvider } from "react-hook-form";
 
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -34,6 +34,7 @@ import isToday from "dayjs/plugin/isToday";
 import Link from "next/link";
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 import { extractTweetId } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
@@ -112,6 +113,21 @@ export default function PlaygroundPage() {
     {}
   );
   const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const token = searchParams.get('token');
+    if (token) {
+      localStorage.setItem('virtual-jwt-token', token);
+      queryClient.setQueryData(['virtual-jwt-token'], token);
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete('token');
+      window.history.replaceState(null, '', `?${newParams.toString()}`);
+      queryClient.invalidateQueries({ queryKey: ['getVirtual'] });
+      queryClient.invalidateQueries({ queryKey: ['scores'] });
+    }
+  }, [searchParams, queryClient]);
 
   return (
     <>
