@@ -1,5 +1,5 @@
 "use client";
-import { Plus, History } from "lucide-react";
+import { History } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,7 @@ import {
 } from "@/components/api-settings";
 import { useForm, FormProvider } from "react-hook-form";
 
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -31,18 +31,12 @@ import API from "@/api";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
-import Link from "next/link";
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 import { extractTweetId } from "@/lib/utils";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
-// export const metadata: Metadata = {
-//   title: "Playground",
-//   description: "The OpenAI Playground built using the components.",
-// };
-
-export default function PlaygroundPage() {
+function Playground() {
   const { data: { data: getVirtual } = {} } = useQuery({
     queryKey: ["getVirtual"],
     queryFn: API.getVirtual,
@@ -137,18 +131,6 @@ export default function PlaygroundPage() {
           <div className="flex flex-row w-full">
             <div className="hidden z-30 sticky top-[56px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
               <aside className="flex flex-col gap-3 sticky top-[56px] py-4">
-                {/* <Tooltip delayDuration={0}>
-                  <TooltipTrigger asChild>
-                    <Link href="/playground/virtuals">
-                      <Button size="icon" variant="ghost" type="button">
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>New</p>
-                  </TooltipContent>
-                </Tooltip> */}
                 <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
                     <Button
@@ -257,5 +239,13 @@ export default function PlaygroundPage() {
         </form>
       </FormProvider>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <Playground />
+    </Suspense>
   );
 }

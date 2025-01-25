@@ -5,7 +5,7 @@ type IconProps = React.HTMLAttributes<SVGElement>;
 export const Icons = {
   logo: (props: IconProps) => (
     <>
-      <img src="Logo-white-no-bg.svg" className="h-10" />
+      <img src="/Logo-white-no-bg.svg" className="h-10" />
       {/* <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
