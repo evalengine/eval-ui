@@ -11,8 +11,8 @@ export class PostchainClient {
     async init() {
         this.client = await createClient({
             directoryNodeUrlPool: [
-                "https://chromina-node.stablelab.xyz:7740",
                 "https://dapps0.chromaway.com:7740",
+                "https://chromina-node.stablelab.xyz:7740",
                 "https://chromia-mainnet.w3coins.io:7740",
                 "https://mainnet-dapp1.sunube.net:7740",
                 "https://chromia.01node.com:7740",
@@ -29,5 +29,37 @@ export class PostchainClient {
 
     async getAccountsCount() {
         return this.client.query("accounts_count", {});
+    }
+
+    async getEngineCount() {
+        return this.client.query("engine_count", {});
+    }
+
+    async getEngines(total: number) {
+        return this.client.query("get_engines", {
+            n_engines: total,
+            pointer: 0
+        });
+    }
+
+    async getTweetScoresCountByUserAddress(userAddress: string) {
+        return this.client.query("get_tweet_scores_count_by_user_address", {
+            user_address: userAddress
+        });
+    }
+    async getTweetScoresByUserAddress(
+        userAddress: string,
+        pointer: number,
+        nScores: number,
+        endTime: number,
+        startTime: number = 0
+    ) {
+        return this.client.query("get_tweet_scores_by_user_address", {
+            user_address: userAddress,
+            pointer,
+            n_scores: nScores,
+            end_time: endTime,
+            start_time: startTime
+        });
     }
 }

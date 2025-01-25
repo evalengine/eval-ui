@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
 import { useAccountCount } from "@/hooks/postchain/use-account-count";
 import { useTwitterScore } from "@/hooks/postchain/use-twitter-score";
+import { useEngine } from "@/hooks/postchain/use-engine";
 
 export function Metrics() {
   const { client } = usePostchainClient();
@@ -19,7 +20,7 @@ export function Metrics() {
     useAccountCount(client) as any;
   const { value: twitterScore, isLoading: isLoadingTwitterScore } =
     useTwitterScore(client) as any;
-  console.log(accountCount);
+  const { value: engine, isLoading: isLoadingEngine } = useEngine(client!);
 
   return (
     <>
@@ -88,7 +89,64 @@ export function Metrics() {
             </p>
           </CardContent>
         </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Engines
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {!isLoadingEngine? engine.total : <Skeleton className="w-10 h-6" />}
+            </div>
+          </CardContent>
+        </Card>
       </div>
+      {!isLoadingEngine && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-bold tracking-tight">Engines</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+            {engine.engines.engines.map((engine: any, key: number) => (
+              <Card key={key}>
+                <CardHeader>
+                  <CardTitle>{engine.name}</CardTitle>
+                  <CardDescription>{engine.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="font-medium">Prefix:</span>
+                      <span>{engine.prefix}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Description:</span>
+                      <span>{engine.description}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">ID:</span>
+                      <span>{engine.id}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Created:</span>
+                      <span>{new Date(engine.created_at).toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Updated:</span>
+                      <span>{new Date(engine.updated_at).toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Address:</span>
+                      <span className="truncate">{engine.address.toString("hex")}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 }
