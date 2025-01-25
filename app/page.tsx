@@ -6,12 +6,16 @@ import { Tools } from "@/components/sections/tools";
 import { UseCases } from "@/components/sections/use-cases";
 import { Chromia } from "@/components/sections/chromia";
 import { redirect } from "next/navigation";
+import { SearchParams } from "next/dist/server/request/search-params";
 
-export default function Home({
+export default async function Home({
   searchParams,
-}: Readonly<{ searchParams: any }>) {
-  if (searchParams["token"]) {
-    redirect(`/playground/virtuals?token=${searchParams["token"]}`);
+}: {
+  searchParams: SearchParams;
+}) {
+  const { token } = await searchParams;
+  if (token) {
+    redirect(`/playground/virtuals?token=${token}`);
   }
 
   return (
