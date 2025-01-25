@@ -5,16 +5,14 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
+  DialogTitle, DialogFooter
 } from "@/components/ui/dialog";
 import { Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
 import { useModalWithProps } from "@/hooks/useModalWithProps";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -22,8 +20,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-const jwt = require("jsonwebtoken");
 import { useSearchParams } from "next/navigation";
+const jwt = require("jsonwebtoken");
 
 export const useAPISettingsDialog = ({}) => {
   const {
@@ -49,6 +47,10 @@ export const useAPISettingsDialog = ({}) => {
       "virtual-jwt-token",
       token || localStorage.getItem("virtual-jwt-token") || ""
     );
+
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.delete('token');
+    window.history.replaceState(null, '', `?${newParams.toString()}`);
   }, [token]);
   const queryClient = useQueryClient();
 
