@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import { CalendarDateRangePicker } from "./components/date-range-picker"
-import { Overview } from "./components/overview";
 import { RecentLogs } from "./components/recent-logs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -24,7 +23,12 @@ export const metadata: Metadata = {
 };
 import { Metrics } from "./components/metrics";
 import { Analytics } from "./components/analytics";
-export default function DashboardPage() {
+
+export default function DashboardPage({
+  searchParams,
+}: {
+  searchParams: URLSearchParams;
+}) {
   return (
     <>
       <div className="container mx-auto flex-col md:flex">
@@ -61,24 +65,14 @@ export default function DashboardPage() {
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics">
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
+              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              {/* <TabsTrigger value="reports" disabled>
                 Reports
-              </TabsTrigger>
+              </TabsTrigger> */}
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <Metrics />
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-                {/* <Card className="col-span-4">
-                  <CardHeader>
-                    <CardTitle>Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pl-2">
-                    <Overview />
-                  </CardContent>
-                </Card> */}
+              {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-full">
                   <CardHeader>
                     <CardTitle>Recent logs</CardTitle>
@@ -90,7 +84,7 @@ export default function DashboardPage() {
                     <RecentLogs />
                   </CardContent>
                 </Card>
-              </div>
+              </div> */}
             </TabsContent>
             <TabsContent value="analytics">
               <Analytics />
