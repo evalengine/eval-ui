@@ -4,7 +4,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { useFormContext, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { JsonEditor, githubDarkTheme } from "json-edit-react";
 import JsonView from "react18-json-view";
 import "react18-json-view/src/style.css";
 // If dark mode is needed, import `dark.css`.
