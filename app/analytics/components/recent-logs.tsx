@@ -5,7 +5,7 @@ export function RecentLogs() {
   return (
     <div className="space-y-8">
       {Array.from({ length: 5 }).map((_, i) => (
-        <div className="flex items-center space-x-4">
+        <div key={i} className="flex items-center space-x-4">
           <Skeleton className="flex-shrink-0 h-9 w-9 rounded-full">
             {/* <Avatar className="h-9 w-9">
               <AvatarImage src="/avatars/01.png" alt="Avatar" />

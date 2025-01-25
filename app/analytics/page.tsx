@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   description: "Example dashboard app built using the components.",
 };
 import { Metrics } from "./components/metrics";
+import { Analytics } from "./components/analytics";
 export default function DashboardPage() {
   return (
     <>
@@ -60,7 +61,7 @@ export default function DashboardPage() {
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
+              <TabsTrigger value="analytics">
                 Analytics
               </TabsTrigger>
               <TabsTrigger value="reports" disabled>
@@ -90,6 +91,9 @@ export default function DashboardPage() {
                   </CardContent>
                 </Card>
               </div>
+            </TabsContent>
+            <TabsContent value="analytics">
+              <Analytics />
             </TabsContent>
           </Tabs>
         </div>
