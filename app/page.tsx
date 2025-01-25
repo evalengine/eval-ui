@@ -7,9 +7,9 @@ import { Tools } from "@/components/sections/tools";
 import { UseCases } from "@/components/sections/use-cases";
 import { Chromia } from "@/components/sections/chromia";
 import { redirect, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
-export default function Home() {
+function _Page() {
   // {
   //   searchParams,
   // }: {
@@ -39,6 +39,16 @@ export default function Home() {
         <Chromia />
         <CTA />
       </main>
+    </>
+  );
+}
+
+export default function Page() {
+  return (
+    <>
+      <Suspense>
+        <_Page />
+      </Suspense>
     </>
   );
 }
