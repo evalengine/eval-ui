@@ -8,8 +8,8 @@ import { Metrics } from "./components/metrics";
 import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Example dashboard app built using the components.",
+  title: "Analytics",
+  description: "Analytics dashboard",
 };
 
 export default function DashboardPage() {
