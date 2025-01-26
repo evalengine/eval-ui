@@ -58,12 +58,12 @@ import { useEvalHistory } from "@/hooks/postchain/use-eval-history";
 import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function ScoreHistory({ data }: { data: any }) {
+export function ScoreHistory({ data = [] }: { data: any }) {
   return (
     <>
       <ResponsiveContainer width="100%" height={350}>
         <BarChart
-          data={data?.scores.scores.map((score: any, i: any) => ({
+          data={data.map((score: any, i: any) => ({
             name: i,
             total: score.final_score,
           }))}

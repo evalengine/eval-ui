@@ -5,10 +5,20 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEvalHistory } from "@/hooks/postchain/use-eval-history";
 import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ScoreHistory } from "./score-history";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
+
+import { AlertCircle, UserIcon } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function Analytics() {
   const {
@@ -26,7 +36,11 @@ export function Analytics() {
   const [userAddress, setUserAddress] = useState("");
   // 02EF9E21262155811C9EB46AB795E104C9D464FCF7E8554F14C019C0488F0D2E1D
   const { client } = usePostchainClient();
-  const { data, isLoading } = useEvalHistory(client!, userAddress);
+  const { data, isLoading, isError, isSuccess } = useEvalHistory(
+    client!,
+    userAddress
+  );
+  console.log("data", data);
 
   return (
     <div className="space-y-4">
@@ -51,7 +65,52 @@ export function Analytics() {
         </Button>
       </form>
 
-      {userAddress && !isLoading && (
+      {isLoading && (
+        <Alert variant="default">
+          <svg
+            className="mr-3 -ml-1 size-5 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          <AlertTitle>Loading</AlertTitle>
+          <AlertDescription>Searching for user address</AlertDescription>
+        </Alert>
+      )}
+
+      {!userAddress && (
+        <Alert variant="default">
+          <UserIcon className="h-4 w-4" />
+          <AlertTitle>Enter User Address</AlertTitle>
+          <AlertDescription>
+            Enter a user address to view the evaluation history
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {isError && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>User address not found</AlertDescription>
+        </Alert>
+      )}
+
+      {isSuccess && (
         <>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
             <Card>
@@ -93,9 +152,12 @@ export function Analytics() {
           <Card className="col-span-4">
             <CardHeader>
               <CardTitle>Score History</CardTitle>
+              <CardDescription>
+                The score history for the user address.
+              </CardDescription>
             </CardHeader>
             <CardContent className="pl-2">
-              <ScoreHistory data={data} />
+              <ScoreHistory data={data?.scores?.scores || []} />
             </CardContent>
           </Card>
         </>

@@ -126,91 +126,63 @@ export function Metrics() {
           </CardContent>
         </Card>
       </div>
-      {/* <DataTable
-        columns={columns}
-        data={[
-          {
-            id: "m5gr84i9",
-            amount: 316,
-            status: "success",
-            email: "ken99@yahoo.com",
-          },
-          {
-            id: "3u1reuv4",
-            amount: 242,
-            status: "success",
-            email: "Abe45@gmail.com",
-          },
-          {
-            id: "derv1ws0",
-            amount: 837,
-            status: "processing",
-            email: "Monserrat44@gmail.com",
-          },
-          {
-            id: "5kma53ae",
-            amount: 874,
-            status: "success",
-            email: "Silas22@gmail.com",
-          },
-          {
-            id: "bhqecj4p",
-            amount: 721,
-            status: "failed",
-            email: "carmella@hotmail.com",
-          },
-        ] as any}
-      /> */}
-      <Separator orientation="horizontal" className="w-full" />
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold tracking-tight">Engines</h2>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-          {engine?.engines.engines.map((engine: any, key: number) => (
-            <Card key={key}>
-              <CardHeader>
-                <CardTitle className="text-base">{engine.name}</CardTitle>
-                <CardDescription className="text-sm">
-                  {engine.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between space-x-4">
-                    <span className="font-medium">Prefix:</span>
-                    <span>{engine.prefix}</span>
+      <Card>
+        <CardHeader>
+          <CardTitle>Engines</CardTitle>
+          <CardDescription>Engines</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+            {engine?.engines.engines.map((engine: any, key: number) => (
+              <Card key={key}>
+                <CardHeader>
+                  <CardTitle className="text-base">{engine.name}</CardTitle>
+                  <CardDescription className="text-sm">
+                    {engine.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between space-x-4">
+                      <span className="font-medium">Prefix:</span>
+                      <span>{engine.prefix}</span>
+                    </div>
+                    <div className="flex justify-between space-x-4">
+                      <span className="font-medium">Description:</span>
+                      <span>{engine.description}</span>
+                    </div>
+                    <div className="flex justify-between space-x-4">
+                      <span className="font-medium">ID:</span>
+                      <span>{engine.id}</span>
+                    </div>
+                    <div className="flex justify-between space-x-4">
+                      <span className="font-medium">Created:</span>
+                      <span>
+                        {new Date(engine.created_at).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between space-x-4">
+                      <span className="font-medium">Updated:</span>
+                      <span>
+                        {new Date(engine.updated_at).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between space-x-4">
+                      <span className="font-medium">Address:</span>
+                      <span className="truncate">
+                        {engine.address.toString("hex")}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="font-medium">Description:</span>
-                    <span>{engine.description}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="font-medium">ID:</span>
-                    <span>{engine.id}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="font-medium">Created:</span>
-                    <span>{new Date(engine.created_at).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="font-medium">Updated:</span>
-                    <span>{new Date(engine.updated_at).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="font-medium">Address:</span>
-                    <span className="truncate">
-                      {engine.address.toString("hex")}
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
 
-          {isLoadingEngine && <Skeleton className="min-h-64 h-full" />}
-        </div>
-      </div>
+            {isLoadingEngine && <Skeleton className="min-h-64 h-full" />}
+          </div>
+        </CardContent>
+      </Card>
+      {/* <Separator /> */}
     </>
   );
 }
