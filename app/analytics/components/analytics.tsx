@@ -153,7 +153,7 @@ export function Analytics() {
             <CardHeader>
               <CardTitle>Score History</CardTitle>
               <CardDescription>
-                The score history for the user address.
+                The average score history for the user address.
               </CardDescription>
             </CardHeader>
             <CardContent className="pl-2">

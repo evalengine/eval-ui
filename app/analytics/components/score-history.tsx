@@ -1,127 +1,183 @@
 "use client";
 
-// import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import dayjs from "dayjs";
 
+import * as echarts from "echarts/core";
 import {
-  CartesianGrid,
-  Line,
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  GridComponent,
+  LegendComponent,
+  VisualMapComponent,
+  DataZoomComponent,
+} from "echarts/components";
+import { SVGRenderer } from "echarts/renderers";
+import { LineChart, BarChart } from "echarts/charts";
+
+echarts.use([
   LineChart,
-  XAxis,
-  YAxis,
-  Bar,
   BarChart,
-  ResponsiveContainer,
-} from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+
+  TitleComponent,
+  TooltipComponent,
+  ToolboxComponent,
+  VisualMapComponent,
+  DataZoomComponent,
+  GridComponent,
+  SVGRenderer,
+  LegendComponent,
+]);
 
 export function ScoreHistory({ data = [] }: { data: any }) {
+  // Filter completed evaluations and sort by created_at
+  const completedEvals = data
+    .filter((d: any) => d.evaluation_status === "completed")
+    .sort((a: any, b: any) => a.created_at - b.created_at);
+
+  // Calculate average final score
+  const avgScore =
+    completedEvals.reduce(
+      (sum: any, d: any) => sum + parseFloat(d.final_score),
+      0
+    ) / completedEvals.length;
+
+  console.log(
+    "completedEvals",
+    completedEvals.map((d: any) => [
+      new Date(d.created_at).toISOString(),
+      parseFloat(d.final_score),
+    ])
+  );
   return (
     <>
-      {/* <ChartContainer
-        config={{
-          desktop: {
-            label: "Desktop",
-            color: "hsl(var(--chart-1))",
-          },
-        }}
-      >
-        <LineChart
-          accessibilityLayer
-          // data={chartData}
-          // data={[
-          //   { month: "January", desktop: 186 },
-          //   { month: "February", desktop: 305 },
-          //   { month: "March", desktop: 237 },
-          //   { month: "April", desktop: 73 },
-          //   { month: "May", desktop: 209 },
-          //   { month: "June", desktop: 214 },
-          // ]}
-          data={data.map((score: any, i: any) => ({
-            month: i,
-            desktop: score.final_score,
-          }))}
-          margin={{
-            left: 12,
-            right: 12,
-          }}
-        >
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="month"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            // tickFormatter={(value) => value.slice(0, 3)}
-          />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
-          <Line
-            dataKey="desktop"
-            type="natural"
-            stroke="var(--color-desktop)"
-            strokeWidth={2}
-            dot={false}
-          />
-        </LineChart>
-      </ChartContainer> */}
-      <ChartContainer
-        config={{
-          desktop: {
-            label: "Desktop",
-            color: "#2563eb",
-          },
-          mobile: {
-            label: "Mobile",
-            color: "#60a5fa",
-          },
-        }}
-      >
-        <BarChart
-          data={data.map((score: any, i: any) => ({
-            name: i,
-            total: score.final_score,
-          }))}
-        >
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="name"
-            stroke="#888888"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-          />
-          <YAxis
-            stroke="#888888"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => `${value}`}
-          />
-          <ChartTooltip content={<ChartTooltipContent />} />
+      <div
+        className="w-full overflow-x-hidden rounded-lg"
+        style={{ height: "25rem" }}
+        ref={(ref) => {
+          if (ref) {
+            const instance = echarts.init(ref, "dark");
+            // if (isLoading || isFetching) {
+            //   instance.showLoading();
+            // } else {
+            instance.hideLoading();
+            instance.resize();
+            // }
 
-          <Bar
-            dataKey="total"
-            fill="currentColor"
-            radius={[4, 4, 0, 0]}
-            className="fill-primary"
-          />
-        </BarChart>
-      </ChartContainer>
+            const options = {
+              backgroundColor: "transparent",
+              tooltip: {
+                trigger: "axis",
+                axisPointer: {
+                  // Use axis to trigger tooltip
+                  type: "shadow", // 'shadow' as default; can also be 'line' or 'shadow'
+                },
+              },
+              grid: {
+                containLabel: true,
+                top: 25,
+                bottom: 55,
+                left: 25,
+                right: "5%",
+              },
+              xAxis: [
+                {
+                  type: "time",
+                  show: true,
+                  // max: function (value: any) {
+                  //   return value.max + 3600 * 1000 * 24;
+                  // },
+                  boundaryGap: true,
+                  axisTick: {
+                    alignWithLabel: true,
+                  },
+                  axisLine: {
+                    onZero: true,
+                  },
+                  // splitNumber: dayjs().daysInMonth(),
+                  splitLine: {
+                    show: false,
+                  },
+                  axisLabel: {
+                    formatter: function (value: any) {
+                      return [
+                        `{a|${dayjs(value).format("MMM")}}`,
+                        `{b|${echarts.format.formatTime("dd", value)}}`,
+                      ].join("\n");
+                      // echarts.format.formatTime("dd", value)
+                      // And other formatter tool (e.g. moment) can be used here.
+                    },
+                  },
+                  minInterval: 3600 * 1000 * 24,
+                  maxInterval: "auto",
+                },
+              ],
+              yAxis: {
+                type: "value",
+                max: 100,
+                min: 0,
+              },
+              series: [
+                {
+                  name: "Average of Score",
+                  data: completedEvals.map((d: any) => [
+                    d.created_at,
+                    parseFloat(d.final_score),
+                  ]),
+                  type: "line",
+                  animation: true,
+                  // showSymbol: false,
+                  // smooth: false,
+                  // smoothMonotone: "x",
+                  // xAxisIndex: 0,
+                  emphasis: {
+                    focus: "series",
+                  },
+                  color: "#fff",
+                  lineStyle: {
+                    // color: "hsl(var(--primary))",
+                    // width: 4,
+                    // type: "solid",
+                  },
+                },
+              ],
+              dataZoom: [
+                {
+                  type: "slider",
+                  show: true,
+                  xAxisIndex: 0,
+                  fillerColor: "rgba(233,233,233, 0.1)",
+                  backgroundColor: "rgba(233,233,233, 0.1)",
+                  dataBackground: {
+                    lineStyle: {
+                      color: "#fff",
+                      width: 0,
+                      cap: "round",
+                    },
+                    areaStyle: {
+                      color: "#fff",
+                    },
+                  },
+                  zoomLock: false,
+                  textStyle: {
+                    color: "rgba(255, 255, 255, 1)",
+                  },
+                  brushSelect: false,
+                },
+              ],
+            };
+            setTimeout(() => {
+              instance.setOption(options);
+            });
+            new ResizeObserver(() => {
+              instance.resize();
+            }).observe(ref);
+            window.addEventListener("resize", function () {
+              instance.resize();
+            });
+          }
+        }}
+      />
     </>
   );
 }
