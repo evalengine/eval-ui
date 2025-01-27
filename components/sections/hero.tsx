@@ -157,8 +157,8 @@ export function Hero() {
 
   return (
     <Section id="hero">
-      <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-x-8 w-full p-6 lg:p-12 border-x overflow-hidden">
-        <div className="flex flex-col justify-start items-start lg:col-span-1 truncate">
+      <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-x-8 w-full p-6 lg:p-12 border-x overflow-hidden">
+        <div className="flex flex-col justify-start items-start lg:col-span-2 truncate">
           <HeroPill />
           <HeroTitles />
           <HeroCTA />
