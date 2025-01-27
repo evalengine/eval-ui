@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { lazy, Suspense, useEffect, useState } from "react";
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -16,7 +18,7 @@ function HeroPill() {
   return (
     <Link href="https://app.virtuals.io/virtuals/20193">
       <motion.div
-        className="flex w-auto items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-pre"
+        className="flex w-auto items-center space-x-0 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-pre"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease }}
@@ -24,13 +26,16 @@ function HeroPill() {
         {/* <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-left text-xs font-medium text-primary sm:text-sm">
           🛠️ New
         </div> */}
-        <p className="text-xs font-medium text-primary sm:text-sm">
+        {/* <p className="text-xs font-medium text-primary sm:text-sm">
           $EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0
         </p>
+       */}
+        <AnimatedShinyText className="text-xs font-medium text-primary sm:text-sm inline-flex items-center justify-center px-2 py-0 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+          <span>✨ $EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0</span>
+        </AnimatedShinyText>
         <svg
           width="12"
           height="12"
-          className="ml-1"
           viewBox="0 0 12 12"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

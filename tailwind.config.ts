@@ -75,6 +75,7 @@ const config = {
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			ripple: 'ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite',
   			orbit: 'orbit calc(var(--duration)*1s) linear infinite',
+  			'shiny-text': 'shiny-text 8s infinite'
   		},
   		keyframes: {
   			marquee: {
@@ -130,6 +131,14 @@ const config = {
   					transform: 'rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg)'
   				}
   			},
+  			'shiny-text': {
+  				'0%, 90%, 100%': {
+  					'background-position': 'calc(-100% - var(--shiny-width)) 0'
+  				},
+  				'30%, 60%': {
+  					'background-position': 'calc(100% + var(--shiny-width)) 0'
+  				}
+  			}
   		},
   		backgroundSize: {
   			'grid-1': '100% 100%',
