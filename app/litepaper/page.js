@@ -2,13 +2,60 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
+const ModelCard = ({ name, stats }) => (
+  <div className="p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+    <h3 className="text-lg font-semibold mb-4 text-center">{name}</h3>
+    <div className="grid grid-cols-2 gap-4">
+      <div className="text-center">
+        <p className="text-sm text-gray-500">Average</p>
+        <p className="text-xl font-bold">{stats.mean}s</p>
+      </div>
+      <div className="text-center">
+        <p className="text-sm text-gray-500">Range</p>
+        <p className="text-xl font-bold">{stats.min}-{stats.max}s</p>
+      </div>
+      <div className="text-center">
+        <p className="text-sm text-gray-500">Std Dev</p>
+        <p className="text-xl font-bold">{stats.std}</p>
+      </div>
+      <div className="text-center">
+        <p className="text-sm text-gray-500">Median</p>
+        <p className="text-xl font-bold">{stats.median}s</p>
+      </div>
+    </div>
+  </div>
+);
+
+const models = [
+  {
+    name: 'DeepSeek R1 Distill LLaMA 70B',
+    stats: {
+      mean: 2.39,
+      min: 1.94,
+      max: 2.94,
+      std: 0.29,
+      median: 2.32
+    }
+  },
+  {
+    name: 'LLaMA 3.1 8B Instant',
+    stats: {
+      mean: 0.56,
+      min: 0.49,
+      max: 0.70,
+      std: 0.07,
+      median: 0.53
+    }
+  }
+];
+
 export default function Page() {
   return (
     <main className={cn("flex flex-col flex-shrink-0 flex-grow")}>
       <div className="flex-grow mx-auto max-w-3xl flex flex-col items-center justify-center pb-20">
         <div className="w-full py-16">
           <div className="mx-auto max-w-screen-md w-full">
-            <h1 className="font-display text-center text-3xl font-extrabold leading-[1.15] sm:text-5xl sm:leading-[1.15]">
+            <h1 className="font-display text-center text-4xl font-extrabold leading-[1.15] sm:text-6xl sm:leading-[1.15] bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
               EVAL Engine LitePaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
@@ -31,7 +78,7 @@ export default function Page() {
             evaluation of AI agent performance. The system incorporates multiple LLM-as-a-judge<sup><a href="#references">[1]</a></sup> and social engagement metrics for continuous
             reinforcement learning via feedback loop and reward system.
           </p>
-          
+
           <p>
             We demonstrate EVAL Engine can achieve efficient, secure evaluations
             while adapting to evolving performance standards through
@@ -48,10 +95,10 @@ export default function Page() {
               We saw Crypto x AI Agent taking off in the space of Crypto Twitter
               (CT), particularly on the social aspect of things. But most AI
               that weve seen dont even have evaluation metrics.
-              This creates a significant risk of hallucination - the generation of plausible yet factually unsupported content<sup><a href="#references">[2]</a></sup>. 
+              This creates a significant risk of hallucination - the generation of plausible yet factually unsupported content<sup><a href="#references">[2]</a></sup>.
               Without standardized evaluation metrics, it becomes challenging to verify the reliability and trustworthiness of these AI agents' outputs, particularly in the context of sensitive financial and cryptocurrency-related information
             </p>
-            <div>
+            <div className="border-l-4 border-blue-400 pl-4 my-8">
               <h2>Key Challenges</h2>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Lack of real-time verification capabilities.</li>
@@ -103,7 +150,7 @@ export default function Page() {
           </p>
           <div>
             <h2>System Architecture</h2>
-            
+
             <div className="relative w-full">
               <img
                 src="/arch.png"
@@ -116,7 +163,7 @@ export default function Page() {
                 }}
               />
             </div>
-            
+
             <div>
               <h2>Data Format &amp; Ingestion Layer</h2>
               <ul className="list-disc pl-5 space-y-1">
@@ -209,7 +256,7 @@ export default function Page() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold mb-2">
-                  Multi-LLM Evaluation Architecture
+                  Multi-LLM Evaluation Engine
                 </h3>
                 <ul className="list-disc pl-5 space-y-2">
                   <li>
@@ -218,13 +265,21 @@ export default function Page() {
                     accuracy and engagement)
                   </li>
                   <li>
-                    Our models are powered by Hyperbolic<sup><a href="#references">[4]</a></sup> and Groq<sup><a href="#references">[5]</a></sup> to serve instant open-source LLMs at low latency to keep our response time within industry standards
+                    Our models are powered by Hyperbolic<sup><a href="#references">[4]</a></sup> and Groq<sup><a href="#references">[5]</a></sup> to serve instant open-source LLMs at low latency to keep our response time within industry standards. Different LLMs are used for different criteria to ensure accuracy and diversity. The image below shows average response time using our providers for some of the LLMs that is powering our EVAL Engine.
+                    <br />
+                    <br />
+                    <b>Note:</b> The image below is not an exhaustive list of all the LLMs that we use, but just a few examples - average of 50 calls
                   </li>
                   <img src="/models.png" alt="EVAL Engine Architecture" width="800" height="600" className="my-8 w-full h-auto rounded-lg shadow-lg" />
-                  <li>
-                    Weighted fusion of individual scores into a comprehensive evaluation metric for AI Agents
-                  </li>
+                  
                 </ul>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {models.map(model => (
+                    <ModelCard key={model.name} {...model} />
+                  ))}
+                </div>
+
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">
@@ -241,11 +296,11 @@ export default function Page() {
                   </li>
                 </ul>
                 <h3 className="text-xl font-bold mb-2">
-                  On-Chain Storage         
+                  On-Chain Storage
                 </h3>
                 <ul className="list-disc pl-5 space-y-2">
                   <li>
-                  Final evaluation outcomes and intermediate results are stored on Chromia's relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
+                    Final evaluation outcomes and intermediate results are stored on Chromia's relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
                   </li>
                 </ul>
               </div>
