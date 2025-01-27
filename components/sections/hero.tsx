@@ -16,9 +16,9 @@ const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
   return (
-    <Link href="https://app.virtuals.io/virtuals/20193">
+    <Link href="https://app.virtuals.io/virtuals/20193" className="flex w-full truncate">
       <motion.div
-        className="flex w-auto items-center space-x-0 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-nowrap"
+        className="truncate space-x-2 flex w-auto items-center rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-nowrap"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease }}
@@ -30,10 +30,10 @@ function HeroPill() {
           $EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0
         </p>
        */}
-        <AnimatedShinyText className="font-medium text-primary sm:text-sm inline-flex items-center justify-center transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
-          <span className="flex items-center">
+        <AnimatedShinyText className="text-xs truncate font-medium text-primary sm:text-sm inline-flex items-center justify-center transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+          <span className="flex items-center truncate">
             <img src="/Logo-white-no-bg.svg" className="h-5" />
-            <span className="text-[0.75rem]">$EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0</span>
+            <span className="truncate">$EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0</span>
           </span>
         </AnimatedShinyText>
         <svg
@@ -158,7 +158,7 @@ export function Hero() {
   return (
     <Section id="hero">
       <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-x-8 w-full p-6 lg:p-12 border-x overflow-hidden">
-        <div className="flex flex-col justify-start items-start lg:col-span-1">
+        <div className="flex flex-col justify-start items-start lg:col-span-1 truncate">
           <HeroPill />
           <HeroTitles />
           <HeroCTA />
