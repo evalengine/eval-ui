@@ -14,18 +14,18 @@ const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
   return (
-    <Link href="/litepaper">
+    <Link href="https://app.virtuals.io/virtuals/20193">
       <motion.div
         className="flex w-auto items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-pre"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease }}
       >
-        <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-left text-xs font-medium text-primary sm:text-sm">
+        {/* <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-left text-xs font-medium text-primary sm:text-sm">
           🛠️ New
-        </div>
+        </div> */}
         <p className="text-xs font-medium text-primary sm:text-sm">
-          Introducing EVAL: LitePaper
+          $EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0
         </p>
         <svg
           width="12"
