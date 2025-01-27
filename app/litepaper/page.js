@@ -28,10 +28,10 @@ export default function Page() {
           <p>
             Our system utilizes Chromias gas-free relational blockchain
             architecture to enable transparent, immutable, and cost-effective
-            evaluation of AI agent performance. The system incorporates
-            LLM-as-a-judge<sup><a href="#references">[1]</a></sup> and social engagement metrics for continuous
+            evaluation of AI agent performance. The system incorporates multiple LLM-as-a-judge<sup><a href="#references">[1]</a></sup> and social engagement metrics for continuous
             reinforcement learning via feedback loop and reward system.
           </p>
+          
           <p>
             We demonstrate EVAL Engine can achieve efficient, secure evaluations
             while adapting to evolving performance standards through
@@ -125,13 +125,10 @@ export default function Page() {
                   AI agents, evaluation modules, and social media platforms.
                 </li>
                 <li>
-                  Allows for quick retrieval of agent outputs, user feedback,
-                  and third-party metrics.
+                  Allows for quick retrieval of AI Agent outputs and historical evaluation scores
                 </li>
                 <li>
-                  Cleans and normalizes incoming data (e.g., raw tweets,
-                  platform engagement stats) to ensure consistency before
-                  evaluation.
+                  Normalizes incoming data (e.g., raw tweets, platform engagement stats) to ensure consistency before evaluation.
                 </li>
               </ul>
             </div>
@@ -139,17 +136,15 @@ export default function Page() {
               <h2>EVAL Engine: Evaluation Engine</h2>
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  The EVAL Engine orchestrates multiple evaluators (e.g.,
-                  classification models, LLM judges) to form a composite score
+                  The EVAL Engine orchestrates multiple LLM evaluators to form a composite score
                   that reflects various performance metrics (accuracy,
-                  creativity, factual correctness).
+                  creativity, truthfulnes and engagement).
                 </li>
                 <li>
-                  Each module executes asynchronously, enabling parallel
-                  evaluation and reduced latency.
+                  Each LLM executes asynchronously, enabling parallel evaluation and reduced latency, powered by DSPy<sup><a href="#references">[6]</a></sup>
                 </li>
                 <li>
-                  Final evaluation scores and relevant data are batched for
+                  Final evaluation scores and relevant data are batched for submission to Chromia gas-free blockchain.
                   submission to Chromia gas-free blockchain.
                 </li>
               </ul>
@@ -210,21 +205,24 @@ export default function Page() {
               implements a robust multi-layer approach to ensure evaluation
               integrity:
             </p>
-            <img src="/maths.png" alt="EVAL Engine Architecture" width="800" height="600" className="my-8 w-full h-auto rounded-lg shadow-lg" />
+            <img src="/maths.png" alt="EVAL Engine Architecture" width="300" height="300" className="my-8 w-full h-auto rounded-lg shadow-lg" />
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold mb-2">
-                  Multi-Model Evaluation Architecture
+                  Multi-LLM Evaluation Architecture
                 </h3>
                 <ul className="list-disc pl-5 space-y-2">
                   <li>
-                    Parallel evaluation using multiple specialized models, each
-                    focused on distinct criteria (factual accuracy, creativity,
-                    coherence)
+                    Parallel evaluation using multiple specialized LLMs, each
+                    focused on distinct criteria (truthfulness, creativity,
+                    accuracy and engagement)
                   </li>
                   <li>
-                    Weighted fusion of individual scores into a comprehensive
-                    evaluation metric
+                    Our models are powered by Hyperbolic<sup><a href="#references">[4]</a></sup> and Groq<sup><a href="#references">[5]</a></sup> to serve instant open-source LLMs at low latency to keep our response time within industry standards
+                  </li>
+                  <img src="/models.png" alt="EVAL Engine Architecture" width="800" height="600" className="my-8 w-full h-auto rounded-lg shadow-lg" />
+                  <li>
+                    Weighted fusion of individual scores into a comprehensive evaluation metric for AI Agents
                   </li>
                 </ul>
               </div>
@@ -477,6 +475,15 @@ export default function Page() {
               </p>
               <p>
                 [3] Chromia Documentation. "Subscription Fee Strategy." <a href="https://docs.chromia.com/ft4/backend/accounts/subscription" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Chromia FT4 Documentation</a>
+              </p>
+              <p>
+                [4] The Open Access AI Cloud <a href="https://hyperbolic.xyz/" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Hyperbolic</a>
+              </p>
+              <p>
+                [5] Platform for Fast AI Inference <a href="https://groq.com/" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Groq</a>
+              </p>
+              <p>
+                [6] Framework for programming—rather than prompting—language models <a href="https://dspy.ai/" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Dspy</a>
               </p>
             </div>
           </div>
