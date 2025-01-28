@@ -110,8 +110,8 @@ export default function PlaygroundPage() {
         <form
           onSubmit={methods.handleSubmit((values) => {
             evaluateTweet.mutate({
-              input_tweet: values.originalTweet,
-              output_tweet: values.responseTweet,
+              input_tweet: values.originalTweetText,
+              output_tweet: values.responseTweetText,
             });
           })}
         >
@@ -256,7 +256,16 @@ export default function PlaygroundPage() {
                       name="originalTweet"
                       defaultValue=""
                       render={({ field, fieldState }) => {
-                        return <Tweet title="Original Tweet" {...field} />;
+                        return (
+                          <Tweet
+                            title="Original Tweet"
+                            {...field}
+                            onData={(data: any) => {
+                              if (!data) return;
+                              methods.setValue(`originalTweetText`, data?.text);
+                            }}
+                          />
+                        );
                       }}
                     />
                     <Controller
@@ -272,6 +281,11 @@ export default function PlaygroundPage() {
                               if (!data?.parent?.user?.screen_name) return;
                               if (!data?.parent?.id_str) return;
                               const parentUrl = `https://x.com/${data?.parent?.user?.screen_name}/status/${data?.parent?.id_str}`;
+                              methods.setValue(`responseTweetText`, data?.text);
+
+                              if (methods.getValues(`originalTweet`)) {
+                                return;
+                              }
                               methods.setValue(`originalTweet`, parentUrl);
                             }}
                             {...field}
