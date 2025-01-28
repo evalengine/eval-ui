@@ -1,5 +1,5 @@
 "use client";
-import { History } from "lucide-react";
+import { HelpCircle, History } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +33,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 import { extractTweetId } from "@/lib/utils";
+import Link from "next/link";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
@@ -221,6 +222,21 @@ function Playground() {
                       Virtuals Sandbox
                     </h2>
                     <div className="flex w-full space-x-2 justify-end">
+                      <Tooltip delayDuration={0}>
+                        <TooltipTrigger asChild>
+                          <Link
+                            target="_blank"
+                            href="https://eval-engine.gitbook.io/eval-engine/integration/virtuals-g.a.m.e-lite-framework"
+                          >
+                            <Button variant="ghost" type="button" size="icon">
+                              <HelpCircle className="w-4 h-4" />
+                            </Button>
+                          </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Tutorials on how to use the playground
+                        </TooltipContent>
+                      </Tooltip>
                       <APISettings />
                       <Button type="submit" disabled={reactTwitter.isPending}>
                         Simulate Reply
