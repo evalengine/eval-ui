@@ -302,6 +302,40 @@ export default function Page() {
                   <li>
                     Final evaluation outcomes and intermediate results are stored on Chromia's relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
                   </li>
+                  
+                  <div className="mt-4 p-4 rounded-lg">
+                    <h4 className="text-lg font-semibold mb-3">Technical Process Flow</h4>
+                    <div className="space-y-1.5">
+                      {[
+                        "Client signs an evaluation request transaction",
+                        "Engine receives and double-signs the transaction",
+                        "Engine submits the signed transaction to Chromia blockchain",
+                        "Engine processes the evaluation",
+                        "Engine stores results on the blockchain",
+                        "Client receives the evaluation results"
+                      ].map((step, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-400/10 flex items-center justify-center text-blue-400 font-medium text-xs">
+                            {index + 1}
+                          </div>
+                          <p className="text-gray-200 text-sm">{step}</p>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-4 relative group">
+                      <img
+                        src="/onchain.png"
+                        alt="On-chain Evaluation Process Flow"
+                        className="w-full rounded-lg"
+                        width={800}
+                        height={400}
+                      />
+                      <p className="mt-2 text-sm text-gray-400 italic">
+                        * All transactions and results are permanently stored on Chromia blockchain, ensuring transparency and auditability. Clients interact with the system through a simple SDK/API interface, while the Engine handles all blockchain operations.
+                      </p>
+                    </div>
+                  </div>
                 </ul>
               </div>
             </div>
