@@ -264,6 +264,10 @@ export default function PlaygroundPage() {
                               if (!data) return;
                               methods.setValue(`originalTweetText`, data?.text);
                             }}
+                            onChange={(value: any) => {
+                              methods.setValue(`originalTweetText`, value);
+                              field.onChange(value);
+                            }}
                           />
                         );
                       }}
@@ -289,6 +293,10 @@ export default function PlaygroundPage() {
                               methods.setValue(`originalTweet`, parentUrl);
                             }}
                             {...field}
+                            onChange={(value: any) => {
+                              methods.setValue(`responseTweetText`, value);
+                              field.onChange(value);
+                            }}
                           />
                         );
                       }}
