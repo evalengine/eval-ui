@@ -10,11 +10,6 @@ import { Header } from "@/components/sections/header";
 import { Footer } from "@/components/sections/footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import {
-  ThemeProvider as MuiThemeProvider,
-  createTheme,
-} from "@mui/material/styles";
-
 import "./globals.css";
 
 export const metadata: Metadata = constructMetadata({

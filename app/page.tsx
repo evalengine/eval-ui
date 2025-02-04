@@ -7,6 +7,7 @@ import { UseCases } from "@/components/sections/use-cases";
 import { Chromia } from "@/components/sections/chromia";
 import { redirect, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
+import Safari from "@/components/ui/safari";
 
 async function _Page() {
   return (
@@ -19,6 +20,14 @@ async function _Page() {
         <Features />
         <Chromia />
         <CTA />
+        {/* <div className="relative container py-10">
+          <Safari
+            url="evalengine.ai"
+            mode="simple"
+            imageSrc="/banner.jpeg"
+            // videoSrc="https://videos.pexels.com/video-files/27180348/12091515_2560_1440_50fps.mp4"
+          />
+        </div> */}
       </main>
     </>
   );
