@@ -226,7 +226,7 @@ function Playground() {
                         <TooltipTrigger asChild>
                           <Link
                             target="_blank"
-                            href="https://eval-engine.gitbook.io/eval-engine/integration/virtuals-g.a.m.e-lite-framework"
+                            href={process.env.NEXT_PUBLIC_DOCS_URL!}
                           >
                             <Button variant="ghost" type="button" size="icon">
                               <HelpCircle className="w-4 h-4" />

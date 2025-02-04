@@ -33,8 +33,7 @@ export const siteConfig = {
     description:
       "EVAL Engine gives your AI agent a real performance score. We evaluate every interaction, record it on blockchain for proof.",
     cta: "Playground",
-    ctaDescription:
-      "Finally, a way to evaluate responses from your AI Agent.",
+    ctaDescription: "Finally, a way to evaluate responses from your AI Agent.",
   },
   features: [
     {
@@ -135,7 +134,7 @@ export const siteConfig = {
       // { text: "Privacy Policy", url: "/legal/privacy" },
       // { text: "Terms of Service", url: "/legal/terms" },
       // { text: "Contact", url: "#" },
-      { text: "Docs", url: "https://eval-engine.gitbook.io/eval-engine" },
+      { text: "Docs", url: process.env.NEXT_PUBLIC_DOCS_URL! },
     ],
     bottomText: "© 2025 EVALEngine. All rights reserved.",
     brandText: "EVAL Engine",

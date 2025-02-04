@@ -9,25 +9,7 @@ import { Chromia } from "@/components/sections/chromia";
 import { redirect, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
-function _Page() {
-  // {
-  //   searchParams,
-  // }: {
-  //   searchParams: Promise<{ token: string }>;
-  // }
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const token = searchParams.get("token");
-    if (token) {
-      redirect(`/playground/virtuals?token=${token}`);
-    }
-  }, [searchParams]);
-
-  // const { token } = await searchParams;
-  // if (token) {
-  //   redirect(`/playground/virtuals?token=${token}`);
-  // }
-
+async function _Page() {
   return (
     <>
       <main>
@@ -43,7 +25,15 @@ function _Page() {
   );
 }
 
-export default function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ token: string }>;
+}) {
+  const { token } = await searchParams;
+  if (token) {
+    redirect(`/playground/virtuals?token=${token}`);
+  }
   return (
     <>
       <Suspense>

@@ -11,10 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 export default function Home() {
   return (
     <div className="lg:h-[calc(100dvh-56px)] w-full max-w-screen-lg mx-auto p-10 space-y-10">
-      <Link
-        target="_blank"
-        href="https://eval-engine.gitbook.io/eval-engine/integration/virtuals-g.a.m.e-lite-framework"
-      >
+      <Link target="_blank" href={process.env.NEXT_PUBLIC_DOCS_URL!}>
         <Alert>
           <Terminal className="h-4 w-4" />
           <AlertTitle>Heads up!</AlertTitle>
