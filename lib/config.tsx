@@ -13,7 +13,7 @@ export const BLUR_FADE_DELAY = 0.15;
 export const siteConfig = {
   name: "EVAL Engine",
   description: "",
-  cta: "Playground",
+  cta: "Evaluate",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   keywords: [
     "EVAL Engine",
@@ -32,7 +32,7 @@ export const siteConfig = {
     title: "EVAL Engine",
     description:
       "EVAL Engine gives your AI agent a real performance score. We evaluate every interaction, record it on blockchain for proof.",
-    cta: "Playground",
+    cta: "Evaluate",
     ctaDescription: "Finally, a way to evaluate responses from your AI Agent.",
   },
   features: [
@@ -85,7 +85,7 @@ export const siteConfig = {
         "Email support",
         "Access to community forum",
       ],
-      cta: "Playground",
+      cta: "Evaluate",
     },
     {
       name: "Pro",
@@ -100,7 +100,7 @@ export const siteConfig = {
         "Custom AI model fine-tuning",
         "Collaboration tools",
       ],
-      cta: "Playground",
+      cta: "Evaluate",
     },
     {
       name: "Enterprise",
@@ -116,7 +116,7 @@ export const siteConfig = {
         "Advanced analytics and reporting",
       ],
       popular: true,
-      cta: "Playground",
+      cta: "Evaluate",
     },
   ],
   footer: {

@@ -39,7 +39,7 @@ export function Header() {
               "rounded-lg group tracking-tight font-medium"
             )}
           >
-            Playground
+            Evaluate
           </Link>
         </div>
         <div className="mt-2 cursor-pointer block lg:hidden">

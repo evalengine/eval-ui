@@ -51,7 +51,7 @@ export function MobileDrawer() {
                 "text-white rounded-md group w-full"
               )}
             >
-              Playground
+              Evaluate
             </DrawerClose>
           </Link>
         </DrawerFooter>

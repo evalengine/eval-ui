@@ -31,7 +31,19 @@ export const Tweet = ({
           </div>
           <div className="flex-1 min-w-0 flex items-center justify-center p-4">
             <div style={{ zoom: 1 }}>
-              <ClientTweetCard id={tweetId} onData={onData} />
+              {tweetId ? (
+                <ClientTweetCard id={tweetId} onData={onData} />
+              ) : (
+                <div className="flex size-full max-h-max min-w-72 flex-col gap-2 rounded-lg border p-4">
+                  <div className="flex flex-row gap-2">
+                    <div className="bg-primary/10 size-10 shrink-0 rounded-full"></div>
+                    <div className="rounded-md bg-primary/10 h-10 w-full"></div>
+                  </div>
+                  <div className="rounded-md bg-primary/10 min-h-20 w-full px-3 py-2 text-sm break-all text-white/80">
+                    {value}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background">
