@@ -11,7 +11,9 @@ export default {
     return response.data;
   },
   async allScores(payload) {
-    const response = await api.post(`/api/eval/all-scores`, payload);
+    const response = await api.post(`/api/eval/all-scores`, payload, {
+      baseURL: ""
+    });
     return response.data;
   },
   async getVirtual(payload) {

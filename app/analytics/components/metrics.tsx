@@ -17,6 +17,7 @@ import { useEngine } from "@/hooks/postchain/use-engine";
 import { DataTable } from "./engines/data-table";
 import { columns } from "./engines/columns";
 import { Separator } from "@/components/ui/separator";
+import { useAllScores } from "@/hooks/use-all-scores";
 
 export function Metrics() {
   const { client } = usePostchainClient();
@@ -25,6 +26,8 @@ export function Metrics() {
   const { data: twitterScore, isPending: isLoadingTwitterScore } =
     useTwitterScore(client!);
   const { data: engine, isPending: isLoadingEngine } = useEngine(client!);
+
+  const { data: allScores } = useAllScores();
 
   return (
     <>
@@ -182,7 +185,8 @@ export function Metrics() {
           </div>
         </CardContent>
       </Card>
-      {/* <Separator /> */}
+      <Separator />
+      <DataTable columns={columns} data={allScores?.scores || []} />
     </>
   );
 }
