@@ -1,5 +1,5 @@
 import api from "@/lib/axios/benchmark";
-import { Models, ModelMetrics, ModelComparison, ModelStats } from "@/models/benchmark";
+import { Models, ModelMetrics, ModelComparison, ModelStats } from "@/api/benchmark/models";
 
 // must have postfix API to avoid name conflict for mutation
 export default {

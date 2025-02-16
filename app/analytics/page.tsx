@@ -11,8 +11,9 @@ import { Metrics } from "./components/metrics";
 import { Analytics } from "./components/analytics";
 import { Benchmarks } from "./components/benchmarks";
 import { Scores } from "./components/scores";
+import { Suspense } from "react";
 
-export default function Page() {
+function _Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -20,13 +21,7 @@ export default function Page() {
     <>
       <div className="container mx-auto flex-col md:flex">
         <div className="flex-1 space-y-4 pt-6">
-          <Link
-            href={
-              process.env.NEXT_PUBLIC_EXPLORER_URL ||
-              "https://explorer.chromia.com/mainnet/9E7D8243FE78287588E112384F8DC5F3E1CD35D48FD3BE41E46D8F17DD0BED65"
-            }
-            target="_blank"
-          >
+          <Link href={process.env.NEXT_PUBLIC_EXPLORER_URL!} target="_blank">
             <Alert>
               <ArrowUpRightFromSquare className="h-4 w-4" />
               <AlertTitle>Chromia Explorer</AlertTitle>
@@ -68,6 +63,16 @@ export default function Page() {
           </Tabs>
         </div>
       </div>
+    </>
+  );
+}
+
+export default function Page() {
+  return (
+    <>
+      <Suspense>
+        <_Page />
+      </Suspense>
     </>
   );
 }
