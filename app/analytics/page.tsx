@@ -44,7 +44,7 @@ export default function DashboardPage() {
             <TabsContent value="overview" className="space-y-4">
               <Metrics />
             </TabsContent>
-            <TabsContent value="analytics">
+            <TabsContent forceMount value="analytics">
               <Analytics />
             </TabsContent>
           </Tabs>
