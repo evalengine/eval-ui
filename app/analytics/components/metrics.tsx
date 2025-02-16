@@ -12,7 +12,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
 import { useAccountCount } from "@/hooks/postchain/use-account-count";
 import { useTwitterScore } from "@/hooks/postchain/use-twitter-score";
-import { useEngine } from "@/hooks/postchain/use-engine";
+import { useEngines } from "@/hooks/postchain/use-engines";
+import { useEngineCount } from "@/hooks/postchain/use-engine-count";
 
 import { useAllScores } from "@/hooks/use-all-scores";
 
@@ -33,7 +34,11 @@ export function Metrics() {
     useAccountCount(client!);
   const { data: twitterScore, isPending: isLoadingTwitterScore } =
     useTwitterScore(client!);
-  const { data: engine, isPending: isLoadingEngine } = useEngine(client!);
+  const { data: engineCount, isPending: isLoadingEngineCount } = useEngineCount(
+    client!
+  );
+  const { data: { engines = [] } = {} as any, isPending: isLoadingEngines } =
+    useEngines(client!, engineCount!);
 
   const { data: allScores, isLoading: isLoadingAllScores } = useAllScores();
   const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
@@ -126,8 +131,8 @@ export function Metrics() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {!isLoadingEngine ? (
-                engine?.total
+              {!isLoadingEngineCount ? (
+                engineCount?.toString()
               ) : (
                 <Skeleton className="w-10 h-6" />
               )}
@@ -147,7 +152,7 @@ export function Metrics() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-            {engine?.engines.engines.map((engine: any, key: number) => (
+            {engines.map((engine: any, key: number) => (
               <Card key={key}>
                 <div className="p-4 space-y-2 text-sm">
                   <div className="flex justify-between space-x-4">
@@ -192,7 +197,7 @@ export function Metrics() {
               </Card>
             ))}
 
-            {isLoadingEngine && <Skeleton className="min-h-64 h-full" />}
+            {isLoadingEngines && <Skeleton className="min-h-64 h-full" />}
           </div>
         </CardContent>
       </Card>

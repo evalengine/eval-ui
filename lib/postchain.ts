@@ -1,4 +1,4 @@
-import { createClient, IClient } from "postchain-client";
+import { createClient, IClient, RawGtv } from "postchain-client";
 
 
 export class PostchainClient {
@@ -35,7 +35,7 @@ export class PostchainClient {
         return this.client.query("engine_count", {});
     }
 
-    async getEngines(total: number) {
+    async getEngines(total: RawGtv) {
         return this.client.query("get_engines", {
             n_engines: total,
             pointer: 0
