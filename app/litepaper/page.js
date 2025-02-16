@@ -1,4 +1,5 @@
 "use client";
+import { AuroraText } from "@/components/aurora-text";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -55,8 +56,11 @@ export default function Page() {
       <div className="flex-grow mx-auto max-w-3xl flex flex-col items-center justify-center pb-20">
         <div className="w-full py-16">
           <div className="mx-auto max-w-screen-md w-full">
-            <h1 className="font-display text-center text-4xl font-extrabold leading-[1.15] sm:text-6xl sm:leading-[1.15] bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              EVAL Engine LitePaper
+            <h1 className="font-display text-center text-4xl font-extrabold leading-[1.15] sm:text-6xl sm:leading-[1.15]">
+              <AuroraText>
+                EVAL Engine
+              </AuroraText>{" "}
+              LitePaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
               drafted by <a href="https://x.com/jlwhoo7" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Johnson Lai</a> & <a href="https://x.com/defichemist95" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Prem Kumar</a>
@@ -271,7 +275,7 @@ export default function Page() {
                     <b>Note:</b> The image below is not an exhaustive list of all the LLMs that we use, but just a few examples - average of 50 calls
                   </li>
                   <img src="/models.png" alt="EVAL Engine Architecture" width="800" height="600" className="my-8 w-full h-auto rounded-lg shadow-lg" />
-                  
+
                 </ul>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -302,7 +306,7 @@ export default function Page() {
                   <li>
                     Final evaluation outcomes and intermediate results are stored on Chromia's relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
                   </li>
-                  
+
                   <div className="mt-4 p-4 rounded-lg">
                     <h4 className="text-lg font-semibold mb-3">Technical Process Flow</h4>
                     <div className="space-y-1.5">
@@ -322,7 +326,7 @@ export default function Page() {
                         </div>
                       ))}
                     </div>
-                    
+
                     <div className="mt-4 relative group">
                       <img
                         src="/onchain.png"

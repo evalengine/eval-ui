@@ -21,7 +21,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useSearchParams } from "next/navigation";
 const jwt = require("jsonwebtoken");
 
 export const useAPISettingsDialog = ({}) => {
@@ -36,23 +35,14 @@ export const useAPISettingsDialog = ({}) => {
     formState: { isDirty, isValid },
   } = useForm({ mode: "onChange" });
 
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
   useEffect(() => {
     setValue("virtual-api-key", localStorage.getItem("virtual-api-key") || "");
     setValue(
       "virtual-jwt-token",
-      token || localStorage.getItem("virtual-jwt-token") || ""
+      localStorage.getItem("virtual-jwt-token") || ""
     );
-    localStorage.setItem(
-      "virtual-jwt-token",
-      token || localStorage.getItem("virtual-jwt-token") || ""
-    );
+  }, []);
 
-    const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete("token");
-    window.history.replaceState(null, "", `?${newParams.toString()}`);
-  }, [token]);
   const queryClient = useQueryClient();
 
   const { data = "" } = useQuery({
@@ -176,7 +166,7 @@ export const useAPISettingsDialog = ({}) => {
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
                                   viewBox="0 0 24 24"
-                                  stroke-width="1.5"
+                                  strokeWidth="1.5"
                                   stroke="currentColor"
                                   className="w-5 h-5"
                                 >
@@ -249,7 +239,7 @@ export const useAPISettingsDialog = ({}) => {
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
                                   viewBox="0 0 24 24"
-                                  stroke-width="1.5"
+                                  strokeWidth="1.5"
                                   stroke="currentColor"
                                   className="w-5 h-5"
                                 >

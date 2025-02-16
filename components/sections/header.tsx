@@ -3,12 +3,8 @@
 import { Icons } from "@/components/icons";
 import { MobileDrawer } from "@/components/mobile-drawer";
 import { buttonVariants } from "@/components/ui/button";
-import { easeInOutCubic } from "@/lib/animation";
-import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export function Header() {
   return (
@@ -20,7 +16,6 @@ export function Header() {
           className="relative mr-6 flex items-center space-x-2"
         >
           <Icons.logo className="w-auto" />
-          {/* <span className="font-semibold text-lg">{siteConfig.name}</span> */}
         </Link>
         <div className="hidden lg:block space-x-4">
           <Link

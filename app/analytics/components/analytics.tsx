@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEvalHistory } from "@/hooks/postchain/use-eval-history";
@@ -19,6 +19,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, UserIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import API from "@/api";
 
 export function Analytics() {
   const {
@@ -40,7 +42,17 @@ export function Analytics() {
     client!,
     userAddress
   );
-  console.log("data", data);
+
+  useEffect(() => {
+    API.models().then((res) => {
+      console.log(res);
+    });
+    API.model({
+      model_name: "deepseek-r1",
+    }).then((res) => {
+      console.log(res);
+    });
+  }, []);
 
   return (
     <div className="space-y-4">

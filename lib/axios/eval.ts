@@ -11,14 +11,9 @@ const instance = axios.create({
 
 // Request interceptors
 instance.interceptors.request.use(
-  async (config) => {
-    config.headers = {
-      ...config.headers,
-      "Content-Type": "application/json",
-      "X-API-Key": localStorage.getItem("virtual-api-key"),
-      "Authorization": `Bearer ${localStorage.getItem("virtual-jwt-token")}`,
-    };
-
+  (config) => {
+    config.headers["X-API-Key"] = localStorage.getItem("virtual-api-key");
+    config.headers["Authorization"] = `Bearer ${localStorage.getItem("virtual-jwt-token")}`;
     return config;
   },
   (error) => {
@@ -40,10 +35,6 @@ instance.interceptors.response.use(
 
     switch (response.status) {
       case 401:
-        break;
-      case 500:
-        break;
-      case 404:
         break;
       default:
     }
