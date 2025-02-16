@@ -20,8 +20,6 @@ import { AlertCircle, UserIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import API from "@/api";
-
 export function Analytics() {
   const {
     control,
@@ -42,17 +40,6 @@ export function Analytics() {
     client!,
     userAddress
   );
-
-  useEffect(() => {
-    // API.models().then((res) => {
-    //   console.log(res);
-    // });
-    // API.model({
-    //   model_name: "deepseek-r1",
-    // }).then((res) => {
-    //   console.log(res);
-    // });
-  }, []);
 
   return (
     <div className="space-y-4">

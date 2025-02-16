@@ -1,21 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useEvalHistory } from "@/api/postchain/use-eval-history";
-import { usePostchainClient } from "@/api/postchain/use-postchain-client";
-
-import { ScoreHistory } from "./score-history";
-import { useForm, Controller } from "react-hook-form";
-import { Skeleton } from "@/components/ui/skeleton";
-
-import { AlertCircle, UserIcon } from "lucide-react";
-
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
-import API from "@/api";
-
 import { TrendingUp } from "lucide-react";
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 
@@ -92,36 +76,5 @@ export function Component() {
 }
 
 export function Benchmarks() {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    getValues,
-    setValue,
-    setError,
-    register,
-    watch,
-    formState: { isDirty, isValid },
-  } = useForm(); // retrieve all hook methods
-
-  const [userAddress, setUserAddress] = useState("");
-  // 02EF9E21262155811C9EB46AB795E104C9D464FCF7E8554F14C019C0488F0D2E1D
-  const { client } = usePostchainClient();
-  const { data, isLoading, isError, isSuccess } = useEvalHistory(
-    client!,
-    userAddress
-  );
-
-  useEffect(() => {
-    // API.models().then((res) => {
-    //   console.log(res);
-    // });
-    // API.model({
-    //   model_name: "deepseek-r1",
-    // }).then((res) => {
-    //   console.log(res);
-    // });
-  }, []);
-
   return <Component />;
 }
