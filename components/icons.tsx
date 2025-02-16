@@ -1,11 +1,16 @@
+import { cn } from "@/lib/utils";
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
 
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
-  logo: () => (
+  logo: (props) => (
     <>
-      <img src="/Logo-white-no-bg.svg" className="h-10" />
+      <img
+        src="/Logo-white-no-bg.svg"
+        {...props}
+        className={cn("h-10", props.className)}
+      />
     </>
   ),
   discord: DiscordLogoIcon,
