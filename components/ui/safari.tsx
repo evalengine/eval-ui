@@ -161,12 +161,6 @@ export default function Safari({
               muted
               playsInline
             ></video>
-            {/* <iframe
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/NCQyOoDBCKY?autoplay=1&mute=1&enablejsapi=1"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          ></iframe> */}
           </foreignObject>
         )}
       </g>

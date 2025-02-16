@@ -1,7 +1,6 @@
 import { Section } from "@/components/section";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 export function Features() {
   const services = siteConfig.features;
@@ -30,12 +29,6 @@ export function Features() {
               <p className="text-sm text-muted-foreground text-balance text-center max-w-md mx-auto">
                 {description}
               </p>
-              {/* <Link
-                href="#"
-                className="text-sm text-primary hover:underline underline-offset-4 transition-colors hover:text-secondary-foreground"
-              >
-                Learn more &gt;
-              </Link> */}
             </div>
           ))}
         </div>

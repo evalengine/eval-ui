@@ -56,7 +56,7 @@ export const useAPISettingsDialog = ({}) => {
 
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {} } = {}) =>
-      ({ in: open, onExited }: any) => {
+      ({ in: open, onExited }) => {
         return (
           <Dialog
             open={open}
