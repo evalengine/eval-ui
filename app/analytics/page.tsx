@@ -2,13 +2,15 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ArrowUpRightFromSquare } from "lucide-react";
-import { Metrics } from "./components/metrics";
-import { Analytics } from "./components/analytics";
+
 import Link from "next/link";
-import { PageProps } from "@/.next/types/app/page";
-import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+
+import { Metrics } from "./components/metrics";
+import { Analytics } from "./components/analytics";
+import { Benchmarks } from "./components/benchmarks";
+import { Scores } from "./components/scores";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -48,12 +50,20 @@ export default function Page() {
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
+              <TabsTrigger value="benchmarks">Benchmarks</TabsTrigger>
+              <TabsTrigger value="scores">Scores</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <Metrics />
             </TabsContent>
             <TabsContent value="analytics" forceMount>
               <Analytics />
+            </TabsContent>
+            <TabsContent value="benchmarks">
+              <Benchmarks />
+            </TabsContent>
+            <TabsContent value="scores">
+              <Scores />
             </TabsContent>
           </Tabs>
         </div>
