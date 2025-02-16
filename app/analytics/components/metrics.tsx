@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -14,30 +14,18 @@ import { useAccountCount } from "@/hooks/postchain/use-account-count";
 import { useTwitterScore } from "@/hooks/postchain/use-twitter-score";
 import { useEngine } from "@/hooks/postchain/use-engine";
 
-import { DataTable } from "./engines/data-table";
-import { columns } from "./engines/columns";
-import { Separator } from "@/components/ui/separator";
 import { useAllScores } from "@/hooks/use-all-scores";
 
-import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+import { DataGrid } from "@mui/x-data-grid";
+import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 
 const theme = createTheme({
   palette: {
     mode: "dark",
   },
 });
-
-// import {
-//   DataGridPro,
-//   GridRow,
-//   zhCN,
-//   GridFooterContainer,
-//   GridPagination,
-//   GridFooterPlaceholder,
-// } from "@liholiho/x-data-grid-pro";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 
 export function Metrics() {
   const { client } = usePostchainClient();
@@ -274,64 +262,6 @@ export function Metrics() {
           />
         </ThemeProvider>
       </div>
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Twitter Scores</CardTitle>
-          <CardDescription>
-            List of all twitter scores evaluated on the network
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-            {engine?.engines.engines.map((engine: any, key: number) => (
-              <Card key={key}>
-                <div className="p-4 space-y-2 text-sm">
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-gray-100 ring-1 ring-inset ring-gray-500/50">
-                      Prefix
-                    </span>
-                    <span>{engine.prefix}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-red-100 ring-1 ring-inset ring-red-500/50">
-                      Description
-                    </span>
-                    <span>{engine.description}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-yellow-100 ring-1 ring-inset ring-yellow-500/50">
-                      ID
-                    </span>
-                    <span>{engine.id}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-100 ring-1 ring-inset ring-green-500/50">
-                      Created
-                    </span>
-                    <span>{new Date(engine.created_at).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-blue-100 ring-1 ring-inset ring-blue-500/50">
-                      Updated
-                    </span>
-                    <span>{new Date(engine.updated_at).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-indigo-100 ring-1 ring-inset ring-indigo-500/50">
-                      Address
-                    </span>
-                    <span className="truncate">
-                      {engine.address.toString("hex")}
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            ))}
-
-            {isLoadingEngine && <Skeleton className="min-h-64 h-full" />}
-          </div>
-        </CardContent>
-      </Card> */}
     </>
   );
 }

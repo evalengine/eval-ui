@@ -17,14 +17,12 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { useMutation, useMutationState } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useMemo } from "react";
 import confetti from "canvas-confetti";
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 import { toast } from "sonner";
 import { Tweet } from "../../tweets/components/Tweet";
-import { extractTweetId } from "@/lib/utils";
-// import { Tweet } from "../../tweets/components/Tweet";
 import JsonView from "react18-json-view";
 import "react18-json-view/src/style.css";
 // If dark mode is needed, import `dark.css`.
@@ -43,11 +41,6 @@ export const SimulateReplyTweet = () => {
     formState: { isDirty, isValid },
   } = useFormContext(); // retrieve all hook methods
 
-  // const [{ data: reactTwitter = [] } = {}]: any = useMutationState({
-  //   // this mutation key needs to match the mutation key of the given mutation (see above)
-  //   filters: { mutationKey: ["reactTwitter"] },
-  //   select: (mutation) => mutation.state.data,
-  // });
   const { data: reactTwitter = [] as any } = useQuery({
     queryKey: ["reactTwitter"],
     queryFn: async () => queryClient.getQueryData(["reactTwitter"]) || [],
@@ -57,18 +50,6 @@ export const SimulateReplyTweet = () => {
     return reactTwitter?.length > 0;
   }, [reactTwitter]);
 
-  const tabs = useMemo(() => {
-    return reactTwitter
-      .flat()
-      .map((response: any) => Object.keys(response))
-      .flat();
-  }, [reactTwitter]);
-  const contents = useMemo(() => {
-    return reactTwitter
-      .flat()
-      .map((response: any) => Object.values(response))
-      .flat();
-  }, [reactTwitter]);
   const inputTweet = useMemo(() => {
     return (
       reactTwitter?.[0]?.["EVENT-REQUEST"]?.["event"]?.split(
@@ -76,6 +57,7 @@ export const SimulateReplyTweet = () => {
       )?.[1] || ""
     );
   }, [reactTwitter]);
+  
   const outputTweet = useMemo(() => {
     return (
       reactTwitter?.[reactTwitter.length - 1]?.["TWEET-CONTENT"]?.content || ""

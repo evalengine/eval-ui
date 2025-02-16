@@ -98,7 +98,6 @@ export const CharacterDetails = () => {
                         src={field.value}
                       />
                     );
-                    // return <Textarea rows={5} required {...field} />;
                   }}
                 />
               </div>

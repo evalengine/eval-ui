@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEvalHistory } from "@/hooks/postchain/use-eval-history";
@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScoreHistory } from "./score-history";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { AlertCircle, UserIcon } from "lucide-react";
