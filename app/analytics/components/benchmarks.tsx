@@ -44,7 +44,7 @@ export function Component() {
             <CardHeader className="items-center">
               <CardTitle>Performance Analysis for {model}</CardTitle>
               <CardDescription>
-                Showing total visitors for the last 6 months
+                Analyze the performance of your model over time
               </CardDescription>
             </CardHeader>
             <CardContent className="pb-0">
@@ -80,11 +80,13 @@ export function Component() {
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
               <div className="flex items-center gap-2 font-medium leading-none">
-                Trending up by 5.2% this month{" "}
-                <TrendingUp className="h-4 w-4" />
+                <TrendingUp size={16} />
+                <span>Performance is improving</span>
               </div>
               <div className="flex items-center gap-2 leading-none text-muted-foreground">
-                January - June 2024
+                <span>Updated 2 days ago</span>
+                <span>•</span>
+                <span>View details</span>
               </div>
             </CardFooter>
           </Card>
