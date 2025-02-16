@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEvalHistory } from "@/api/postchain/use-eval-history";
-import { usePostchainClient } from "@/api/postchain/use-postchain-client";
+import { useEvalHistory } from "@/api/postchain/queries/use-eval-history";
+import { usePostchainClient } from "@/api/postchain/queries/use-postchain-client";
 import {
   Card,
   CardContent,

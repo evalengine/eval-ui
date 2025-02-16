@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { usePostchainClient } from "@/api/postchain/use-postchain-client";
-import { useAccountCount } from "@/api/postchain/use-account-count";
-import { useTwitterScore } from "@/api/postchain/use-twitter-score";
-import { useEngines } from "@/api/postchain/use-engines";
-import { useEngineCount } from "@/api/postchain/use-engine-count";
+import { usePostchainClient } from "@/api/postchain/queries/use-postchain-client";
+import { useAccountCount } from "@/api/postchain/queries/use-account-count";
+import { useTwitterScore } from "@/api/postchain/queries/use-twitter-score";
+import { useEngines } from "@/api/postchain/queries/use-engines";
+import { useEngineCount } from "@/api/postchain/queries/use-engine-count";
 
 import { createTheme } from "@mui/material/styles";
 
