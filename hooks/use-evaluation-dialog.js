@@ -1,18 +1,8 @@
 "use client";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 
-import { useModalWithProps } from "@/hooks/useModalWithProps";
-import {
-  Label as RELabel,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
-} from "recharts";
-import { ChartContainer } from "@/components/ui/chart";
+import { useModalWithProps } from "@/hooks/use-modal-with-props";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -24,12 +14,6 @@ import { Label } from "@/components/ui/label";
 import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
 import { extractTweetId } from "@/lib/utils";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const ScoreCard = ({ label, percentage, color, rationale, scoreLabel }) => {
   const totalDots = 10; // Total number of dots

@@ -12,7 +12,7 @@ import { Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
-import { useModalWithProps } from "@/hooks/useModalWithProps";
+import { useModalWithProps } from "@/hooks/use-modal-with-props";
 import { Suspense, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
