@@ -1,16 +1,9 @@
-import { Metadata } from "next";
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ArrowUpRightFromSquare } from "lucide-react";
 import Link from "next/link";
 import { Metrics } from "./components/metrics";
 import { Analytics } from "./components/analytics";
-
-export const metadata: Metadata = {
-  title: "Analytics",
-  description: "Analytics dashboard",
-};
 
 export default function DashboardPage() {
   return (

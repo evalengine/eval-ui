@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Card1, Card2, Card3 } from "@/components/sections/tools";
 
