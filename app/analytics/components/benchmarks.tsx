@@ -50,13 +50,13 @@ export function Component() {
             <CardContent className="pb-0">
               <ChartContainer
                 config={chartConfig}
-                className="mx-auto aspect-square max-h-[250px]"
+                className="mx-auto"
               >
                 <RadarChart
                   data={Object.keys(
                     models![model].category_performance || {}
                   ).map((key) => ({
-                    month: key,
+                    month: key?.replaceAll("_", " ")?.toUpperCase(),
                     desktop: models![model]?.category_performance[key] * 100,
                   }))}
                 >
