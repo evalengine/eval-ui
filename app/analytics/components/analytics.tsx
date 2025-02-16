@@ -44,21 +44,20 @@ export function Analytics() {
   );
 
   useEffect(() => {
-    API.models().then((res) => {
-      console.log(res);
-    });
-    API.model({
-      model_name: "deepseek-r1",
-    }).then((res) => {
-      console.log(res);
-    });
+    // API.models().then((res) => {
+    //   console.log(res);
+    // });
+    // API.model({
+    //   model_name: "deepseek-r1",
+    // }).then((res) => {
+    //   console.log(res);
+    // });
   }, []);
 
   return (
     <div className="space-y-4">
       <form
         onSubmit={handleSubmit((values) => {
-          console.log(values.userAddress);
           setUserAddress(values.userAddress);
         })}
         className="flex gap-4"

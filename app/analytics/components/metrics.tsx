@@ -256,7 +256,6 @@ export function Metrics() {
               return "cursor-pointer";
             }}
             onRowClick={(params) => {
-              console.log(params.row);
               showEvaluationDialog({ result: params.row });
             }}
           />

@@ -74,7 +74,6 @@ export default function PlaygroundPage() {
       showEvaluationDialog({ result: data });
     },
     onError: (error) => {
-      console.log(error);
       toast.error(JSON.stringify(error) || "An error occurred");
     },
     onSettled: () => {

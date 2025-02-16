@@ -70,7 +70,6 @@ export const useAPISettingsDialog = ({}) => {
               <form
                 onSubmit={handleSubmit(async (values) => {
                   try {
-                    console.log(values);
                     localStorage.setItem(
                       "virtual-api-key",
                       values["virtual-api-key"]

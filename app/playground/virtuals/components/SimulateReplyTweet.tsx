@@ -57,7 +57,7 @@ export const SimulateReplyTweet = () => {
       )?.[1] || ""
     );
   }, [reactTwitter]);
-  
+
   const outputTweet = useMemo(() => {
     return (
       reactTwitter?.[reactTwitter.length - 1]?.["TWEET-CONTENT"]?.content || ""
@@ -101,11 +101,9 @@ export const SimulateReplyTweet = () => {
       showEvaluationDialog({ result: data });
     },
     onError: (error) => {
-      console.log(error);
       toast.error(JSON.stringify(error) || "An error occurred");
     },
     onSettled: () => {
-      console.log("onSettled", evaluateTweet.data);
       queryClient.invalidateQueries(["scores"] as any);
     },
   });
