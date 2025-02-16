@@ -3,9 +3,9 @@ import { DiscordLogoIcon } from "@radix-ui/react-icons";
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
-  logo: (props) => (
+  logo: () => (
     <>
-      <img src="/Logo-white-no-bg.svg" className="h-10" {...props} />
+      <img src="/Logo-white-no-bg.svg" className="h-10" />
     </>
   ),
   discord: DiscordLogoIcon,
