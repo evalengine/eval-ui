@@ -3,9 +3,9 @@ import API from "@/api";
 
 export function useAllScores() {
   return useQuery({
-    queryKey: ["allScores"],
-    queryFn: async (payload) => {
-      return await API.allScores(payload);
+    queryKey: ["eval", "allScores"],
+    queryFn: async () => {
+      return await API.allScores();
     },
   });
 }

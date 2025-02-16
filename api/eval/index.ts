@@ -15,8 +15,8 @@ export default {
     const response = await api.get(`/api/eval/scores`);
     return response.data;
   },
-  async allScores(payload) {
-    const response = await api.post(`/api/eval/all-scores`, payload, {
+  async allScores() {
+    const response = await api.post(`/api/eval/all-scores`, undefined, {
       baseURL: "/"
     });
     return response.data;

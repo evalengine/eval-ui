@@ -1,6 +1,6 @@
 "use client";
 
-import type { TweetEvaluation } from "@/models";
+import type { TweetEvaluation } from "@/api/eval/models";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useModalWithProps } from "@/hooks/use-modal-with-props";

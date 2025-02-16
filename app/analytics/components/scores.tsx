@@ -1,6 +1,6 @@
 "use client";
 
-import { useAllScores } from "@/hooks/use-all-scores";
+import { useAllScores } from "@/api/eval/queries/use-all-scores";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 

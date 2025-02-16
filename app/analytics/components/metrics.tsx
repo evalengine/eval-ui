@@ -9,17 +9,13 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
-import { useAccountCount } from "@/hooks/postchain/use-account-count";
-import { useTwitterScore } from "@/hooks/postchain/use-twitter-score";
-import { useEngines } from "@/hooks/postchain/use-engines";
-import { useEngineCount } from "@/hooks/postchain/use-engine-count";
-
-import { useAllScores } from "@/hooks/use-all-scores";
+import { usePostchainClient } from "@/api/postchain/use-postchain-client";
+import { useAccountCount } from "@/api/postchain/use-account-count";
+import { useTwitterScore } from "@/api/postchain/use-twitter-score";
+import { useEngines } from "@/api/postchain/use-engines";
+import { useEngineCount } from "@/api/postchain/use-engine-count";
 
 import { createTheme } from "@mui/material/styles";
-
-import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 
 const theme = createTheme({
   palette: {
@@ -38,9 +34,6 @@ export function Metrics() {
   );
   const { data: { engines = [] } = {} as any, isPending: isLoadingEngines } =
     useEngines(client!, engineCount!);
-
-  const { data: allScores, isLoading: isLoadingAllScores } = useAllScores();
-  const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
 
   return (
     <>

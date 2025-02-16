@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEvalHistory } from "@/hooks/postchain/use-eval-history";
-import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
+import { useEvalHistory } from "@/api/postchain/use-eval-history";
+import { usePostchainClient } from "@/api/postchain/use-postchain-client";
 
 import { ScoreHistory } from "./score-history";
 import { useForm, Controller } from "react-hook-form";
