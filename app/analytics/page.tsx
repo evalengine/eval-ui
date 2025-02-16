@@ -1,11 +1,19 @@
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ArrowUpRightFromSquare } from "lucide-react";
-import Link from "next/link";
 import { Metrics } from "./components/metrics";
 import { Analytics } from "./components/analytics";
+import Link from "next/link";
+import { PageProps } from "@/.next/types/app/page";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function DashboardPage() {
+export default function Page() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   return (
     <>
       <div className="container mx-auto flex-col md:flex">
@@ -29,7 +37,14 @@ export default function DashboardPage() {
             <h2 className="text-3xl font-bold tracking-tight">Analytics</h2>
             <div className="flex items-center space-x-2"></div>
           </div>
-          <Tabs defaultValue="overview" className="space-y-4">
+          <Tabs
+            defaultValue="overview"
+            className="space-y-4"
+            value={searchParams.get("t") || "overview"}
+            onValueChange={(t) => {
+              router.push(`?t=${t}`);
+            }}
+          >
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
@@ -37,7 +52,7 @@ export default function DashboardPage() {
             <TabsContent value="overview" className="space-y-4">
               <Metrics />
             </TabsContent>
-            <TabsContent forceMount value="analytics">
+            <TabsContent value="analytics" forceMount>
               <Analytics />
             </TabsContent>
           </Tabs>
