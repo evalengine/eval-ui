@@ -1,19 +1,18 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import type { TweetEvaluation } from "@/models";
 
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useModalWithProps } from "@/hooks/use-modal-with-props";
+import { Label } from "@/components/ui/label";
+import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
+import { extractTweetId } from "@/lib/utils";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
-
-import { Label } from "@/components/ui/label";
-import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
-import { extractTweetId } from "@/lib/utils";
-
 
 const ScoreCard = ({ label, percentage, color, rationale, scoreLabel }) => {
   const totalDots = 10; // Total number of dots
@@ -22,9 +21,6 @@ const ScoreCard = ({ label, percentage, color, rationale, scoreLabel }) => {
 
   return (
     <div className="flex flex-col bg-zinc-900 p-4 rounded-xl">
-      {/* <Accordion type="single" collapsible>
-        <AccordionItem>
-          <AccordionTrigger> */}
       <div className="flex items-center justify-between">
         <div>
           {/* Dots */}
@@ -49,20 +45,20 @@ const ScoreCard = ({ label, percentage, color, rationale, scoreLabel }) => {
         {/* Percentage */}
         <div className="text-3xl font-bold ml-6">{scoreLabel}</div>
       </div>
-      {/* </AccordionTrigger> */}
-
-      {/* <AccordionContent> */}
       <div className="text-xs text-muted-foreground mt-4">{rationale}</div>
-      {/* </AccordionContent>
-        </AccordionItem>
-      </Accordion> */}
     </div>
   );
 };
 
 export const useEvaluationDialog = () => {
   const [show, hide] = useModalWithProps(
-    ({ onConfirm = () => { }, result = {} } = {}) =>
+    ({
+        onConfirm = () => {},
+        result,
+      }: {
+        onConfirm?: () => void;
+        result: TweetEvaluation;
+      }) =>
       ({ in: open, onExited }) => {
         const original_tweet_id = extractTweetId(result.original_tweet);
         const responded_tweet_id = extractTweetId(result.responded_tweet);
@@ -83,11 +79,9 @@ export const useEvaluationDialog = () => {
                   label="Overall"
                   percentage={result.final_score}
                   scoreLabel={
-                    <>
-                      <h1 className="text-5xl">
-                        {result.final_score.toFixed(1)}
-                      </h1>
-                    </>
+                    <h1 className="text-5xl">
+                      {result.final_score.toFixed(1)}
+                    </h1>
                   }
                   color="bg-white"
                   rationale={
@@ -114,9 +108,7 @@ export const useEvaluationDialog = () => {
                       label={category}
                       percentage={data.score}
                       scoreLabel={
-                        <>
-                          <h1 className="text-3xl">{data.score.toFixed(1)}</h1>
-                        </>
+                        <h1 className="text-3xl">{data.score.toFixed(1)}</h1>
                       }
                       color={
                         {
@@ -142,7 +134,9 @@ export const useEvaluationDialog = () => {
                             {original_tweet_id ? (
                               <ClientTweetCard id={original_tweet_id} />
                             ) : (
-                              <p className="break-all">{result.original_tweet}</p>
+                              <p className="break-all">
+                                {result.original_tweet}
+                              </p>
                             )}
                           </div>
                         </div>
@@ -160,7 +154,9 @@ export const useEvaluationDialog = () => {
                             {responded_tweet_id ? (
                               <ClientTweetCard id={responded_tweet_id} />
                             ) : (
-                              <p className="break-all">{result.responded_tweet}</p>
+                              <p className="break-all">
+                                {result.responded_tweet}
+                              </p>
                             )}
                           </div>
                         </div>

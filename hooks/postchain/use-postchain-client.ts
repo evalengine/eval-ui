@@ -1,11 +1,8 @@
-"use client";
-
-import * as React from "react";
 import { useState, useEffect } from "react";
 import { PostchainClient } from "@/lib/postchain";
 
 export function usePostchainClient() {
-  const [client, setClient] = useState(null);
+  const [client, setClient] = useState<PostchainClient>();
   useEffect(() => {
     async function initClient() {
       try {

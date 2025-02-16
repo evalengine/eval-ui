@@ -1,5 +1,3 @@
-"use client";
-
 import { PostchainClient } from "@/lib/postchain";
 import { useQuery } from "@tanstack/react-query";
 
