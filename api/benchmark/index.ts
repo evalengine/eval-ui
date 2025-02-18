@@ -4,22 +4,30 @@ import { Models, ModelMetrics, ModelComparison, ModelStats } from "@/api/benchma
 // must have postfix API to avoid name conflict for mutation
 export default {
   async models() {
-    const response = await api.get(`/models`);
+    const response = await api.post(`/`, {
+      url: `/models`,
+    });
     return response.data as Models;
   },
   async model(payload: {
     model_name: string;
   }) {
     const { model_name } = payload;
-    const response = await api.get(`/models/${model_name}`);
+    const response = await api.post(`/`, {
+      url: `/models/${model_name}`,
+    });
     return response.data as ModelMetrics;
   },
   async comparison() {
-    const response = await api.get(`/comparison`);
+    const response = await api.post(`/`, {
+      url: `/comparison`,
+    });
     return response.data as ModelComparison;
   },
   async stats() {
-    const response = await api.get(`/stats`);
+    const response = await api.post(`/`, {
+      url: `/stats`,
+    });
     return response.data as ModelStats;
   },
 };
