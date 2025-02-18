@@ -45,7 +45,7 @@ function _Page() {
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="analytics">Analytics</TabsTrigger>
-              <TabsTrigger value="benchmarks">Benchmarks</TabsTrigger>
+              {/* <TabsTrigger value="benchmarks">Benchmarks</TabsTrigger> */}
               <TabsTrigger value="scores">Scores</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
@@ -54,9 +54,9 @@ function _Page() {
             <TabsContent value="analytics" forceMount>
               <Analytics />
             </TabsContent>
-            <TabsContent value="benchmarks">
+            {/* <TabsContent value="benchmarks">
               <Benchmarks />
-            </TabsContent>
+            </TabsContent> */}
             <TabsContent value="scores">
               <Scores />
             </TabsContent>

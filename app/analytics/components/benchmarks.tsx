@@ -30,6 +30,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+import dynamic from "next/dynamic";
+const ReactApexCharts = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
+
 export function Component() {
   const { data: { models } = {} } = useModels();
   // console.log(models!["deepseek-r1"]);
@@ -37,7 +42,7 @@ export function Component() {
   // const { data: comparison } = useComparison();
   // const { data: model } = useModel({ model_name: "model-1" });
   return (
-    <main className="grid gap-4 md:grid-cols-2">
+    <main className="grid gap-4 md:grid-cols-1">
       {Object.keys(models || {}).map((model) => {
         return (
           <Card key={model} className="w-full">
@@ -48,7 +53,102 @@ export function Component() {
               </CardDescription>
             </CardHeader>
             <CardContent className="pb-0">
-              <ChartContainer
+              <ReactApexCharts
+                options={{
+                  theme: {
+                    mode: "dark",
+                  },
+                  grid: {
+                    show: false,
+                    padding: { left: 0, bottom: 0 },
+                    borderColor: "#000",
+                  },
+                  plotOptions: {
+                    bar: {},
+                  },
+                  chart: {
+                    zoom: {
+                      enabled: false,
+                    },
+                    // foreColor: "#BAC6DF",
+                    background: "transparent",
+                    toolbar: {
+                      show: false,
+                    },
+                  },
+                  // colors: ["#98f6e4"],
+                  dataLabels: {
+                    enabled: false,
+                  },
+                  stroke: {
+                    width: [2],
+                    curve: "smooth",
+                  },
+                  legend: {
+                    show: false,
+                    // markers: {
+                    //   radius: 2,
+                    // },
+                    position: "top",
+                    itemMargin: {
+                      horizontal: 20,
+                      vertical: 0,
+                    },
+                  },
+                  xaxis: {
+                    type: "category",
+                    // min: dayjs().startOf("month").valueOf(),
+                    // max: dayjs().endOf("month").valueOf(),
+                    // tickAmount: dayjs().daysInMonth(),
+                    // axisBorder: {
+                    //   color: "#52525B",
+                    // },
+                    // axisTicks: {
+                    //   color: "#52525B",
+                    // },
+                    tickAmount: 1,
+                    // labels: {
+                    //   formatter: function (value, timestamp, opts) {
+                    //     return dayjs(value).format("DD/MM");
+                    //   },
+                    // },
+                    // tickPlacement: "center",
+                    // axisBorder: {
+                    //   show: false,
+                    // },
+                    // axisTicks: {
+                    //   show: false,
+                    // },
+                    categories: Object.keys(
+                      models![model].category_performance || {}
+                    ).map((key) => key?.replaceAll("_", " ")?.toUpperCase()),
+                  },
+                  // yaxis: {
+                  //   labels: {
+                  //     formatter: function (value, timestamp, opts) {
+                  //       return value.toLocaleString();
+                  //     },
+                  //   },
+                  // },
+                  markers: {
+                    size: 5,
+                  },
+                }}
+                yaxis={{ stepSize: 20 }}
+                series={[
+                  {
+                    name: "",
+                    data: Object.keys(
+                      models![model].category_performance || {}
+                    ).map(
+                      (key) => models![model]?.category_performance[key] * 100
+                    ),
+                  },
+                ]}
+                type="radar"
+                height="600"
+              />
+              {/* <ChartContainer
                 config={chartConfig}
                 className="mx-auto"
               >
@@ -76,7 +176,7 @@ export function Component() {
                     }}
                   />
                 </RadarChart>
-              </ChartContainer>
+              </ChartContainer> */}
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
               <div className="flex items-center gap-2 font-medium leading-none">
