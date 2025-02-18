@@ -7,5 +7,6 @@ export function useModel(payload: { model_name: string }) {
     queryFn: async () => {
       return await API.model(payload);
     },
+    enabled: !!payload.model_name,
   });
 }

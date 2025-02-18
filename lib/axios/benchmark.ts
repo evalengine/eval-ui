@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_EVAL_ENGINE_BENCHMARK_API_URL,
+  baseURL: "/api/benchmark",
   headers: {
     "Content-Type": "application/json",
   },
@@ -10,7 +10,6 @@ const instance = axios.create({
 // Request interceptors
 instance.interceptors.request.use(
   (config) => {
-    config.headers["X-API-Key"] = "chromia11111";
     return config;
   },
   (error) => {
