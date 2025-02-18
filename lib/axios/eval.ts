@@ -1,9 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.NODE_ENV === "development"
-    ? process.env.NEXT_PUBLIC_API_PROXY_URL
-    : process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_EVAL_ENGINE_EVAL_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,14 +9,9 @@ const instance = axios.create({
 
 // Request interceptors
 instance.interceptors.request.use(
-  async (config) => {
-    config.headers = {
-      ...config.headers,
-      "Content-Type": "application/json",
-      "X-API-Key": localStorage.getItem("virtual-api-key"),
-      "Authorization": `Bearer ${localStorage.getItem("virtual-jwt-token")}`,
-    };
-
+  (config) => {
+    config.headers["X-API-Key"] = localStorage.getItem("virtual-api-key");
+    config.headers["Authorization"] = `Bearer ${localStorage.getItem("virtual-jwt-token")}`;
     return config;
   },
   (error) => {
@@ -40,10 +33,6 @@ instance.interceptors.response.use(
 
     switch (response.status) {
       case 401:
-        break;
-      case 500:
-        break;
-      case 404:
         break;
       default:
     }

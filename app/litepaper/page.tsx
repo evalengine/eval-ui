@@ -1,6 +1,6 @@
 "use client";
+import { AuroraText } from "@/components/aurora-text";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 const ModelCard = ({ name, stats }) => (
   <div className="p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
@@ -12,7 +12,9 @@ const ModelCard = ({ name, stats }) => (
       </div>
       <div className="text-center">
         <p className="text-sm text-gray-500">Range</p>
-        <p className="text-xl font-bold">{stats.min}-{stats.max}s</p>
+        <p className="text-xl font-bold">
+          {stats.min}-{stats.max}s
+        </p>
       </div>
       <div className="text-center">
         <p className="text-sm text-gray-500">Std Dev</p>
@@ -28,25 +30,25 @@ const ModelCard = ({ name, stats }) => (
 
 const models = [
   {
-    name: 'DeepSeek R1 Distill LLaMA 70B',
+    name: "DeepSeek R1 Distill LLaMA 70B",
     stats: {
       mean: 2.39,
       min: 1.94,
       max: 2.94,
       std: 0.29,
-      median: 2.32
-    }
+      median: 2.32,
+    },
   },
   {
-    name: 'LLaMA 3.1 8B Instant',
+    name: "LLaMA 3.1 8B Instant",
     stats: {
       mean: 0.56,
       min: 0.49,
-      max: 0.70,
+      max: 0.7,
       std: 0.07,
-      median: 0.53
-    }
-  }
+      median: 0.53,
+    },
+  },
 ];
 
 export default function Page() {
@@ -55,11 +57,28 @@ export default function Page() {
       <div className="flex-grow mx-auto max-w-3xl flex flex-col items-center justify-center pb-20">
         <div className="w-full py-16">
           <div className="mx-auto max-w-screen-md w-full">
-            <h1 className="font-display text-center text-4xl font-extrabold leading-[1.15] sm:text-6xl sm:leading-[1.15] bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              EVAL Engine LitePaper
+            <h1 className="font-display text-center text-4xl font-extrabold leading-[1.15] sm:text-6xl sm:leading-[1.15]">
+              <AuroraText>EVAL Engine</AuroraText> LitePaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
-              drafted by <a href="https://x.com/jlwhoo7" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Johnson Lai</a> & <a href="https://x.com/defichemist95" className="text-blue-400 hover:text-blue-300" target="_blank" rel="noopener noreferrer">Prem Kumar</a>
+              drafted by{" "}
+              <a
+                href="https://x.com/jlwhoo7"
+                className="text-blue-400 hover:text-blue-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Johnson Lai
+              </a>{" "}
+              &{" "}
+              <a
+                href="https://x.com/defichemist95"
+                className="text-blue-400 hover:text-blue-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Prem Kumar
+              </a>
             </p>
           </div>
         </div>
@@ -75,8 +94,13 @@ export default function Page() {
           <p>
             Our system utilizes Chromias gas-free relational blockchain
             architecture to enable transparent, immutable, and cost-effective
-            evaluation of AI agent performance. The system incorporates multiple LLM-as-a-judge<sup><a href="#references">[1]</a></sup> and social engagement metrics for continuous
-            reinforcement learning via feedback loop and reward system.
+            evaluation of AI agent performance. The system incorporates multiple
+            LLM-as-a-judge
+            <sup>
+              <a href="#references">[1]</a>
+            </sup>{" "}
+            and social engagement metrics for continuous reinforcement learning
+            via feedback loop and reward system.
           </p>
 
           <p>
@@ -85,8 +109,8 @@ export default function Page() {
             engagement-driven feedback loops.
           </p>
           <p>
-            We also present a comprehensive roadmap for the development of
-            EVAL Engine, including API development, data preparation, model
+            We also present a comprehensive roadmap for the development of EVAL
+            Engine, including API development, data preparation, model
             development, and model deployment.
           </p>
           <div>
@@ -94,9 +118,16 @@ export default function Page() {
             <p>
               We saw Crypto x AI Agent taking off in the space of Crypto Twitter
               (CT), particularly on the social aspect of things. But most AI
-              that weve seen dont even have evaluation metrics.
-              This creates a significant risk of hallucination - the generation of plausible yet factually unsupported content<sup><a href="#references">[2]</a></sup>.
-              Without standardized evaluation metrics, it becomes challenging to verify the reliability and trustworthiness of these AI agents' outputs, particularly in the context of sensitive financial and cryptocurrency-related information
+              that weve seen dont even have evaluation metrics. This creates a
+              significant risk of hallucination - the generation of plausible
+              yet factually unsupported content
+              <sup>
+                <a href="#references">[2]</a>
+              </sup>
+              . Without standardized evaluation metrics, it becomes challenging
+              to verify the reliability and trustworthiness of these AI agents'
+              outputs, particularly in the context of sensitive financial and
+              cryptocurrency-related information
             </p>
             <div className="border-l-4 border-blue-400 pl-4 my-8">
               <h2>Key Challenges</h2>
@@ -159,7 +190,7 @@ export default function Page() {
                 height="600"
                 className="my-8 w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
-                  console.error('Error loading image:', e);
+                  console.error("Error loading image:", e);
                 }}
               />
             </div>
@@ -172,10 +203,12 @@ export default function Page() {
                   AI agents, evaluation modules, and social media platforms.
                 </li>
                 <li>
-                  Allows for quick retrieval of AI Agent outputs and historical evaluation scores
+                  Allows for quick retrieval of AI Agent outputs and historical
+                  evaluation scores
                 </li>
                 <li>
-                  Normalizes incoming data (e.g., raw tweets, platform engagement stats) to ensure consistency before evaluation.
+                  Normalizes incoming data (e.g., raw tweets, platform
+                  engagement stats) to ensure consistency before evaluation.
                 </li>
               </ul>
             </div>
@@ -183,16 +216,21 @@ export default function Page() {
               <h2>EVAL Engine: Evaluation Engine</h2>
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  The EVAL Engine orchestrates multiple LLM evaluators to form a composite score
-                  that reflects various performance metrics (accuracy,
-                  creativity, truthfulnes and engagement).
+                  The EVAL Engine orchestrates multiple LLM evaluators to form a
+                  composite score that reflects various performance metrics
+                  (accuracy, creativity, truthfulnes and engagement).
                 </li>
                 <li>
-                  Each LLM executes asynchronously, enabling parallel evaluation and reduced latency, powered by DSPy<sup><a href="#references">[6]</a></sup>
+                  Each LLM executes asynchronously, enabling parallel evaluation
+                  and reduced latency, powered by DSPy
+                  <sup>
+                    <a href="#references">[6]</a>
+                  </sup>
                 </li>
                 <li>
-                  Final evaluation scores and relevant data are batched for submission to Chromia gas-free blockchain.
-                  submission to Chromia gas-free blockchain.
+                  Final evaluation scores and relevant data are batched for
+                  submission to Chromia gas-free blockchain. submission to
+                  Chromia gas-free blockchain.
                 </li>
               </ul>
             </div>
@@ -252,7 +290,13 @@ export default function Page() {
               implements a robust multi-layer approach to ensure evaluation
               integrity:
             </p>
-            <img src="/maths.png" alt="EVAL Engine Architecture" width="300" height="300" className="my-8 w-full h-auto rounded-lg shadow-lg" />
+            <img
+              src="/maths.png"
+              alt="EVAL Engine Architecture"
+              width="300"
+              height="300"
+              className="my-8 w-full h-auto rounded-lg shadow-lg"
+            />
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-bold mb-2">
@@ -265,21 +309,40 @@ export default function Page() {
                     accuracy and engagement)
                   </li>
                   <li>
-                    Our models are powered by Hyperbolic<sup><a href="#references">[4]</a></sup> and Groq<sup><a href="#references">[5]</a></sup> to serve instant open-source LLMs at low latency to keep our response time within industry standards. Different LLMs are used for different criteria to ensure accuracy and diversity. The image below shows average response time using our providers for some of the LLMs that is powering our EVAL Engine.
+                    Our models are powered by Hyperbolic
+                    <sup>
+                      <a href="#references">[4]</a>
+                    </sup>{" "}
+                    and Groq
+                    <sup>
+                      <a href="#references">[5]</a>
+                    </sup>{" "}
+                    to serve instant open-source LLMs at low latency to keep our
+                    response time within industry standards. Different LLMs are
+                    used for different criteria to ensure accuracy and
+                    diversity. The image below shows average response time using
+                    our providers for some of the LLMs that is powering our EVAL
+                    Engine.
                     <br />
                     <br />
-                    <b>Note:</b> The image below is not an exhaustive list of all the LLMs that we use, but just a few examples - average of 50 calls
+                    <b>Note:</b> The image below is not an exhaustive list of
+                    all the LLMs that we use, but just a few examples - average
+                    of 50 calls
                   </li>
-                  <img src="/models.png" alt="EVAL Engine Architecture" width="800" height="600" className="my-8 w-full h-auto rounded-lg shadow-lg" />
-                  
+                  <img
+                    src="/models.png"
+                    alt="EVAL Engine Architecture"
+                    width="800"
+                    height="600"
+                    className="my-8 w-full h-auto rounded-lg shadow-lg"
+                  />
                 </ul>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {models.map(model => (
+                  {models.map((model) => (
                     <ModelCard key={model.name} {...model} />
                   ))}
                 </div>
-
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-2">
@@ -295,16 +358,18 @@ export default function Page() {
                     criteria
                   </li>
                 </ul>
-                <h3 className="text-xl font-bold mb-2">
-                  On-Chain Storage
-                </h3>
+                <h3 className="text-xl font-bold mb-2">On-Chain Storage</h3>
                 <ul className="list-disc pl-5 space-y-2">
                   <li>
-                    Final evaluation outcomes and intermediate results are stored on Chromia's relational blockchain, guaranteeing transparency, verifiability, and historical traceability.
+                    Final evaluation outcomes and intermediate results are
+                    stored on Chromia's relational blockchain, guaranteeing
+                    transparency, verifiability, and historical traceability.
                   </li>
-                  
+
                   <div className="mt-4 p-4 rounded-lg">
-                    <h4 className="text-lg font-semibold mb-3">Technical Process Flow</h4>
+                    <h4 className="text-lg font-semibold mb-3">
+                      Technical Process Flow
+                    </h4>
                     <div className="space-y-1.5">
                       {[
                         "Client signs an evaluation request transaction",
@@ -312,7 +377,7 @@ export default function Page() {
                         "Engine submits the signed transaction to Chromia blockchain",
                         "Engine processes the evaluation",
                         "Engine stores results on the blockchain",
-                        "Client receives the evaluation results"
+                        "Client receives the evaluation results",
                       ].map((step, index) => (
                         <div key={index} className="flex items-center gap-2">
                           <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-400/10 flex items-center justify-center text-blue-400 font-medium text-xs">
@@ -322,7 +387,7 @@ export default function Page() {
                         </div>
                       ))}
                     </div>
-                    
+
                     <div className="mt-4 relative group">
                       <img
                         src="/onchain.png"
@@ -332,7 +397,11 @@ export default function Page() {
                         height={400}
                       />
                       <p className="mt-2 text-sm text-gray-400 italic">
-                        * All transactions and results are permanently stored on Chromia blockchain, ensuring transparency and auditability. Clients interact with the system through a simple SDK/API interface, while the Engine handles all blockchain operations.
+                        * All transactions and results are permanently stored on
+                        Chromia blockchain, ensuring transparency and
+                        auditability. Clients interact with the system through a
+                        simple SDK/API interface, while the Engine handles all
+                        blockchain operations.
                       </p>
                     </div>
                   </div>
@@ -421,7 +490,11 @@ export default function Page() {
                 </h3>
                 <p className="mb-4">
                   Each evaluation report on EVAL Engine is paid for using $EVAL
-                  tokens through a subscription model<sup><a href="#references">[3]</a></sup>. By tokenizing the cost per evaluation, the platform
+                  tokens through a subscription model
+                  <sup>
+                    <a href="#references">[3]</a>
+                  </sup>
+                  . By tokenizing the cost per evaluation, the platform
                   seamlessly handles real-time user demand for evaluation
                   services.
                 </p>
@@ -431,12 +504,13 @@ export default function Page() {
                   Token Utility and Conversion
                 </h3>
                 <p className="mb-4">
-                  EVAL Engine uses $EVAL tokens to acquire $CHR when computational
-                  resources are required. This design leverages Chromias
-                  gas-free architecture while maintaining a clear payment model.
-                  Because each evaluation is properly backed by tokens (both in
-                  $EVAL and $CHR), the network remains secure, cost-effective,
-                  and accessible for continuous AI evaluation needs.
+                  EVAL Engine uses $EVAL tokens to acquire $CHR when
+                  computational resources are required. This design leverages
+                  Chromias gas-free architecture while maintaining a clear
+                  payment model. Because each evaluation is properly backed by
+                  tokens (both in $EVAL and $CHR), the network remains secure,
+                  cost-effective, and accessible for continuous AI evaluation
+                  needs.
                 </p>
               </div>
             </div>
@@ -557,22 +631,74 @@ export default function Page() {
             <h2>References</h2>
             <div className="space-y-4">
               <p id="references">
-                [1] Zheng, L., et al. (2023). "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena." [v4] <a href="https://arxiv.org/abs/2306.05685" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">arXiv:2306.05685</a>
+                [1] Zheng, L., et al. (2023). "Judging LLM-as-a-Judge with
+                MT-Bench and Chatbot Arena." [v4]{" "}
+                <a
+                  href="https://arxiv.org/abs/2306.05685"
+                  className="text-blue-400 hover:text-blue-300 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  arXiv:2306.05685
+                </a>
               </p>
               <p>
-                [2] Huang, L., et al. (2023). "A Survey on Hallucination in Large Language Models: Principles, Taxonomy, Challenges, and Open Questions." [v2] <a href="https://arxiv.org/abs/2311.05232" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">arXiv:2311.05232</a>
+                [2] Huang, L., et al. (2023). "A Survey on Hallucination in
+                Large Language Models: Principles, Taxonomy, Challenges, and
+                Open Questions." [v2]{" "}
+                <a
+                  href="https://arxiv.org/abs/2311.05232"
+                  className="text-blue-400 hover:text-blue-300 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  arXiv:2311.05232
+                </a>
               </p>
               <p>
-                [3] Chromia Documentation. "Subscription Fee Strategy." <a href="https://docs.chromia.com/ft4/backend/accounts/subscription" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Chromia FT4 Documentation</a>
+                [3] Chromia Documentation. "Subscription Fee Strategy."{" "}
+                <a
+                  href="https://docs.chromia.com/ft4/backend/accounts/subscription"
+                  className="text-blue-400 hover:text-blue-300 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Chromia FT4 Documentation
+                </a>
               </p>
               <p>
-                [4] The Open Access AI Cloud <a href="https://hyperbolic.xyz/" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Hyperbolic</a>
+                [4] The Open Access AI Cloud{" "}
+                <a
+                  href="https://hyperbolic.xyz/"
+                  className="text-blue-400 hover:text-blue-300 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Hyperbolic
+                </a>
               </p>
               <p>
-                [5] Platform for Fast AI Inference <a href="https://groq.com/" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Groq</a>
+                [5] Platform for Fast AI Inference{" "}
+                <a
+                  href="https://groq.com/"
+                  className="text-blue-400 hover:text-blue-300 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Groq
+                </a>
               </p>
               <p>
-                [6] Framework for programming—rather than prompting—language models <a href="https://dspy.ai/" className="text-blue-400 hover:text-blue-300 underline" target="_blank" rel="noopener noreferrer">Dspy</a>
+                [6] Framework for programming—rather than prompting—language
+                models{" "}
+                <a
+                  href="https://dspy.ai/"
+                  className="text-blue-400 hover:text-blue-300 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Dspy
+                </a>
               </p>
             </div>
           </div>

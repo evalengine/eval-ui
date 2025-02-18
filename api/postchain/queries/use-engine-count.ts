@@ -1,13 +1,11 @@
-"use client";
-
 import { PostchainClient } from "@/lib/postchain";
 import { useQuery } from "@tanstack/react-query";
 
-export function useAccountCount(client: PostchainClient) {
+export function useEngineCount(client: PostchainClient) {
   return useQuery({
-    queryKey: ["getAccountsCount"],
+    queryKey: ["getEngineCount"],
     queryFn: async () => {
-      return await client.getAccountsCount();
+      return await client.getEngineCount();
     },
     enabled: !!client,
   });

@@ -12,7 +12,7 @@ export const useModalWithProps = (modalFactory, watchProps) => {
   const showModal = useCallback((_props) => {
     setProps(_props);
     _showModal();
-  });
+  }, []);
 
   return [showModal, hideModal];
 };

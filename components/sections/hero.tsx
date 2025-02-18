@@ -1,7 +1,6 @@
 "use client";
 
 import { AuroraText } from "@/components/aurora-text";
-import { Icons } from "@/components/icons";
 import { Section } from "@/components/section";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/lib/config";
@@ -10,30 +9,27 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
 
 const ease = [0.16, 1, 0.3, 1];
 
 function HeroPill() {
   return (
-    <Link href="https://app.virtuals.io/virtuals/20193" className="flex w-full truncate">
+    <Link
+      href="https://app.virtuals.io/virtuals/20193"
+      className="flex w-full truncate"
+    >
       <motion.div
         className="truncate space-x-2 flex w-auto items-center rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-nowrap"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease }}
       >
-        {/* <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-left text-xs font-medium text-primary sm:text-sm">
-          🛠️ New
-        </div> */}
-        {/* <p className="text-xs font-medium text-primary sm:text-sm">
-          $EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0
-        </p>
-       */}
         <AnimatedShinyText className="text-xs truncate font-medium text-primary sm:text-sm inline-flex items-center justify-center transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
           <span className="flex items-center truncate">
-            <img src="/Logo-white-no-bg.svg" className="h-5" />
-            <span className="truncate">$EVAL: 0xdd78523217390bb0d49C7601e7e54C36d71622F0</span>
+            <span className="truncate">
+              {process.env.NEXT_PUBLIC_EVAL_ENGINE_CONTRACT_COIN}:{" "}
+              {process.env.NEXT_PUBLIC_EVAL_ENGINE_CONTRACT_ADDRESS}
+            </span>
           </span>
         </AnimatedShinyText>
         <svg

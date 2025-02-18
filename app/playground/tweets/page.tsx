@@ -32,11 +32,6 @@ import { useMemo } from "react";
 
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
 
-// export const metadata: Metadata = {
-//   title: "Playground",
-//   description: "The OpenAI Playground built using the components.",
-// };
-
 export default function PlaygroundPage() {
   const methods = useForm();
   const { isSidebarOpen, openSidebar, closeSidebar, toggleSidebar } =
@@ -79,7 +74,6 @@ export default function PlaygroundPage() {
       showEvaluationDialog({ result: data });
     },
     onError: (error) => {
-      console.log(error);
       toast.error(JSON.stringify(error) || "An error occurred");
     },
     onSettled: () => {

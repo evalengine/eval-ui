@@ -47,9 +47,6 @@ export const Tweet = ({
             </div>
           </div>
           <div className="sticky bottom-0 flex-shrink-0 min-w-0 min-h-0 p-2 px-4 py-4 bg-background">
-            {/* <Label className="px-1 mb-2.5 block">
-              Paste the original tweet URL or text here
-            </Label> */}
             <Textarea
               required
               placeholder="https://x.com/Chromia/status/1863946639070597470"

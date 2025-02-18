@@ -18,7 +18,6 @@ import { LineChart, BarChart } from "echarts/charts";
 echarts.use([
   LineChart,
   BarChart,
-
   TitleComponent,
   TooltipComponent,
   ToolboxComponent,
@@ -35,20 +34,6 @@ export function ScoreHistory({ data = [] }: { data: any }) {
     .filter((d: any) => d.evaluation_status === "completed")
     .sort((a: any, b: any) => a.created_at - b.created_at);
 
-  // Calculate average final score
-  const avgScore =
-    completedEvals.reduce(
-      (sum: any, d: any) => sum + parseFloat(d.final_score),
-      0
-    ) / completedEvals.length;
-
-  console.log(
-    "completedEvals",
-    completedEvals.map((d: any) => [
-      new Date(d.created_at).toISOString(),
-      parseFloat(d.final_score),
-    ])
-  );
   return (
     <>
       <div
@@ -57,12 +42,9 @@ export function ScoreHistory({ data = [] }: { data: any }) {
         ref={(ref) => {
           if (ref) {
             const instance = echarts.init(ref, "dark");
-            // if (isLoading || isFetching) {
-            //   instance.showLoading();
-            // } else {
+
             instance.hideLoading();
             instance.resize();
-            // }
 
             const options = {
               backgroundColor: "transparent",

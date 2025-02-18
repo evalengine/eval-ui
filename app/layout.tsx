@@ -3,13 +3,13 @@ import { siteConfig } from "@/lib/config";
 import { cn, constructMetadata } from "@/lib/utils";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-import type { Metadata, Viewport } from "next";
 import { Toaster } from "@/components/ui/sonner";
-import Providers from "./providers";
 import { Header } from "@/components/sections/header";
 import { Footer } from "@/components/sections/footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Providers from "./providers";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = constructMetadata({
@@ -52,12 +52,12 @@ export default function RootLayout({
               <Header />
               {children}
               <Footer />
-              <Toaster position="top-center" richColors={true} />
+              <Toaster position="top-center" richColors />
             </TooltipProvider>
           </ThemeProvider>
         </Providers>
       </body>
-      <GoogleAnalytics gaId="G-8HHCJMQT38" />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
     </html>
   );
 }

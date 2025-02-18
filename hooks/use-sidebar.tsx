@@ -2,8 +2,6 @@
 
 import * as React from "react";
 
-const LOCAL_STORAGE_KEY = "sidebar";
-
 interface SidebarContext {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;

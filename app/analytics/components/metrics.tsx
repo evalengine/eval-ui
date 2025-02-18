@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
@@ -9,18 +9,13 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
-import { useAccountCount } from "@/hooks/postchain/use-account-count";
-import { useTwitterScore } from "@/hooks/postchain/use-twitter-score";
-import { useEngine } from "@/hooks/postchain/use-engine";
+import { usePostchainClient } from "@/api/postchain/queries/use-postchain-client";
+import { useAccountCount } from "@/api/postchain/queries/use-account-count";
+import { useTwitterScore } from "@/api/postchain/queries/use-twitter-score";
+import { useEngines } from "@/api/postchain/queries/use-engines";
+import { useEngineCount } from "@/api/postchain/queries/use-engine-count";
 
-import { DataTable } from "./engines/data-table";
-import { columns } from "./engines/columns";
-import { Separator } from "@/components/ui/separator";
-import { useAllScores } from "@/hooks/use-all-scores";
-
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
@@ -28,27 +23,17 @@ const theme = createTheme({
   },
 });
 
-// import {
-//   DataGridPro,
-//   GridRow,
-//   zhCN,
-//   GridFooterContainer,
-//   GridPagination,
-//   GridFooterPlaceholder,
-// } from "@liholiho/x-data-grid-pro";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
-
 export function Metrics() {
   const { client } = usePostchainClient();
   const { data: accountCount, isPending: isLoadingAccountCount } =
     useAccountCount(client!);
   const { data: twitterScore, isPending: isLoadingTwitterScore } =
     useTwitterScore(client!);
-  const { data: engine, isPending: isLoadingEngine } = useEngine(client!);
-
-  const { data: allScores, isLoading: isLoadingAllScores } = useAllScores();
-  const [showEvaluationDialog, hideEvaluationDialog] = useEvaluationDialog();
+  const { data: engineCount, isPending: isLoadingEngineCount } = useEngineCount(
+    client!
+  );
+  const { data: { engines = [] } = {} as any, isPending: isLoadingEngines } =
+    useEngines(client!, engineCount!);
 
   return (
     <>
@@ -138,8 +123,8 @@ export function Metrics() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {!isLoadingEngine ? (
-                engine?.total
+              {!isLoadingEngineCount ? (
+                engineCount?.toString()
               ) : (
                 <Skeleton className="w-10 h-6" />
               )}
@@ -159,7 +144,7 @@ export function Metrics() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-            {engine?.engines.engines.map((engine: any, key: number) => (
+            {engines.map((engine: any, key: number) => (
               <Card key={key}>
                 <div className="p-4 space-y-2 text-sm">
                   <div className="flex justify-between space-x-4">
@@ -204,134 +189,10 @@ export function Metrics() {
               </Card>
             ))}
 
-            {isLoadingEngine && <Skeleton className="min-h-64 h-full" />}
+            {isLoadingEngines && <Skeleton className="min-h-64 h-full" />}
           </div>
         </CardContent>
       </Card>
-      <div className="h-[40rem]">
-        <ThemeProvider theme={theme}>
-          <DataGrid
-            autoPageSize
-            pagination
-            columns={[
-              {
-                field: "original_tweet",
-                headerName: "Original Tweet",
-                headerClassName: "capitalize",
-                flex: 1,
-                minWidth: 100,
-              },
-              {
-                field: "responded_tweet",
-                headerName: "Responded Tweet",
-                headerClassName: "capitalize",
-                flex: 1,
-                minWidth: 100,
-              },
-              {
-                field: "recommended_response",
-                headerName: "Recommended Response",
-                headerClassName: "capitalize",
-                flex: 1,
-                minWidth: 100,
-              },
-              {
-                field: "final_score",
-                headerName: "Final Score",
-                headerClassName: "capitalize",
-                flex: 1,
-                minWidth: 50,
-              },
-            ]}
-            rows={allScores?.scores || []}
-            loading={isLoadingAllScores}
-            // density="compact"
-            sx={{
-              borderColor: "hsl(var(--border))",
-              "--rowBorderColor": "hsl(var(--border))",
-              // ".MuiDataGrid-columnHeader": {
-              //   borderBottom: "none"
-              // },
-              "*": {
-                borderColor: "hsl(var(--border))!important",
-              },
-              "& .MuiDataGrid-cell:focus": {
-                outline: "none",
-              },
-            }}
-            disableRowSelectionOnClick
-            disableMultipleRowSelection
-            checkboxSelection={false}
-            disableColumnSelector
-            className="border!"
-            getRowClassName={(params) => {
-              return "cursor-pointer";
-            }}
-            onRowClick={(params) => {
-              console.log(params.row);
-              showEvaluationDialog({ result: params.row });
-            }}
-          />
-        </ThemeProvider>
-      </div>
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>Twitter Scores</CardTitle>
-          <CardDescription>
-            List of all twitter scores evaluated on the network
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-            {engine?.engines.engines.map((engine: any, key: number) => (
-              <Card key={key}>
-                <div className="p-4 space-y-2 text-sm">
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-gray-100 ring-1 ring-inset ring-gray-500/50">
-                      Prefix
-                    </span>
-                    <span>{engine.prefix}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-red-100 ring-1 ring-inset ring-red-500/50">
-                      Description
-                    </span>
-                    <span>{engine.description}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-yellow-100 ring-1 ring-inset ring-yellow-500/50">
-                      ID
-                    </span>
-                    <span>{engine.id}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-100 ring-1 ring-inset ring-green-500/50">
-                      Created
-                    </span>
-                    <span>{new Date(engine.created_at).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-blue-100 ring-1 ring-inset ring-blue-500/50">
-                      Updated
-                    </span>
-                    <span>{new Date(engine.updated_at).toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-indigo-100 ring-1 ring-inset ring-indigo-500/50">
-                      Address
-                    </span>
-                    <span className="truncate">
-                      {engine.address.toString("hex")}
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            ))}
-
-            {isLoadingEngine && <Skeleton className="min-h-64 h-full" />}
-          </div>
-        </CardContent>
-      </Card> */}
     </>
   );
 }

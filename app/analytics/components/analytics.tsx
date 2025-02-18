@@ -1,10 +1,10 @@
 "use client";
 
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEvalHistory } from "@/hooks/postchain/use-eval-history";
-import { usePostchainClient } from "@/hooks/postchain/use-postchain-client";
+import { useEvalHistory } from "@/api/postchain/queries/use-eval-history";
+import { usePostchainClient } from "@/api/postchain/queries/use-postchain-client";
 import {
   Card,
   CardContent,
@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScoreHistory } from "./score-history";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { AlertCircle, UserIcon } from "lucide-react";
@@ -40,13 +40,11 @@ export function Analytics() {
     client!,
     userAddress
   );
-  console.log("data", data);
 
   return (
     <div className="space-y-4">
       <form
         onSubmit={handleSubmit((values) => {
-          console.log(values.userAddress);
           setUserAddress(values.userAddress);
         })}
         className="flex gap-4"

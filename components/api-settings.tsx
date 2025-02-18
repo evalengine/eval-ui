@@ -12,7 +12,7 @@ import { Settings } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
-import { useModalWithProps } from "@/hooks/useModalWithProps";
+import { useModalWithProps } from "@/hooks/use-modal-with-props";
 import { Suspense, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -21,7 +21,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useSearchParams } from "next/navigation";
 const jwt = require("jsonwebtoken");
 
 export const useAPISettingsDialog = ({}) => {
@@ -36,23 +35,14 @@ export const useAPISettingsDialog = ({}) => {
     formState: { isDirty, isValid },
   } = useForm({ mode: "onChange" });
 
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
   useEffect(() => {
     setValue("virtual-api-key", localStorage.getItem("virtual-api-key") || "");
     setValue(
       "virtual-jwt-token",
-      token || localStorage.getItem("virtual-jwt-token") || ""
+      localStorage.getItem("virtual-jwt-token") || ""
     );
-    localStorage.setItem(
-      "virtual-jwt-token",
-      token || localStorage.getItem("virtual-jwt-token") || ""
-    );
+  }, []);
 
-    const newParams = new URLSearchParams(searchParams.toString());
-    newParams.delete("token");
-    window.history.replaceState(null, "", `?${newParams.toString()}`);
-  }, [token]);
   const queryClient = useQueryClient();
 
   const { data = "" } = useQuery({
@@ -66,7 +56,7 @@ export const useAPISettingsDialog = ({}) => {
 
   const [show, hide] = useModalWithProps(
     ({ onConfirm = () => {} } = {}) =>
-      ({ in: open, onExited }: any) => {
+      ({ in: open, onExited }) => {
         return (
           <Dialog
             open={open}
@@ -80,7 +70,6 @@ export const useAPISettingsDialog = ({}) => {
               <form
                 onSubmit={handleSubmit(async (values) => {
                   try {
-                    console.log(values);
                     localStorage.setItem(
                       "virtual-api-key",
                       values["virtual-api-key"]
@@ -176,7 +165,7 @@ export const useAPISettingsDialog = ({}) => {
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
                                   viewBox="0 0 24 24"
-                                  stroke-width="1.5"
+                                  strokeWidth="1.5"
                                   stroke="currentColor"
                                   className="w-5 h-5"
                                 >
@@ -249,7 +238,7 @@ export const useAPISettingsDialog = ({}) => {
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
                                   viewBox="0 0 24 24"
-                                  stroke-width="1.5"
+                                  strokeWidth="1.5"
                                   stroke="currentColor"
                                   className="w-5 h-5"
                                 >

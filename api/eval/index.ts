@@ -1,18 +1,23 @@
-import api from "@/lib/api";
+import api from "@/lib/axios/eval";
 
 // must have postfix API to avoid name conflict for mutation
 export default {
-  async evaluateTweet(payload) {
+  async evaluateTweet(payload:
+    {
+      input_tweet: string;
+      output_tweet: string;
+    }
+  ) {
     const response = await api.post(`/api/eval/evaluate-tweet`, payload);
     return response.data;
   },
-  async scores(payload) {
+  async scores() {
     const response = await api.get(`/api/eval/scores`);
     return response.data;
   },
-  async allScores(payload) {
-    const response = await api.post(`/api/eval/all-scores`, payload, {
-      baseURL: ""
+  async allScores() {
+    const response = await api.post(`/api/eval/all-scores`, undefined, {
+      baseURL: "/"
     });
     return response.data;
   },

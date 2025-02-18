@@ -73,7 +73,6 @@ function Playground() {
       );
     },
     onError: (error) => {
-      console.log(error);
       toast.error(JSON.stringify(error) || "An error occurred");
     },
   });

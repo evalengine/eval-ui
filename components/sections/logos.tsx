@@ -104,7 +104,6 @@ export function Logos() {
               key={idx}
               href={currentSet[idx].url}
               target="_blank"
-              // className="flex group items-center justify-center p-4 border-r border-t last:border-r-0 sm:last:border-r md:[&:nth-child(3n)]:border-r md:[&:nth-child(6n)]:border-r-0 md:[&:nth-child(3)]:border-r [&:nth-child(-n+2)]:border-t-0 sm:[&:nth-child(-n+3)]:border-t-0 sm:[&:nth-child(3n)]:border-r-0 md:[&:nth-child(-n+6)]:border-t-0 [&:nth-child(2n)]:border-r-0 sm:[&:nth-child(2n)]:border-r"
               className="flex group items-center justify-center p-4 border-r border-t last:border-r-0 md:[&:nth-child(5n)]:border-r md:[&:nth-child(6n)]:border-r-0 md:[&:nth-child(3)]:border-r [&:nth-child(-n+2)]:border-t-0 [&:nth-child(-n+5)]:border-t-0 [&:nth-child(5n)]:border-r-0 md:[&:nth-child(-n+6)]:border-t-0 [&:nth-child(2n)]:border-r"
             >
               <AnimatePresence mode="wait">
