@@ -94,6 +94,23 @@ echarts.use([
 
 import { jsPDF } from "jspdf";
 import "svg2pdf.js";
+import Papa from "papaparse";
+
+export const downloadCSV = (args) => {
+  let filename = args.filename || "export.csv";
+
+  let csv = Papa.unparse(args.data);
+  if (csv == null) return;
+
+  var blob = new Blob([csv]);
+
+  var a = window.document.createElement("a");
+  a.href = window.URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click(); // IE: "Access is denied"; see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
+  document.body.removeChild(a);
+};
 
 export function ModelSpeedVSPerformance() {
   // Compute linear regression (simple example)
@@ -170,7 +187,6 @@ export function ModelSpeedVSPerformance() {
         </Button>
         <Button
           onClick={async () => {
-       
             const dataURL = instance!.getDataURL({
               type: "jpeg",
               pixelRatio: 2,
@@ -211,7 +227,22 @@ export function ModelSpeedVSPerformance() {
             />
           </svg>
         </Button>
-        <Button onClick={() => {}} variant="outline" size="icon">
+        <Button
+          onClick={() => {
+            downloadCSV({
+              filename: "model-speed-vs-performance.csv",
+              data: Object.keys(models || {}).map((model) => {
+                return {
+                  model,
+                  speed: models![model].speed.tokens_per_second,
+                  performance: models![model].overall_performance.score,
+                };
+              }),
+            });
+          }}
+          variant="outline"
+          size="icon"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -256,9 +287,10 @@ export function ModelSpeedVSPerformance() {
 
                   const options = {
                     backgroundColor: "transparent",
-                    title:{
+                    title: {
                       text: "Model Speed vs Performance",
-                      subtext: "Analyze the speed and performance of your models",
+                      subtext:
+                        "Analyze the speed and performance of your models",
                       left: "center",
                       top: 20,
                       textStyle: {
@@ -500,7 +532,23 @@ export function PerformanceAnalysis() {
             />
           </svg>
         </Button>
-        <Button onClick={() => {}} variant="outline" size="icon">
+        <Button
+          onClick={() => {
+            downloadCSV({
+              filename: `${model}-performance-analysis.csv`,
+              data: Object.keys(models![model].category_performance).map(
+                (key) => {
+                  return {
+                    category: key,
+                    performance: models![model].category_performance[key],
+                  };
+                }
+              ),
+            });
+          }}
+          variant="outline"
+          size="icon"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -543,9 +591,10 @@ export function PerformanceAnalysis() {
 
                     const options = {
                       backgroundColor: "transparent",
-                      title:{
+                      title: {
                         text: `Performance Analysis for ${model}`,
-                        subtext: "Analyze the performance of your model over time",
+                        subtext:
+                          "Analyze the performance of your model over time",
                         left: "center",
                         top: 20,
                         textStyle: {

@@ -61,6 +61,7 @@
     "lucide-react": "^0.471.0",
     "next": "15.0.3",
     "next-themes": "^0.4.4",
+    "papaparse": "^5.5.2",
     "pdf-lib": "^1.17.1",
     "postchain-client": "^1.20.2",
     "react": "^18.3.1",
