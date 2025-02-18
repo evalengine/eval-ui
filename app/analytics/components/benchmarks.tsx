@@ -603,10 +603,15 @@ export function PerformanceAnalysis() {
                         },
                       },
                       tooltip: {
-                        trigger: "axis",
+                        trigger: "item",
                         axisPointer: {
                           // Use axis to trigger tooltip
                           type: "shadow", // 'shadow' as default; can also be 'line' or 'shadow'
+                        },
+                        backgroundColor: "rgba(0, 0, 0, 0.7)",
+                        borderColor: "#333",
+                        textStyle: {
+                          color: "#fff",
                         },
                       },
                       grid: {
@@ -639,16 +644,24 @@ export function PerformanceAnalysis() {
                       series: [
                         {
                           type: "radar",
+                          emphasis: {
+                            lineStyle: {
+                              width: 4,
+                            },
+                          },
                           data: [
                             {
                               value: Object.keys(
                                 models![model].category_performance || {}
-                              ).map(
-                                (key) =>
-                                  models![model]?.category_performance[key] *
-                                  100
-                              ),
-                              name: "Performance",
+                              ).map((key) => {
+                                return parseFloat(
+                                  (
+                                    models![model]?.category_performance[key] *
+                                    100
+                                  ).toFixed(2)
+                                );
+                              }),
+                              name: `${model} Performance`,
                               symbol: "rect",
                               symbolSize: 12,
                               lineStyle: {
