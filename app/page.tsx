@@ -5,6 +5,7 @@ import { Logos } from "@/components/sections/logos";
 import { Tools } from "@/components/sections/tools";
 import { UseCases } from "@/components/sections/use-cases";
 import { Chromia } from "@/components/sections/chromia";
+import { Testimonials } from "@/components/sections/testimonials";
 
 export default async function Page() {
   return (
@@ -15,6 +16,7 @@ export default async function Page() {
       <UseCases />
       <Features />
       <Chromia />
+      <Testimonials />
       <CTA />
     </main>
   );
