@@ -24,6 +24,6 @@ export async function GET(req: Request) {
     return NextResponse.json(Array.from(tweetIDs), { status: 200 });
 
   } catch (error: AxiosResponse | any) {
-    return NextResponse.json(JSON.stringify(error), { status: 500 });
+    return NextResponse.json([], { status: 200 });
   }
 }
