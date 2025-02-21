@@ -117,7 +117,7 @@ export const downloadCSV = (args) => {
 };
 
 export function SAKModels() {
-  const { data: { models } = {} } = useModels();
+  const { data: { models } = {} } = useSAKModels();
 
   const {
     control,
@@ -136,6 +136,7 @@ export function SAKModels() {
   });
 
   const model = watch("model");
+  console.log("model", model);
 
   const [instance, setInstance] = useState<echarts.ECharts>();
 
@@ -430,10 +431,10 @@ export function SAKModels() {
   );
 }
 
-function ModelComboxbox({ value, onChange }) {
+function ModelComboxbox({ value, onChange, }) {
   const [open, setOpen] = useState(false);
 
-  const { data: { models } = {} } = useModels();
+  const { data: { models } = {} } = useSAKModels();
 
   const options = Object.keys(models || {}).map((model) => {
     return {
