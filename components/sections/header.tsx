@@ -28,7 +28,7 @@ export function Header() {
             LitePaper
           </Link>
           <Link
-            href="/playground"
+            href="/playground/tweets"
             className={cn(
               buttonVariants({ variant: "default" }),
               "rounded-lg group tracking-tight font-medium"

@@ -4,6 +4,19 @@ import { Section } from "@/components/section";
 import { cubicBezier, motion } from "framer-motion";
 import Link from "next/link";
 
+import { Marquee } from "@/components/magicui/marquee";
+import { useAnimation, useInView } from "framer-motion";
+import {
+  BarChart,
+  File,
+  Globe,
+  HeartHandshake,
+  Rss,
+  Shield,
+} from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+
 export function Card1() {
   const variant1 = {
     initial: {
@@ -83,7 +96,7 @@ export function Card1() {
 
   return (
     <Link href="/playground/tweets">
-      <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 lg:border-r">
+      <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 sm:border-r">
         <motion.div
           variants={containerVariants}
           initial="initial"
@@ -104,9 +117,8 @@ export function Card1() {
                   />
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  <div className="h-2 w-32 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
-
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-16 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
+                  <div className="h-2 w-24 rounded-full bg-slate-400/50"></div>
                 </div>
               </motion.div>
               <motion.div
@@ -121,9 +133,9 @@ export function Card1() {
                   />
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  <div className="h-2 w-32 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
-                  <div className="h-2 w-20 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-16 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
+                  <div className="h-2 w-24 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-10 rounded-full bg-slate-400/50"></div>
                 </div>
               </motion.div>
               <motion.div
@@ -138,17 +150,16 @@ export function Card1() {
                   />
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  <div className="h-2 w-32 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
-                  <div className="h-2 w-20 rounded-full bg-slate-400/50"></div>
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-16 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
+                  <div className="h-2 w-24 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-10 rounded-full bg-slate-400/50"></div>
                 </div>
               </motion.div>
             </div>
           </div>
           <div className="flex min-h-[100px] w-full flex-col items-start border-t border-neutral-200 p-4 dark:border-neutral-800">
-            <h2 className="text-xl font-semibold">Evaluate Reply Tweet</h2>
-            <p className="text-base font-normal text-neutral-500 dark:text-neutral-400">
+            <h2 className="text-base font-semibold">Evaluate Reply Tweet</h2>
+            <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
               Evaluate the quality of tweet responses.
             </p>
           </div>
@@ -218,7 +229,7 @@ export const Card2 = () => {
   };
   return (
     <Link href="/playground/virtuals">
-      <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 lg:border-r">
+      <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 sm:border-r">
         <motion.div
           variants={containerVariants}
           initial="initial"
@@ -239,10 +250,9 @@ export const Card2 = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  <div className="h-2 w-32 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
-                  <div className="h-2 w-20 rounded-full bg-slate-400/50"></div>
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-16 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
+                  <div className="h-2 w-24 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-10 rounded-full bg-slate-400/50"></div>
                 </div>
               </motion.div>
               <motion.div
@@ -257,17 +267,16 @@ export const Card2 = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  <div className="h-2 w-32 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
-                  <div className="h-2 w-20 rounded-full bg-slate-400/50"></div>
-                  <div className="h-2 w-48 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-16 rounded-full bg-neutral-800/50 dark:bg-neutral-200/80"></div>
+                  <div className="h-2 w-24 rounded-full bg-slate-400/50"></div>
+                  <div className="h-2 w-10 rounded-full bg-slate-400/50"></div>
                 </div>
               </motion.div>
             </div>
           </div>
           <div className="flex min-h-[100px] w-full flex-col items-start border-t border-neutral-200 p-4 dark:border-neutral-800">
-            <h2 className="text-xl font-semibold"> Virtuals Sandbox</h2>
-            <p className="text-base font-normal text-neutral-500 dark:text-neutral-400">
+            <h2 className="text-base font-semibold"> Virtuals Sandbox</h2>
+            <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
               Interact with Virtual characters, and evaluate.
             </p>
           </div>
@@ -329,7 +338,7 @@ export const Card3 = () => {
   };
   return (
     <Link href="/analytics">
-      <div className="p-0 h-full overflow-hidden border-b lg:border-b-0">
+      <div className="p-0 h-full overflow-hidden border-b lg:border-b-0 sm:border-r">
         <motion.div
           variants={containerVariants}
           initial="initial"
@@ -338,7 +347,7 @@ export const Card3 = () => {
         >
           <div className="flex h-full w-full items-center justify-center rounded-t-xl bg-transparent">
             <div className="relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-t-xl bg-transparent p-10">
-              <div className="relative h-[150px] w-full cursor-pointer overflow-hidden rounded-xl border border-slate-200/50 bg-white dark:border-neutral-700/50 dark:bg-neutral-900">
+              <div className="relative h-[100px] w-full cursor-pointer overflow-hidden rounded-xl border border-slate-200/50 bg-white dark:border-neutral-700/50 dark:bg-neutral-900">
                 <motion.p
                   variants={variant2}
                   className="absolute left-5 top-5 w-fit text-[15px]"
@@ -375,9 +384,163 @@ export const Card3 = () => {
             </div>
           </div>
           <div className="flex min-h-[100px] w-full flex-col items-start border-t border-neutral-200 p-4 dark:border-neutral-800">
-            <h2 className="text-xl font-semibold">Analytics</h2>
-            <p className="text-base font-normal text-neutral-500 dark:text-neutral-400">
+            <h2 className="text-base font-semibold">Analytics</h2>
+            <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
               Track progress and performance.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </Link>
+  );
+};
+
+const tiles = [
+  {
+    icon: <HeartHandshake className="size-full" />,
+    bg: (
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-orange-600 via-rose-600 to-violet-600 opacity-70 blur-[20px] filter"></div>
+    ),
+  },
+  {
+    icon: <Globe className="size-full" />,
+    bg: (
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 opacity-70 blur-[20px] filter"></div>
+    ),
+  },
+  {
+    icon: <File className="size-full" />,
+    bg: (
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-green-500 via-teal-500 to-emerald-600 opacity-70 blur-[20px] filter"></div>
+    ),
+  },
+  {
+    icon: <Shield className="size-full" />,
+    bg: (
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-600 opacity-70 blur-[20px] filter"></div>
+    ),
+  },
+  {
+    icon: <Rss className="size-full" />,
+    bg: (
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-orange-600 via-rose-600 to-violet-600 opacity-70 blur-[20px] filter"></div>
+    ),
+  },
+  {
+    icon: <BarChart className="size-full" />,
+    bg: (
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-1/2 w-1/2 -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-full bg-gradient-to-r from-gray-600 via-gray-500 to-gray-400 opacity-70 blur-[20px] filter"></div>
+    ),
+  },
+];
+
+const shuffleArray = (array: any[]) => {
+  let currentIndex = array.length,
+    randomIndex;
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+};
+
+const Card = (card: { icon: JSX.Element; bg: JSX.Element }) => {
+  const id = useId();
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start({
+        opacity: 1,
+        transition: { delay: Math.random() * 2, ease: "easeOut", duration: 1 },
+      });
+    }
+  }, [controls, inView]);
+
+  return (
+    <motion.div
+      key={id}
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={controls}
+      className={cn(
+        "relative size-10 cursor-pointer overflow-hidden rounded-2xl border p-2",
+        // light styles
+        "bg-white",
+        // dark styles
+        "transform-gpu dark:bg-transparent dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
+      )}
+    >
+      {card.icon}
+      {card.bg}
+    </motion.div>
+  );
+};
+
+export const Card4 = () => {
+  const containerVariants = {
+    initial: {},
+    whileHover: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+  const [randomTiles1] = useState(() => shuffleArray([...tiles]));
+  const [randomTiles2] = useState(() => shuffleArray([...tiles]));
+  const [randomTiles3] = useState(() => shuffleArray([...tiles]));
+
+  return (
+    <Link href="/benchmarking">
+      <div className="p-0 h-full overflow-hidden border-b lg:border-b-0">
+        <motion.div
+          variants={containerVariants}
+          initial="initial"
+          whileHover="whileHover"
+          className="flex h-full w-full cursor-pointer flex-col items-start justify-between"
+        >
+          <div className="flex h-full w-full items-center justify-center rounded-t-xl bg-transparent">
+            <div className="relative flex flex-col items-center justify-center gap-y-2 px-10">
+              <Marquee
+                reverse
+                className="-delay-[200ms] [--duration:20s]"
+                repeat={4}
+              >
+                {randomTiles1.map((review, idx) => (
+                  <Card key={idx} {...review} />
+                ))}
+              </Marquee>
+              <Marquee reverse className="[--duration:30s]" repeat={4}>
+                {randomTiles2.map((review, idx) => (
+                  <Card key={idx} {...review} />
+                ))}
+              </Marquee>
+              <Marquee
+                reverse
+                className="-delay-[200ms] [--duration:20s]"
+                repeat={4}
+              >
+                {randomTiles3.map((review, idx) => (
+                  <Card key={idx} {...review} />
+                ))}
+              </Marquee>
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+            </div>
+          </div>
+          <div className="flex min-h-[100px] w-full flex-col items-start border-t border-neutral-200 p-4 dark:border-neutral-800">
+            <h2 className="text-base font-semibold">Benchmarking</h2>
+            <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
+              Evaluate (LLM) by comparison with a standard.
             </p>
           </div>
         </motion.div>
@@ -389,10 +552,11 @@ export const Card3 = () => {
 export function Tools() {
   return (
     <Section id="use-cases">
-      <div className="grid lg:grid-cols-3 h-full border border-b-0">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 h-full border border-b-0">
         <Card1 />
         <Card2 />
         <Card3 />
+        <Card4 />
       </div>
     </Section>
   );

@@ -6,6 +6,7 @@ import { Marquee } from "@/components/magicui/marquee";
 import { ClientTweetCard } from "@/components/magicui/client-tweet-card";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const reviews = [
   {
@@ -50,11 +51,20 @@ export function Testimonials() {
   const { data = [] } = useQuery({
     queryKey: ["twitter"],
     queryFn: async () => {
-      const response = await fetch("/api/twitter");
-      const body = await response.json();
-      return body;
+      try {
+        const response = await fetch("/api/twitter");
+        const body = await response.json();
+        return body;
+      } catch (e) {
+        return [];
+      }
     },
   });
+
+  console.log("data", data);
+  if (data.length <= 0) {
+    return null;
+  }
   return (
     <Section id="testimonials">
       <div className="border-x border-t overflow-hidden relative text-center py-0 mx-auto">
@@ -82,8 +92,22 @@ export function Testimonials() {
                         delay: Math.random() * 0.8,
                         duration: 1.2,
                       }}
+                      className="cursor-pointer"
                     >
-                      <ClientTweetCard id={card} key={card} className="h-64" />
+                      <div
+                        onClick={(e) => {
+                          window.open(
+                            `https://twitter.com/i/web/status/${card}`,
+                            "_blank"
+                          );
+                        }}
+                      >
+                        <ClientTweetCard
+                          id={card}
+                          key={card}
+                          className="h-64"
+                        />
+                      </div>
                     </motion.div>
                   ))}
                 </Marquee>

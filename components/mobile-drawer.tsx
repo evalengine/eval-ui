@@ -37,7 +37,7 @@ export function MobileDrawer() {
               LitePaper
             </DrawerClose>
           </Link>
-          <Link href="/playground" className="w-full block">
+          <Link href="/playground/tweets" className="w-full block">
             <DrawerClose
               className={cn(
                 buttonVariants({ variant: "default" }),
