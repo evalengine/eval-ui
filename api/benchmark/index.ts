@@ -5,29 +5,15 @@ import { Models, ModelMetrics, ModelComparison, ModelStats } from "@/api/benchma
 export default {
   async models() {
     const response = await api.post(`/`, {
-      url: `/models`,
+      url: `/api/v1/models`,
     });
     return response.data as Models;
   },
-  async model(payload: {
-    model_name: string;
-  }) {
-    const { model_name } = payload;
+  // SAK = Solana Agent Kit
+  async sakModels() {
     const response = await api.post(`/`, {
-      url: `/models/${model_name}`,
+      url: `/api/v1/models/solana-agent-kit`,
     });
-    return response.data as ModelMetrics;
-  },
-  async comparison() {
-    const response = await api.post(`/`, {
-      url: `/comparison`,
-    });
-    return response.data as ModelComparison;
-  },
-  async stats() {
-    const response = await api.post(`/`, {
-      url: `/stats`,
-    });
-    return response.data as ModelStats;
+    return response.data as Models;
   },
 };

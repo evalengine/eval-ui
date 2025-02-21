@@ -23,7 +23,7 @@ const theme = createTheme({
   },
 });
 
-export function Metrics() {
+export function Overview() {
   const { client } = usePostchainClient();
   const { data: accountCount, isPending: isLoadingAccountCount } =
     useAccountCount(client!);
