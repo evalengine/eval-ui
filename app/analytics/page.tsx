@@ -18,7 +18,7 @@ function _Page() {
 
   return (
     <>
-      <div className="container mx-auto flex-col md:flex">
+      <div className="container mx-auto flex-col md:flex border-x border-b pb-4 rounded-b-lg">
         <div className="flex-1 space-y-4 pt-6">
           <Link href={process.env.NEXT_PUBLIC_EXPLORER_URL!} target="_blank">
             <Alert>

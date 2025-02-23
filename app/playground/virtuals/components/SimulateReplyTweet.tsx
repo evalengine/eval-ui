@@ -5,7 +5,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import API from "@/api";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 import {
   Card,
@@ -27,6 +27,8 @@ import JsonView from "react18-json-view";
 import "react18-json-view/src/style.css";
 // If dark mode is needed, import `dark.css`.
 import "react18-json-view/src/dark.css";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { cn } from "@/lib/utils";
 
 export const SimulateReplyTweet = () => {
   const {
@@ -172,7 +174,7 @@ export const SimulateReplyTweet = () => {
             <div className="sticky top-0 z-10 flex-shrink-0 min-w-0 min-h-0 px-4 py-2 border-b bg-background">
               <div className="flex items-center justify-between">
                 <h1 className="font-bold">Simulate Response</h1>
-                <Button
+                {/* <Button
                   type="button"
                   onClick={() => {
                     evaluateTweet.mutate({
@@ -183,7 +185,25 @@ export const SimulateReplyTweet = () => {
                   disabled={evaluateTweet.isPending || !hasReactTwitter}
                 >
                   Evaluate
-                </Button>
+                </Button> */}
+
+                <RainbowButton
+                  type="button"
+                  onClick={() => {
+                    evaluateTweet.mutate({
+                      input_tweet: inputTweet,
+                      output_tweet: outputTweet,
+                    });
+                  }}
+                  disabled={evaluateTweet.isPending || !hasReactTwitter}
+                  className={cn(
+                    buttonVariants({ variant: "default" }),
+                    "rounded-lg group tracking-tight font-medium"
+                  )}
+                >
+                  <span>Run </span>
+                  <span className="hidden md:inline-flex ml-1">Evaluation</span>
+                </RainbowButton>
               </div>
             </div>
 

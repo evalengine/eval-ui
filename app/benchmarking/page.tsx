@@ -18,9 +18,9 @@ function _Page() {
 
   return (
     <>
-      <div className="container mx-auto flex-col md:flex">
+      <div className="container mx-auto flex-col md:flex border-x border-b pb-4 rounded-b-lg">
         <div className="flex-1 space-y-4 pt-6">
-          {/* <Link href={process.env.NEXT_PUBLIC_EXPLORER_URL!} target="_blank">
+          <Link href={process.env.NEXT_PUBLIC_EXPLORER_URL!} target="_blank">
             <Alert>
               <ArrowUpRightFromSquare className="h-4 w-4" />
               <AlertTitle>Chromia Explorer</AlertTitle>
@@ -28,7 +28,7 @@ function _Page() {
                 View real time logs on Chromia Explorer
               </AlertDescription>
             </Alert>
-          </Link> */}
+          </Link>
           <div className="flex items-center justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">Benchmarking</h2>
             <div className="flex items-center space-x-2"></div>

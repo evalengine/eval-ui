@@ -288,7 +288,7 @@ const Card2 = () => {
         <div className="flex flex-col gap-y-1 px-5 pb-4 items-start w-full">
           <h2 className="font-semibold tracking-tight text-lg">100%</h2>
           <p className="text-sm text-muted-foreground">
-            Of evaluation data stored on-chain for transparency
+            Of evaluation data stored on-chain for transparency <br /><br />
           </p>
         </div>
       </motion.div>

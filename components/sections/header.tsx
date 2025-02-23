@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { AuroraText } from "../aurora-text";
 import { siteConfig } from "@/lib/config";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
 
 export function Header() {
   return (
@@ -35,14 +36,16 @@ export function Header() {
           >
             LitePaper
           </Link>
-          <Link
-            href="/playground/tweets"
-            className={cn(
-              buttonVariants({ variant: "default" }),
-              "rounded-lg group tracking-tight font-medium"
-            )}
-          >
-            Evaluate
+
+          <Link href="/playground/tweets">
+            <RainbowButton
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "rounded-lg group tracking-tight font-medium"
+              )}
+            >
+              Evaluate
+            </RainbowButton>
           </Link>
         </div>
         <div className="mt-2 cursor-pointer block lg:hidden">

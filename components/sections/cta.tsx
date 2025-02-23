@@ -1,6 +1,8 @@
 import { Section } from "@/components/section";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { cn } from "@/lib/utils";
 
 export function CTA() {
   return (
@@ -12,7 +14,14 @@ export function CTA() {
 
         <div className="flex justify-center">
           <Link href="/playground">
-            <Button className="flex items-center gap-2">Playground</Button>
+            <RainbowButton
+              className={cn(
+                buttonVariants({ variant: "default" }),
+                "rounded-lg group tracking-tight font-medium"
+              )}
+            >
+              Playground
+            </RainbowButton>
           </Link>
         </div>
       </div>
