@@ -296,8 +296,8 @@ export function PerformanceAnalysis() {
                       backgroundColor: "transparent",
                       title: {
                         text: `Performance Analysis for ${model}`,
-                        subtext:
-                          "Analyze the performance of your model over time",
+                        // subtext:
+                        //   "Analyze the performance of your model over time",
                         left: "center",
                         top: 20,
                         textStyle: {
@@ -338,7 +338,7 @@ export function PerformanceAnalysis() {
                           radius: 120,
                           axisName: {
                             color: "#fff",
-                            backgroundColor: "#666",
+                            // backgroundColor: "#666",
                             borderRadius: 3,
                             padding: [3, 5],
                           },

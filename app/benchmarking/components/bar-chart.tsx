@@ -116,61 +116,47 @@ export const downloadCSV = (args) => {
   document.body.removeChild(a);
 };
 
-export function ModelSpeedVSPerformance() {
-  // Compute linear regression (simple example)
-  function linearRegression(data) {
-    let sumX = 0,
-      sumY = 0,
-      sumXY = 0,
-      sumXX = 0,
-      n = data.length;
+export function CustomBarChart() {
+  const { data: { models } = {} } = useSAKModels();
 
-    for (let i = 0; i < n; i++) {
-      let x = data[i][0],
-        y = data[i][1];
-      sumX += x;
-      sumY += y;
-      sumXY += x * y;
-      sumXX += x * x;
-    }
-
-    let slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-    let intercept = (sumY - slope * sumX) / n;
-
-    let minX = Math.min(...data.map((d) => d[0]));
-    let maxX = Math.max(...data.map((d) => d[0]));
-
-    return [
-      [minX, slope * minX + intercept],
-      [maxX, slope * maxX + intercept],
-    ];
-  }
-
-  const { data: { models } = {} } = useModels();
-  const { data: { models: sakModels = {} } = {} } = useSAKModels();
-
-  const scatterData = Object.keys(models || {}).map((model) => {
-    return [
-      models![model].speed.tokens_per_second,
-      models![model].overall_performance.score,
-      model,
-    ];
+  const {
+    control,
+    handleSubmit,
+    reset,
+    getValues,
+    setValue,
+    setError,
+    register,
+    watch,
+    formState: { isDirty, isValid },
+  } = useForm({
+    values: {
+      model: Object.keys(models || {})[0],
+    },
   });
-  const trendline = linearRegression(scatterData);
+
+  const model = watch("model");
 
   const [instance, setInstance] = useState<echarts.ECharts>();
-  const ref = useRef(null);
 
   return (
     <main className="grid gap-4 md:grid-cols-1">
       <div className="flex flex-row justify-center space-x-4">
+        <Controller
+          control={control}
+          name="model"
+          defaultValue=""
+          render={({ field, fieldState }) => {
+            return <ModelComboxbox {...field} />;
+          }}
+        />
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             <Button
               onClick={() => {
                 const dataURL = instance!.getDataURL({ type: "jpeg" });
                 const a = document.createElement("a");
-                a.download = `model-speed-vs-performance.jpeg`;
+                a.download = `${model}-performance-analysis.jpeg`;
                 a.href = dataURL;
                 a.click();
               }}
@@ -220,7 +206,7 @@ export function ModelSpeedVSPerformance() {
                   instance!.getWidth(),
                   instance!.getHeight()
                 );
-                doc.save("model-speed-vs-performance.pdf");
+                doc.save(`${model}-performance-analysis.pdf`);
               }}
               variant="outline"
               size="icon"
@@ -249,14 +235,15 @@ export function ModelSpeedVSPerformance() {
             <Button
               onClick={() => {
                 downloadCSV({
-                  filename: "model-speed-vs-performance.csv",
-                  data: Object.keys(models || {}).map((model) => {
-                    return {
-                      model,
-                      speed: models![model].speed.tokens_per_second,
-                      performance: models![model].overall_performance.score,
-                    };
-                  }),
+                  filename: `${model}-performance-analysis.csv`,
+                  data: Object.keys(models![model].category_performance).map(
+                    (key) => {
+                      return {
+                        category: key,
+                        performance: models![model].category_performance[key],
+                      };
+                    }
+                  ),
                 });
               }}
               variant="outline"
@@ -282,17 +269,14 @@ export function ModelSpeedVSPerformance() {
         </Tooltip>
       </div>
 
-      <div
-        id="model-speed-vs-performance-chart"
-        className="grid gap-4 md:grid-cols-1"
-      >
-        <Card className="w-full">
+      <div className="grid gap-4 md:grid-cols-1">
+        <Card key={model} className="w-full">
           {/* <CardHeader className="items-center">
-            <CardTitle>Model Speed vs Performance</CardTitle>
-            <CardDescription>
-              Analyze the speed and performance of your models
-            </CardDescription>
-          </CardHeader> */}
+              <CardTitle>Performance Analysis for {model}</CardTitle>
+              <CardDescription>
+                Analyze the performance of your model over time
+              </CardDescription>
+            </CardHeader> */}
           <CardContent className="pb-0">
             <div
               className="w-full overflow-x-hidden rounded-lg"
@@ -310,9 +294,9 @@ export function ModelSpeedVSPerformance() {
                   const options = {
                     backgroundColor: "transparent",
                     title: {
-                      text: "Model Speed vs Performance",
+                      text: `Performance Analysis for`,
                       // subtext:
-                      //   "Analyze the speed and performance of your models",
+                      //   "Analyze the performance of your model over time",
                       left: "center",
                       top: 20,
                       textStyle: {
@@ -321,29 +305,15 @@ export function ModelSpeedVSPerformance() {
                       },
                     },
                     tooltip: {
-                      backgroundColor: "rgba(0, 0, 0, 0.7)",
-                      borderColor: "#333",
-                      textStyle: {
-                        color: "#fff",
-                      },
-                      trigger: "axis",
+                      trigger: "item",
                       axisPointer: {
                         // Use axis to trigger tooltip
                         type: "shadow", // 'shadow' as default; can also be 'line' or 'shadow'
                       },
-                      formatter: function (params) {
-                        const { name, value } = params[0];
-                        return `
-                        <div class="p-0">
-                          <div class="font-medium mb-2">${name}</div>
-                          <div class="text-xs">
-                            <div>Speed (tokens per second): ${value[0]}</div>
-                            <div>Performance (Score): ${value[1].toFixed(
-                              2
-                            )}</div>
-                          </div>
-                        </div>
-                      `;
+                      backgroundColor: "rgba(0, 0, 0, 0.7)",
+                      borderColor: "#333",
+                      textStyle: {
+                        color: "#fff",
                       },
                     },
                     grid: {
@@ -353,66 +323,51 @@ export function ModelSpeedVSPerformance() {
                       left: 25,
                       right: "5%",
                     },
-                    xAxis: {
-                      name: "Speed (tokens per second)",
-                      nameLocation: "middle",
-                      nameGap: 35,
-                      axisLine: {
-                        lineStyle: {
-                          color: "#ffffff44",
-                        },
+                    xAxis: [
+                      {
+                        type: "category",
+                        axisTick: { show: false },
+                        data: ["2012", "2013", "2014", "2015", "2016"],
                       },
-                      // splitLine: {
-                      //   show: false,
-                      // },
-                    },
-                    yAxis: {
-                      name: "Performance (score)",
-                      nameLocation: "middle",
-                      nameGap: 35,
-                      axisLine: {
-                        lineStyle: {
-                          color: "#ffffff44",
-                        },
+                    ],
+                    yAxis: [
+                      {
+                        type: "value",
                       },
-                      // splitLine: {
-                      //   show: false,
-                      // },
-                    },
+                    ],
                     series: [
                       {
-                        type: "line",
-                        showSymbol: false,
-                        data: trendline,
-                        lineStyle: {
-                          type: "dashed",
-                          color: "red",
+                        name: "Forest",
+                        type: "bar",
+                        barGap: 0,
+                        emphasis: {
+                          focus: "series",
                         },
-                        color: "red",
+                        data: [320, 332, 301, 334, 390],
                       },
                       {
-                        // symbolSize: 20,
-                        // symbolOffset: [-100, -20],
-                        // color: "hsl(var(--chart-1))",
-                        color: "#fff",
-                        data: Object.keys(models || {}).map((model) => {
-                          return {
-                            value: [
-                              models![model].speed.tokens_per_second,
-                              models![model].overall_performance.score,
-                            ],
-                            name: model,
-                          };
-                        }),
-                        label: {
-                          show: true,
-                          position: "right",
-                          formatter: (params) => params.name,
-                          // color: "#fff",
-                          // fontSize: 16,
+                        name: "Steppe",
+                        type: "bar",
+                        emphasis: {
+                          focus: "series",
                         },
-                        labelLayout: { hideOverlap: true, dy: -10 },
-                        type: "scatter",
+                        data: [220, 182, 191, 234, 290],
+                      },
+                      {
+                        name: "Desert",
+                        type: "bar",
+                        emphasis: {
+                          focus: "series",
+                        },
+                        data: [150, 232, 201, 154, 190],
+                      },
+                      {
+                        name: "Wetland",
+                        type: "bar",
+                        emphasis: {
+                          focus: "series",
+                        },
+                        data: [98, 77, 101, 99, 40],
                       },
                     ],
                   };
@@ -430,18 +385,122 @@ export function ModelSpeedVSPerformance() {
             />
           </CardContent>
           {/* <CardFooter className="flex-col gap-2 text-sm">
-          <div className="flex items-center gap-2 font-medium leading-none">
-            <TrendingUp size={16} />
-            <span>Performance is improving</span>
-          </div>
-          <div className="flex items-center gap-2 leading-none text-muted-foreground">
-            <span>Updated 2 days ago</span>
-            <span>•</span>
-            <span>View details</span>
-          </div>
-        </CardFooter> */}
+              <div className="flex items-center gap-2 font-medium leading-none">
+                <TrendingUp size={16} />
+                <span>Performance is improving</span>
+              </div>
+              <div className="flex items-center gap-2 leading-none text-muted-foreground">
+                <span>Updated 2 days ago</span>
+                <span>•</span>
+                <span>View details</span>
+              </div>
+            </CardFooter> */}
         </Card>
       </div>
     </main>
+  );
+}
+
+function ModelComboxbox({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+
+  const { data: { models } = {} } = useSAKModels();
+
+  const options = Object.keys(models || {}).map((model) => {
+    return {
+      value: model,
+      label: model,
+    };
+  });
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between"
+        >
+          {value
+            ? options.find((o) => o.value === value)?.label
+            : "Select model..."}
+          <ChevronsUpDown className="opacity-50 w-4 h-4" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search model..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No model found.</CommandEmpty>
+            <CommandGroup>
+              {options.map((o) => (
+                <HoverCard key={o.value} openDelay={0} closeDelay={0}>
+                  <HoverCardTrigger>
+                    <CommandItem
+                      key={o.value}
+                      value={o.value}
+                      onSelect={(currentValue) => {
+                        onChange(currentValue);
+                        setOpen(false);
+                      }}
+                    >
+                      {o.label}
+                      <Check
+                        className={cn(
+                          "ml-auto",
+                          value === o.value ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  </HoverCardTrigger>
+                  <HoverCardContent side="right" align="start">
+                    <div className="p-1 text-sm bg-white dark:bg-black rounded-t-lg mb-4">
+                      <div className="flex items-center">
+                        <div className="space-x-1">
+                          <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                            {o.label}
+                          </span>
+                        </div>
+                      </div>
+                      {/* <div className="mt-4 text-xs text-zinc-500 dark:text-zinc-400"></div> */}
+                    </div>
+                    <Separator />
+                    <div className="p-1 text-xs bg-white dark:bg-black divide-y">
+                      <div className="flex items-start py-3 text-[.5rem]">
+                        <div className="w-24 text-xs font-medium dark:text-zinc-400">
+                          Total
+                        </div>
+                        <div className="flex-1 text-xs text-zinc-200 dark:text-zinc-100">
+                          $ {models![o.value].costs.total}
+                        </div>
+                      </div>
+                      <div className="flex items-start py-3 text-[.5rem]">
+                        <div className="w-24 text-xs font-medium dark:text-zinc-400">
+                          Input Pricing
+                        </div>
+                        <div className="flex-1 text-xs text-zinc-200 dark:text-zinc-100">
+                          $ {models![o.value].costs.input}
+                          {/* / million tokens */}
+                        </div>
+                      </div>
+                      <div className="flex items-start py-3 text-[.5rem]">
+                        <div className="w-24 text-xs font-medium dark:text-zinc-400">
+                          Output Pricing
+                        </div>
+                        <div className="flex-1 text-xs text-zinc-200 dark:text-zinc-100">
+                          $ {models![o.value].costs.output}
+                          {/* / million tokens */}
+                        </div>
+                      </div>
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }
