@@ -61,7 +61,7 @@ export function Testimonials() {
     },
   });
 
-  console.log("data", data);
+
   if (data.length <= 0) {
     return null;
   }

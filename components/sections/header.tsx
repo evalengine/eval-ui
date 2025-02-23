@@ -5,6 +5,8 @@ import { MobileDrawer } from "@/components/mobile-drawer";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { AuroraText } from "../aurora-text";
+import { siteConfig } from "@/lib/config";
 
 export function Header() {
   return (
@@ -16,6 +18,12 @@ export function Header() {
           className="relative mr-6 flex items-center space-x-2"
         >
           <Icons.logo className="w-auto" />
+          <AuroraText
+            containerClassName="leading-normal font-bold text-2xl"
+            className="w-[30vw] h-[30vw]"
+          >
+            {siteConfig.hero.title}
+          </AuroraText>
         </Link>
         <div className="hidden lg:block space-x-4">
           <Link
