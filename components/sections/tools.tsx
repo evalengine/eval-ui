@@ -586,7 +586,7 @@ const Skeleton = () => {
     });
   }, []);
   return (
-    <div className="p-8 overflow-hidden h-full relative flex items-center justify-center">
+    <motion.div className="group p-8 overflow-hidden h-full relative flex items-center justify-center">
       <div className="flex flex-row flex-shrink-0 justify-center items-center gap-2">
         <Container className="h-8 w-8 circle-1">
           <ClaudeLogo className="h-4 w-4 " />
@@ -605,12 +605,12 @@ const Skeleton = () => {
         </Container>
       </div>
 
-      <div className="h-40 w-px absolute inset-0 m-auto z-40 bg-gradient-to-b from-transparent via-cyan-500 to-transparent animate-move">
+      <motion.div className="opacity-0 group-hover:opacity-100 transition-opacity h-40 w-px absolute inset-0 m-auto z-40 bg-gradient-to-b from-transparent via-cyan-500 to-transparent animate-move">
         <div className="w-10 h-32 top-1/2 -translate-y-1/2 absolute -left-10">
           <Sparkles />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 const Sparkles = () => {
