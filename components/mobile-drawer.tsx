@@ -15,6 +15,7 @@ import { IoMenuSharp } from "react-icons/io5";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { AuroraText } from "@/components/aurora-text";
 import { siteConfig } from "@/lib/config";
+import { Logo } from "./sections/header";
 
 export function MobileDrawer() {
   return (
@@ -31,12 +32,13 @@ export function MobileDrawer() {
               className="relative mr-6 flex items-center space-x-2"
             >
               <Icons.logo className="w-auto h-[40px]" />
-              <AuroraText
+              {/* <AuroraText
                 containerClassName="leading-normal font-bold text-2xl"
                 className="w-[30vw] h-[30vw]"
               >
                 Eval Engine
-              </AuroraText>
+              </AuroraText> */}
+              <Logo className="text-2xl" />
             </Link>
             <nav>
               <ul className="mt-7 text-left">

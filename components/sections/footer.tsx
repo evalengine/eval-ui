@@ -4,6 +4,7 @@ import { BorderText } from "@/components/ui/border-number";
 import { siteConfig } from "@/lib/config";
 import { usePathname } from "next/navigation";
 import { AuroraText } from "../aurora-text";
+import { Logo } from "./header";
 
 export function Footer() {
   const pathname = usePathname();
@@ -13,13 +14,14 @@ export function Footer() {
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 container">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
-          <Icons.logo className="h-8 w-8" />
-          <AuroraText
+          <Icons.logo className="h-10 w-10" />
+          {/* <AuroraText
             containerClassName="leading-normal font-bold text-2xl"
             className="w-[30vw] h-[30vw]"
           >
             {siteConfig.hero.title}
-          </AuroraText>
+          </AuroraText> */}
+          <Logo className="text-2xl" />
         </div>
 
         <div className="flex gap-x-2">

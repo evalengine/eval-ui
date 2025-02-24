@@ -10,6 +10,7 @@ import Link from "next/link";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { Logo } from "./header";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -73,9 +74,10 @@ function HeroTitles() {
             ease,
           }}
         >
-          <AuroraText className="leading-normal">
+          {/* <AuroraText className="leading-normal">
             {siteConfig.hero.title}
-          </AuroraText>
+          </AuroraText> */}
+          <Logo className="" />
         </motion.span>
       </motion.h1>
       <motion.p

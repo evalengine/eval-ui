@@ -9,6 +9,29 @@ import { AuroraText } from "../aurora-text";
 import { siteConfig } from "@/lib/config";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 
+export function Logo({ className }) {
+  return (
+    <h1 className={cn(className, "relative inline-block")}>
+      <div
+        className="text-transparent bg-clip-text font-black font-sans"
+        style={{
+          backgroundImage:
+            "url(https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExazZianlucjhyM2dwYzFsMDZ3anU2MmVhOHJqZ3Q3czUxdnU5djN3aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/CnLRoQneO2kWHuRg7g/giphy.gif)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          WebkitBackgroundClip: "text",
+          color: "transparent",
+          lineHeight: 1,
+          textAlign: "center",
+        }}
+      >
+        {siteConfig.hero.title}
+      </div>
+    </h1>
+  );
+}
+
 export function Header() {
   return (
     <header className="sticky top-0 h-[var(--header-height)] z-50 p-0 bg-background/60 backdrop-blur">
@@ -18,13 +41,8 @@ export function Header() {
           title="brand-logo"
           className="relative mr-6 flex items-center space-x-2"
         >
-          <Icons.logo className="w-auto" />
-          <AuroraText
-            containerClassName="leading-normal font-bold text-2xl"
-            className="w-[30vw] h-[30vw]"
-          >
-            {siteConfig.hero.title}
-          </AuroraText>
+          <Icons.logo className="h-10 w-10" />
+          <Logo className="text-2xl" />
         </Link>
         <div className="hidden lg:block space-x-4">
           <Link

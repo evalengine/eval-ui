@@ -42,13 +42,13 @@ function _Page() {
               router.push(`?t=${t}`);
             }}
           >
-            <TabsList>
+            <TabsList className="overflow-auto">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="analytics">Models</TabsTrigger>
               <TabsTrigger value="benchmarks">
                 Solana Agent Kit Models
               </TabsTrigger>
-              <TabsTrigger value="barchart">Bar Chart</TabsTrigger>
+              {/* <TabsTrigger value="barchart">Bar Chart</TabsTrigger> */}
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <ModelSpeedVSPerformance />
@@ -59,9 +59,9 @@ function _Page() {
             <TabsContent value="benchmarks">
               <SAKModels />
             </TabsContent>
-            <TabsContent value="barchart">
+            {/* <TabsContent value="barchart">
               <CustomBarChart />
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
       </div>

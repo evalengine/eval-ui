@@ -143,42 +143,42 @@ export function Overview() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
             {engines.map((engine: any, key: number) => (
               <Card key={key}>
                 <div className="p-4 space-y-2 text-sm">
                   <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-gray-100 ring-1 ring-inset ring-gray-500/50">
+                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-gray-100 ring-1 ring-inset ring-gray-500/50 whitespace-nowrap">
                       Prefix
                     </span>
                     <span>{engine.prefix}</span>
                   </div>
                   <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-red-100 ring-1 ring-inset ring-red-500/50">
+                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-red-100 ring-1 ring-inset ring-red-500/50 whitespace-nowrap">
                       Description
                     </span>
                     <span>{engine.description}</span>
                   </div>
                   <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-yellow-100 ring-1 ring-inset ring-yellow-500/50">
+                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-yellow-100 ring-1 ring-inset ring-yellow-500/50 whitespace-nowrap">
                       ID
                     </span>
                     <span>{engine.id}</span>
                   </div>
                   <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-100 ring-1 ring-inset ring-green-500/50">
+                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-green-100 ring-1 ring-inset ring-green-500/50 whitespace-nowrap">
                       Created
                     </span>
                     <span>{new Date(engine.created_at).toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-blue-100 ring-1 ring-inset ring-blue-500/50">
+                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-blue-100 ring-1 ring-inset ring-blue-500/50 whitespace-nowrap">
                       Updated
                     </span>
                     <span>{new Date(engine.updated_at).toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between space-x-4">
-                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-indigo-100 ring-1 ring-inset ring-indigo-500/50">
+                    <span className="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-indigo-100 ring-1 ring-inset ring-indigo-500/50 whitespace-nowrap">
                       Address
                     </span>
                     <span className="truncate">
