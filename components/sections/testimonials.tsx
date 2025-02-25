@@ -61,7 +61,6 @@ export function Testimonials() {
     },
   });
 
-
   if (data.length <= 0) {
     return null;
   }
