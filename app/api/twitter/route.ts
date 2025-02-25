@@ -24,6 +24,18 @@ export async function GET(req: Request) {
     return NextResponse.json(Array.from(tweetIDs), { status: 200 });
 
   } catch (error: AxiosResponse | any) {
-    return NextResponse.json([], { status: 200 });
+    return NextResponse.json([
+      "1892152477002465456",
+      "1887129973389144460",
+      "1884271244146847860",
+      "1883894767723090006",
+      "1883885172485144863",
+      "1891427803515834642",
+      "1888905911693168698",
+      "1887818591455588517",
+      "1886348410586096049",
+      "1884597437886800056",
+      "1884261969043284085"
+    ], { status: 200 });
   }
 }
