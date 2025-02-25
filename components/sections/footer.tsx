@@ -21,7 +21,7 @@ export function Footer() {
           >
             {siteConfig.hero.title}
           </AuroraText> */}
-          <Logo className="text-2xl" />
+          <Logo className="" size="sm" />
         </div>
 
         <div className="flex gap-x-2">

@@ -77,7 +77,7 @@ function HeroTitles() {
           {/* <AuroraText className="leading-normal">
             {siteConfig.hero.title}
           </AuroraText> */}
-          <Logo className="" />
+          <Logo className="" size="xl" />
         </motion.span>
       </motion.h1>
       <motion.p

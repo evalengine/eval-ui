@@ -38,7 +38,7 @@ export function MobileDrawer() {
               >
                 Eval Engine
               </AuroraText> */}
-              <Logo className="text-2xl" />
+              <Logo className="" size="sm" />
             </Link>
             <nav>
               <ul className="mt-7 text-left">

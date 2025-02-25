@@ -60,7 +60,7 @@ export default function Page() {
           <div className="mx-auto max-w-screen-md w-full">
             <h1 className="font-display text-center text-4xl font-extrabold leading-[1.15] sm:text-6xl sm:leading-[1.15]">
               {/* <AuroraText>EVAL Engine</AuroraText> */}
-              <Logo className="" />{" "}
+              <Logo className="" size="xl" />{" "}
               LitePaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
