@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import API from "@/api";
 
-export function useComparison() {
+export function useSAKModels() {
   return useQuery({
-    queryKey: ["benchmark", "comparison"],
+    queryKey: ["benchmark", "models", "solana-agent-kit"],
     queryFn: async () => {
-      return await API.comparison();
+      return await API.sakModels();
     },
   });
 }

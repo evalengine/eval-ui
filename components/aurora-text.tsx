@@ -6,16 +6,18 @@ import { cn } from "@/lib/utils";
 
 export function AuroraText({
   className,
+  containerClassName,
   children,
 }: {
   className?: string;
+  containerClassName?: string;
   children: React.ReactNode;
 }) {
   return (
     <span
       className={cn(
         "relative overflow-hidden inline-flex bg-background",
-        className
+        containerClassName
       )}
     >
       {children}
@@ -23,7 +25,7 @@ export function AuroraText({
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className="aurora__item absolute w-[60vw] h-[60vw]"
+            className={cn("aurora__item absolute w-[60vw] h-[60vw]", className)}
             style={{
               backgroundColor: `hsl(var(--color-${i + 1}))`,
               filter: "blur(1rem)",

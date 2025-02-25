@@ -1,7 +1,7 @@
 "use client";
 import { HelpCircle, History } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -32,8 +32,10 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isToday from "dayjs/plugin/isToday";
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
-import { extractTweetId } from "@/lib/utils";
+import { cn, extractTweetId } from "@/lib/utils";
 import Link from "next/link";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 
@@ -127,6 +129,7 @@ function Playground() {
               },
             });
           })}
+          className="!px-0 container border-x overflow-hidden"
         >
           <div className="flex flex-row w-full">
             <div className="hidden z-30 sticky top-[56px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
@@ -237,9 +240,17 @@ function Playground() {
                         </TooltipContent>
                       </Tooltip>
                       <APISettings />
-                      <Button type="submit" disabled={reactTwitter.isPending}>
+
+                      <RainbowButton
+                        type="submit"
+                        disabled={reactTwitter.isPending}
+                        className={cn(
+                          buttonVariants({ variant: "default" }),
+                          "rounded-lg group tracking-tight font-medium"
+                        )}
+                      >
                         Simulate Reply
-                      </Button>
+                      </RainbowButton>
                     </div>
                   </div>
                   <Separator />

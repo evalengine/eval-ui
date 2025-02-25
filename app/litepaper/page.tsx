@@ -1,5 +1,6 @@
 "use client";
 import { AuroraText } from "@/components/aurora-text";
+import { Logo } from "@/components/sections/header";
 import { cn } from "@/lib/utils";
 
 const ModelCard = ({ name, stats }) => (
@@ -58,7 +59,9 @@ export default function Page() {
         <div className="w-full py-16">
           <div className="mx-auto max-w-screen-md w-full">
             <h1 className="font-display text-center text-4xl font-extrabold leading-[1.15] sm:text-6xl sm:leading-[1.15]">
-              <AuroraText>EVAL Engine</AuroraText> LitePaper
+              {/* <AuroraText>EVAL Engine</AuroraText> */}
+              <Logo className="" />{" "}
+              LitePaper
             </h1>
             <p className="mt-3 text-sm text-center text-gray-200">
               drafted by{" "}

@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { Logo } from "./header";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -72,9 +74,10 @@ function HeroTitles() {
             ease,
           }}
         >
-          <AuroraText className="leading-normal">
+          {/* <AuroraText className="leading-normal">
             {siteConfig.hero.title}
-          </AuroraText>
+          </AuroraText> */}
+          <Logo className="" />
         </motion.span>
       </motion.h1>
       <motion.p
@@ -102,14 +105,15 @@ function HeroCTA() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.8, ease }}
       >
-        <Link
-          href="/playground"
-          className={cn(
-            buttonVariants({ variant: "default" }),
-            "w-full sm:w-auto text-background flex gap-2 rounded-lg"
-          )}
-        >
-          {siteConfig.hero.cta}
+        <Link href="/playground/tweets">
+          <RainbowButton
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "rounded-lg group tracking-tight font-medium"
+            )}
+          >
+            {siteConfig.hero.cta}
+          </RainbowButton>
         </Link>
       </motion.div>
       <motion.p

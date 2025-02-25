@@ -1,7 +1,7 @@
 "use client";
 import { Plus, History, HelpCircle } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -29,8 +29,10 @@ import { Sidebar } from "@/components/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import Link from "next/link";
 import { useMemo } from "react";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
 
 import { useEvaluationDialog } from "@/hooks/use-evaluation-dialog";
+import { cn } from "@/lib/utils";
 
 export default function PlaygroundPage() {
   const methods = useForm();
@@ -108,6 +110,7 @@ export default function PlaygroundPage() {
               output_tweet: values.responseTweetText,
             });
           })}
+          className="!px-0 container border-x overflow-hidden"
         >
           <div className="flex flex-row w-full">
             <div className="hidden z-30 sticky top-[57px] flex-shrink-0 border-r w-14 bg-background px-4 md:flex flex-col items-center justify-between h-[calc(100dvh-56px)]">
@@ -216,7 +219,7 @@ export default function PlaygroundPage() {
             <div className="w-full md:w-[calc(100dvw-56px)]">
               <div className="flex overflow-hidden h-[calc(100svh-56px)]">
                 <div className="flex flex-col flex-1 h-full overflow-x-auto bg-background">
-                  <div className="flex flex-row items-center justify-between px-6 py-2">
+                  <div className="flex flex-row items-center justify-between px-3 py-2">
                     <h2 className="text-lg font-semibold whitespace-nowrap">
                       Evaluate Reply Tweet
                     </h2>
@@ -238,9 +241,20 @@ export default function PlaygroundPage() {
                       </Tooltip>
 
                       <APISettings />
-                      <Button type="submit" disabled={evaluateTweet.isPending}>
-                        Evaluate
-                      </Button>
+
+                      <RainbowButton
+                        type="submit"
+                        disabled={evaluateTweet.isPending}
+                        className={cn(
+                          buttonVariants({ variant: "default" }),
+                          "rounded-lg group tracking-tight font-medium"
+                        )}
+                      >
+                        <span>Run </span>
+                        <span className="hidden md:inline-flex ml-1">
+                          Evaluation
+                        </span>
+                      </RainbowButton>
                     </div>
                   </div>
                   <Separator />

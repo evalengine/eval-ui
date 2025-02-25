@@ -28,6 +28,24 @@ export const siteConfig = {
     github: "https://github.com/aiagentsdk",
     instagram: "https://instagram.com/aiagentsdk",
   },
+  header: [
+    {
+      href: "/playground/tweets",
+      label: "Evaluate Reply Tweet",
+    },
+    {
+      href: "/playground/virtuals",
+      label: "Virtuals Sandbox",
+    },
+    {
+      href: "/analytics",
+      label: "Analytics",
+    },
+    {
+      href: "/benchmarking",
+      label: "Benchmarking",
+    },
+  ],
   hero: {
     title: "EVAL Engine",
     description:
