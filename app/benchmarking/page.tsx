@@ -11,7 +11,6 @@ import { SAKModels } from "./components/sak-models";
 import { Suspense } from "react";
 import { ModelSpeedVSPerformance } from "./components/model-speed";
 import { PerformanceAnalysis } from "./components/performance";
-import { CustomBarChart } from "./components/bar-chart";
 
 function _Page() {
   const searchParams = useSearchParams();
@@ -48,7 +47,6 @@ function _Page() {
               <TabsTrigger value="benchmarks">
                 Solana Agent Kit Models
               </TabsTrigger>
-              {/* <TabsTrigger value="barchart">Bar Chart</TabsTrigger> */}
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <ModelSpeedVSPerformance />
@@ -59,9 +57,6 @@ function _Page() {
             <TabsContent value="benchmarks">
               <SAKModels />
             </TabsContent>
-            {/* <TabsContent value="barchart">
-              <CustomBarChart />
-            </TabsContent> */}
           </Tabs>
         </div>
       </div>

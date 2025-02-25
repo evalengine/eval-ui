@@ -70,6 +70,7 @@ echarts.use([
 import { jsPDF } from "jspdf";
 import "svg2pdf.js";
 import { downloadCSV } from "@/lib/download-csv";
+import { METRICS_DESCRIPTION } from "@/lib/constant";
 
 export function PerformanceAnalysis() {
   const { data: { models } = {}, isLoading, isFetching } = useModels();
@@ -234,7 +235,7 @@ export function PerformanceAnalysis() {
               </CardDescription>
             </CardHeader> */}
 
-            <CardContent className="pb-0">
+            <CardContent className="pb-0 grid grid-cols-1 p-6 space-y-2">
               <div
                 className="w-full overflow-x-hidden rounded-lg"
                 style={{ height: "30rem" }}
@@ -254,7 +255,8 @@ export function PerformanceAnalysis() {
                     const options = {
                       backgroundColor: "transparent",
                       title: {
-                        text: `Performance Analysis for ${model}`,
+                        // text: `Performance Analysis for ${model}`,
+                        text: `What is ${model} good at?`,
                         // subtext:
                         //   "Analyze the performance of your model over time",
                         left: "center",
@@ -370,6 +372,16 @@ export function PerformanceAnalysis() {
                   }
                 }}
               />
+              <div className="text-xs text-zinc-500 dark:text-zinc-400 grid grid-cols-1 gap-5">
+                {Object.keys(METRICS_DESCRIPTION).map((key) => {
+                  return (
+                    <div className="grid grid-cols-2 gap-2" key={key}>
+                      <span>{key}</span>
+                      <span>{METRICS_DESCRIPTION[key]}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </CardContent>
             {/* <CardFooter className="flex-col gap-2 text-sm">
               <div className="flex items-center gap-2 font-medium leading-none">
