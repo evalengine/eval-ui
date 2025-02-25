@@ -3,62 +3,11 @@
 import { useModels } from "@/api/benchmark/queries/use-models";
 import { useSAKModels } from "@/api/benchmark/queries/use-sak-models";
 
-import { TrendingUp } from "lucide-react";
-// import { PolarAngleAxis, PolarGrid, Radar, RadarChart, XAxis } from "recharts";
-
-import { Check, ChevronsUpDown } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useRef, useState } from "react";
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Separator } from "@/components/ui/separator";
-import { Controller, useForm } from "react-hook-form";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
-
-import dynamic from "next/dynamic";
-const ReactApexCharts = dynamic(() => import("react-apexcharts"), {
-  ssr: false,
-});
+import { Card, CardContent } from "@/components/ui/card";
+import { ChartConfig } from "@/components/ui/chart";
 
 import * as echarts from "echarts/core";
 import {
@@ -72,7 +21,6 @@ import {
 } from "echarts/components";
 import { SVGRenderer, CanvasRenderer } from "echarts/renderers";
 import { LineChart, BarChart, ScatterChart, RadarChart } from "echarts/charts";
-import dayjs from "dayjs";
 
 import {
   Tooltip,
@@ -98,23 +46,7 @@ echarts.use([
 
 import { jsPDF } from "jspdf";
 import "svg2pdf.js";
-import Papa from "papaparse";
-
-export const downloadCSV = (args) => {
-  let filename = args.filename || "export.csv";
-
-  let csv = Papa.unparse(args.data);
-  if (csv == null) return;
-
-  var blob = new Blob([csv]);
-
-  var a = window.document.createElement("a");
-  a.href = window.URL.createObjectURL(blob);
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click(); // IE: "Access is denied"; see: https://connect.microsoft.com/IE/feedback/details/797361/ie-10-treats-blob-url-as-cross-origin-and-denies-access
-  document.body.removeChild(a);
-};
+import { downloadCSV } from "@/lib/download-csv";
 
 export function ModelSpeedVSPerformance() {
   // Compute linear regression (simple example)
@@ -146,8 +78,7 @@ export function ModelSpeedVSPerformance() {
     ];
   }
 
-  const { data: { models } = {} } = useModels();
-  const { data: { models: sakModels = {} } = {} } = useSAKModels();
+  const { data: { models } = {}, isLoading, isFetching } = useModels();
 
   const scatterData = Object.keys(models || {}).map((model) => {
     return [
@@ -303,9 +234,12 @@ export function ModelSpeedVSPerformance() {
                     renderer: "canvas",
                   });
                   setInstance(instance);
-
-                  instance.hideLoading();
-                  instance.resize();
+                  if (isLoading || isFetching) {
+                    instance.showLoading();
+                  } else {
+                    instance.hideLoading();
+                    instance.resize();
+                  }
 
                   const options = {
                     backgroundColor: "transparent",
