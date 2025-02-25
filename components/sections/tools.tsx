@@ -471,9 +471,11 @@ const Skeleton = () => {
   );
 };
 const Sparkles = () => {
+  
   const randomMove = () => Math.random() * 2 - 1;
   const randomOpacity = () => Math.random();
   const random = () => Math.random();
+
   return (
     <div className="absolute inset-0">
       {[...Array(12)].map((_, i) => (
