@@ -54,8 +54,9 @@ export function PromptEditor() {
   const [isPromptLoading, setIsPromptLoading] = useState(false);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [isImprovingExamples, setIsImprovingExamples] = useState(false);
-  const [streamedResult, setStreamedResult] =
-    useState<Partial<AnalysisResult> | null>(null);
+  const [streamedResult, setStreamedResult] = useState<AnalysisResult | null>(
+    null
+  );
   const [improvedExamples, setImprovedExamples] = useState<{
     examples: Array<{ input: string; output: string; explanation: string }>;
     reasoning: string;
@@ -126,6 +127,7 @@ export function PromptEditor() {
               feedback:
                 chunk.analysis.feedback ?? prev?.analysis?.feedback ?? "",
             },
+            generatedOutput: prev?.generatedOutput ?? "",
           }));
         }
       }
@@ -266,9 +268,9 @@ function PromptEditorForm({
   isPromptLoading: boolean;
   activeExample: keyof typeof defaultExamples | null;
   setActiveExample: (example: keyof typeof defaultExamples | null) => void;
-  fields: ReturnType<typeof useFieldArray>["fields"];
-  append: ReturnType<typeof useFieldArray>["append"];
-  remove: ReturnType<typeof useFieldArray>["remove"];
+  fields;
+  append;
+  remove;
 }) {
   return (
     <Form {...form}>
@@ -481,7 +483,7 @@ function Output({
   promptResult: string;
   evaluateOutput: () => void;
   isEvaluating: boolean;
-  streamedResult?: AnalysisResult;
+  streamedResult: AnalysisResult | null;
 }) {
   return (
     <div className="space-y-1">
@@ -537,7 +539,7 @@ function Output({
 function AnalysisResults({
   streamedResult,
 }: {
-  streamedResult?: AnalysisResult;
+  streamedResult: AnalysisResult | null;
 }) {
   return (
     <AnimatePresence>
