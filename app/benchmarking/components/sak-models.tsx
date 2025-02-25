@@ -255,7 +255,8 @@ export function SAKModels() {
                     const options = {
                       backgroundColor: "transparent",
                       title: {
-                        text: `Performance Analysis for ${model}`,
+                        // text: `Performance Analysis for ${model}`,
+                        text: `What is ${model} good at?`,
                         // subtext:
                         //   "Analyze the performance of your model over time",
                         left: "center",
