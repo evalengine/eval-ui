@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Card1, Card2, Card3 } from "@/components/sections/tools";
+import { Card1, Card2, Card3, Card4 } from "@/components/sections/tools";
 
 import { Terminal } from "lucide-react";
 
@@ -8,7 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function Home() {
   return (
-    <div className="lg:h-[calc(100dvh-56px)] w-full max-w-screen-lg mx-auto p-10 space-y-10">
+    <div className="lg:h-[calc(100dvh-56px)] w-full container mx-auto py-6 space-y-10">
       <Link target="_blank" href={process.env.NEXT_PUBLIC_DOCS_URL!}>
         <Alert>
           <Terminal className="h-4 w-4" />
@@ -20,10 +20,11 @@ export default function Home() {
           </AlertDescription>
         </Alert>
       </Link>
-      <div className="grid lg:grid-cols-3 rounded-xl border w-full">
+      <div className="grid lg:grid-cols-4 rounded-xl border w-full">
         <Card1 />
         <Card2 />
         <Card3 />
+        <Card4 />
       </div>
     </div>
   );
