@@ -61,7 +61,6 @@ export function Testimonials() {
     },
   });
 
-
   if (data.length <= 0) {
     return null;
   }
@@ -69,7 +68,7 @@ export function Testimonials() {
     <Section id="testimonials">
       <div className="border-x border-t overflow-hidden relative text-center py-0 mx-auto">
         <div className="relative mt-6 max-h-screen overflow-hidden">
-          <div className="gap-0 grid grid-cols-4">
+          <div className="gap-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {Array(Math.ceil(data.length / 3))
               .fill(0)
               .map((_, i) => (
