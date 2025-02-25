@@ -5,7 +5,7 @@ import { PromptEditor } from "@/components/prompt-editor";
 
 export default function Page() {
   return (
-    <main className="h-screen">
+    <main className="container mx-auto border-x">
       <PromptEditor />
     </main>
   );

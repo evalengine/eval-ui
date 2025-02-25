@@ -236,15 +236,8 @@ export function PromptEditor() {
 
 function Header() {
   return (
-    <div className="flex items-center gap-2 ">
-      <div className="p-1  rounded-full hidden lg:block">
-        <VercelIcon className="size-4 stroke-black" />
-      </div>
-      <span className="text-xs text-[#D4D4D8] hidden lg:block">/</span>
+    <div className="flex items-center gap-2">
       <h1 className="text-xs font-bold tracking-tight inline-flex items-center gap-1">
-        <span className="hidden lg:block">AI</span>
-        <span className="hidden lg:block">SDK</span>
-        <span className="text-xs text-[#D4D4D8] px-1 hidden lg:block">/</span>
         <div className="bg-blue-600 text-white font-medium px-1.5 py-0.5 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.15),_inset_0_1px_0.5px_rgba(255,255,255,0.2),_0_-0.5px_1px_rgba(0,0,0,0.08)_inset,_0_0_0_1px_rgba(0,0,0,0.08)_inset] relative">
           <span className="relative z-10">Few Shot Prompt Evaluator</span>
         </div>
