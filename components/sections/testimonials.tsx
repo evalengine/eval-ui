@@ -69,7 +69,7 @@ export function Testimonials() {
     <Section id="testimonials">
       <div className="border-x border-t overflow-hidden relative text-center py-0 mx-auto">
         <div className="relative mt-6 max-h-screen overflow-hidden">
-          <div className="gap-4 md:columns-2 xl:columns-3 2xl:columns-4">
+          <div className="gap-0 grid grid-cols-4">
             {Array(Math.ceil(data.length / 3))
               .fill(0)
               .map((_, i) => (
@@ -79,7 +79,7 @@ export function Testimonials() {
                   className={cn({
                     "[--duration:60s]": i === 1,
                     "[--duration:30s]": i === 2,
-                    "[--duration:70s]": i === 3,
+                    "[--duration:20s]": i === 3,
                   })}
                 >
                   {data.slice(i * 3, (i + 1) * 3).map((card, idx) => (
@@ -97,7 +97,7 @@ export function Testimonials() {
                       <div
                         onClick={(e) => {
                           window.open(
-                            `https://twitter.com/i/web/status/${card}`,
+                            `https://x.com/i/web/status/${card}`,
                             "_blank"
                           );
                         }}
@@ -105,7 +105,7 @@ export function Testimonials() {
                         <ClientTweetCard
                           id={card}
                           key={card}
-                          className="h-64"
+                          // className="h-64"
                         />
                       </div>
                     </motion.div>
